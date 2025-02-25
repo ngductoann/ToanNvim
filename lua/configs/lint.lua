@@ -3,6 +3,9 @@ local lint = require "lint"
 lint.linters_by_ft = {
   lua = { "luacheck" },
   markdown = { "markdownlint-cli2" },
+  java = { "google-java-format" },
+  python = { "ruff" },
+  cmake = { "cmakelint" },
 }
 
 lint.linters.luacheck.args = {

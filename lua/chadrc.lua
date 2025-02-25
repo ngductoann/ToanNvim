@@ -10,7 +10,6 @@ M.base46 = {
   hl_add = {},
   hl_override = {
     Comment = { italic = true },
-    ["@comment"] = { italic = true },
   },
   integrations = {},
   changed_themes = {},
@@ -36,13 +35,35 @@ M.ui = {
     order = { "mode", "file", "git", "%=", "%=", "diagnostics", "lsp_progress", "cwd", "cursor" },
     modules = {
       lsp_progress = function()
-        return require("lsp-progress").progress {
+        return "%#St_LspMsg#" .. require("lsp-progress").progress {
           max_size = 50,
         } .. " "
       end,
     },
   },
 
+  nvdash = {
+    load_on_startup = true,
+    header = {
+      "                            ",
+      "     ▄▄         ▄ ▄▄▄▄▄▄▄   ",
+      "   ▄▀███▄     ▄██ █████▀    ",
+      "   ██▄▀███▄   ███           ",
+      "   ███  ▀███▄ ███           ",
+      "   ███    ▀██ ███           ",
+      "   ███      ▀ ███           ",
+      "   ▀██ █████▄▀█▀▄██████▄    ",
+      "     ▀ ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀   ",
+      "                            ",
+      "     Powered By  eovim    ",
+      "                            ",
+    },
+    buttons = {
+      { txt = "  Find File", keys = "Spc f f", cmd = "Telescope find_files" },
+      { txt = "  Recent Files", keys = "Spc f o", cmd = "Telescope oldfiles" },
+      -- more... check nvconfig.lua file for full list of buttons
+    },
+  },
   -- lazyload it when there are 1+ buffers
   tabufline = {
     enabled = true,
@@ -50,6 +71,33 @@ M.ui = {
     order = { "treeOffset", "buffers", "tabs", "btns" },
     modules = nil,
     bufwidth = 21,
+  },
+
+  term = {
+    winopts = { number = false },
+    sizes = { sp = 0.3, vsp = 0.2, ["bo sp"] = 0.3, ["bo vsp"] = 0.2 },
+    float = {
+      relative = "editor",
+      row = 0.3,
+      col = 0.25,
+      width = 0.5,
+      height = 0.4,
+      border = "single",
+    },
+  },
+  lsp = { signature = true },
+  cheatsheet = {
+    theme = "grid", -- simple/grid
+    excluded_groups = { "terminal (t)", "autopairs", "Nvim", "Opens" }, -- can add group name or with mode
+  },
+
+  mason = { pkgs = {}, skip = {} },
+
+  colorify = {
+    enabled = true,
+    mode = "virtual", -- fg, bg, virtual
+    virt_text = "󱓻 ",
+    highlight = { hex = true, lspvars = true },
   },
 }
 

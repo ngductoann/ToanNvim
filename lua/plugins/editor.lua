@@ -33,13 +33,25 @@ return {
           { "<leader>g", group = "git" },
           { "<leader>t", group = "terminal" },
           { "<leader>u", group = "utils" },
-          { "<leader>w", group = "workspaces" },
+          { "<leader>w", group = "workspaces+windows" },
+          {
+            "<leader>wp",
+            function()
+              require("window-picker").pick_window()
+            end,
+            desc = "Window picker",
+          },
           { "[", group = "prev" },
           { "]", group = "next" },
           { "g", group = "goto" },
           { "gs", group = "surround" },
           { "z", group = "fold" },
           { "<leader>x", group = "diagnostics/quickfix", icon = { icon = "󱖫 ", color = "green" } },
+          { "<leader>j", group = "jump" },
+          { "<leader>jj", "<cmd>HopWord<cr>", desc = "Jump Word" },
+          { "<leader>jw", "<cmd>HopWordCurrentLine<cr>", desc = "Jump Word" },
+          { "<leader>jl", "<cmd>HopLine<cr>", desc = "Jump Line" },
+          { "<leader>jc", "<cmd>HopCamelCase<cr>", desc = "Camel Case" },
         },
       },
     },
@@ -120,6 +132,40 @@ return {
       pre_hook = nil,
       ---Function to call after (un)comment
       post_hook = nil,
+    },
+  },
+  {
+    "SmiteshP/nvim-navic",
+    dependencies = { "neovim/nvim-lspconfig" },
+    config = function()
+      local icons = require "utils.icons"
+      local navic = require "nvim-navic"
+      navic.setup {
+        icons = icons.kinds,
+        lsp = {
+          auto_attach = true,
+          preference = nil,
+        },
+        highlight = true,
+        separator = " > ",
+        depth_limit = 0,
+        depth_limit_indicator = "..",
+        safe_output = true,
+        lazy_update_context = false,
+        click = true,
+        format_text = function(text)
+          return text
+        end,
+      }
+      vim.o.winbar = "   " .. "%{%v:lua.require'nvim-navic'.get_location()%}"
+    end,
+  },
+  {
+    "smoka7/hop.nvim",
+    version = "*",
+    event = "VeryLazy",
+    opts = {
+      keys = "etovxqpdygfblzhckisuran",
     },
   },
 }

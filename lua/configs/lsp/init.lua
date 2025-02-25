@@ -3,7 +3,7 @@ local map = vim.keymap.set
 
 local M = {}
 
-M.on_attach = function(_, bufnr)
+M.on_attach = function(client, bufnr)
   local function opts(desc)
     return { buffer = bufnr, desc = "LSP " .. desc }
   end
@@ -12,6 +12,10 @@ M.on_attach = function(_, bufnr)
   map("n", "gd", vim.lsp.buf.definition, opts "Go to definition")
   map("n", "gi", vim.lsp.buf.implementation, opts "Go to implementation")
   map("n", "gy", vim.lsp.buf.type_definition, opts "Go to type definition")
+  map("n", "<leader>cgD", vim.lsp.buf.declaration, opts "Go to declaration")
+  map("n", "<leader>cgd", vim.lsp.buf.definition, opts "Go to definition")
+  map("n", "<leader>cgi", vim.lsp.buf.implementation, opts "Go to implementation")
+  map("n", "<leader>cgy", vim.lsp.buf.type_definition, opts "Go to type definition")
   map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
   map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts "Add workspace folder")
   map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts "Remove workspace folder")
@@ -26,12 +30,24 @@ M.on_attach = function(_, bufnr)
   map({ "n", "v" }, "[[", function()
     Snacks.words.jump(-vim.v.count1)
   end, opts "Prev references")
+  map("n", "<leader>cR", require "nvchad.lsp.renamer", opts "NvRenamer")
+
+  local status, navic = pcall(require, "nvim-navic")
+  if status then
+    if client.server_capabilities.documentSymbolProvider then
+      navic.attach(client, bufnr)
+    end
+  end
 end
 
 local configs = require "nvchad.configs.lspconfig"
 local on_init = configs.on_init
 local on_attach = M.on_attach
 local capabilities = configs.capabilities
+capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true,
+}
 
 local lspconfig = require "lspconfig"
 local servers = require("configs.overrides").mason.servers

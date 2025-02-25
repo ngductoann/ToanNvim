@@ -126,3 +126,8 @@ end, { desc = "Git Current File History" })
 map("n", "<leader>gl", function()
   Snacks.picker.git_log()
 end, { desc = "Git Log (cwd)" })
+
+-- windows
+map("n", "<leader>w-", "<C-W>s", { desc = "Split Window Below", remap = true })
+map("n", "<leader>w|", "<C-W>v", { desc = "Split Window Right", remap = true })
+map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })

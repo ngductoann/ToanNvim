@@ -11,13 +11,7 @@ local function get_pkg_path(pkg, path, opts)
   return ret
 end
 
-local dap_icon = {
-  Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
-  Breakpoint = " ",
-  BreakpointCondition = " ",
-  BreakpointRejected = { " ", "DiagnosticError" },
-  LogPoint = ".>",
-}
+local dap_icon = require("utils.icons").dap
 
 return {
   {

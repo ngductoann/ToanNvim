@@ -5,8 +5,9 @@ require "nvchad.options"
 -- local o = vim.o
 -- o.cursorlineopt ='both' -- to enable cursorline!
 
-local opt = vim.opt
+vim.g.editorconfig = true
 
+local opt = vim.opt
 opt.title = true
 opt.titlestring = "%<%F%=%l/%L - nvim"
 opt.mouse = "nv" -- Enable mouse in normal and visual modes only

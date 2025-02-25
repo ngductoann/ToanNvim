@@ -37,6 +37,11 @@ M.treesitter = {
     "gosum",
     "json5",
     "java",
+    "git_config",
+    "gitcommit",
+    "git_rebase",
+    "gitignore",
+    "gitattributes",
   },
   incremental_selection = {
     enable = true,
@@ -70,6 +75,7 @@ M.mason = {
 
     -- C / C++
     "clangd",
+    "cmake",
 
     -- java
     "jdtls",
@@ -88,6 +94,7 @@ M.mason = {
 
     -- other
     "jsonls",
+    "yamlls",
   },
   others = {
     -- Lua
@@ -109,6 +116,7 @@ M.mason = {
     "ruff",
     "black",
     "debugpy",
+    "isort",
 
     -- shell
     "shellcheck",
@@ -121,10 +129,12 @@ M.mason = {
     "cpplint",
     "codelldb",
     "cpptools",
+    "cmakelint",
 
     -- java
     "java-debug-adapter",
     "java-test",
+    "google-java-format",
 
     -- Web
     "deno",
@@ -176,6 +186,7 @@ M.cmp = {
   mapping = require("cmp").mapping.preset.insert {
     ["<Tab>"] = require("cmp").mapping.select_next_item(),
     ["<S-Tab>"] = require("cmp").mapping.select_prev_item(),
+    ["<C-Space>"] = require("cmp").mapping.complete(),
   },
 }
 

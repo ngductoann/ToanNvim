@@ -51,19 +51,6 @@ return {
       end)
     end,
   },
-  {
-    "nvimdev/lspsaga.nvim",
-    event = "LspAttach",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter", -- optional
-      "nvim-tree/nvim-web-devicons", -- optional
-    },
-    otps = require("configs.lsp.lspsaga").otps,
-    config = function(_, opts)
-      require("lspsaga").setup(opts)
-    end,
-    keys = require("configs.lsp.lspsaga").keys,
-  },
 
   {
     "linux-cultist/venv-selector.nvim",

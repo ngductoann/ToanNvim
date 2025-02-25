@@ -48,7 +48,6 @@ local options = {
     lua = { "stylua" },
     css = { "prettier" },
     html = { "prettier" },
-    ["python"] = { "black" },
     c_cpp = { "clang-format" }, -- Hack to force download.
     c = { "clang_format" },
     cpp = { "clang_format" },
@@ -70,6 +69,7 @@ local options = {
         return #diag > 0
       end,
     },
+    python = { "isort", "black" },
   },
 
   format_on_save = {
@@ -91,6 +91,19 @@ local options = {
     },
     ["markdown"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
     ["markdown.mdx"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
+  },
+  black = {
+    prepend_args = {
+      "--fast",
+      "--line-length",
+      "80",
+    },
+  },
+  isort = {
+    prepend_args = {
+      "--profile",
+      "black",
+    },
   },
 }
 

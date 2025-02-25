@@ -31,6 +31,12 @@ M.treesitter = {
     "yaml",
     "ninja",
     "rst",
+    "go",
+    "gomod",
+    "gowork",
+    "gosum",
+    "json5",
+    "java",
   },
   incremental_selection = {
     enable = true,
@@ -55,24 +61,33 @@ M.treesitter = {
 M.mason = {
   servers = {
     -- lua stuff
-    "lua-language-server",
+    "lua_ls",
 
     -- web dev stuff
-    "css-lsp",
-    "html-lsp",
+    "cssls",
+    "html",
     "vtsls",
 
     -- C / C++
     "clangd",
 
+    -- java
+    "jdtls",
+
     -- shell
-    "bash-language-server",
+    "bashls",
 
     -- python
     "pyright",
 
     --go
     "gopls",
+
+    -- markdown
+    "marksman",
+
+    -- other
+    "jsonls",
   },
   others = {
     -- Lua
@@ -93,6 +108,7 @@ M.mason = {
     -- python
     "ruff",
     "black",
+    "debugpy",
 
     -- shell
     "shellcheck",
@@ -106,8 +122,17 @@ M.mason = {
     "codelldb",
     "cpptools",
 
+    -- java
+    "java-debug-adapter",
+    "java-test",
+
     -- Web
     "deno",
+    "js-debug-adapter",
+
+    -- markdown
+    "markdownlint-cli2",
+    "markdown-toc",
   },
 }
 
@@ -130,6 +155,27 @@ M.ui = {
   tabufline = {
     lazyload = false,
     overriden_modules = nil,
+  },
+}
+
+M.cmp = {
+  formatting = {
+    format = function(entry, vim_item)
+      local icons = require "nvchad.icons.lspkind"
+      vim_item.kind = string.format("%s %s", icons[vim_item.kind], vim_item.kind)
+      vim_item.menu = ({
+        luasnip = "[Luasnip]",
+        nvim_lsp = "[Nvim LSP]",
+        buffer = "[Buffer]",
+        nvim_lua = "[Nvim Lua]",
+        path = "[Path]",
+      })[entry.source.name]
+      return vim_item
+    end,
+  },
+  mapping = require("cmp").mapping.preset.insert {
+    ["<Tab>"] = require("cmp").mapping.select_next_item(),
+    ["<S-Tab>"] = require("cmp").mapping.select_prev_item(),
   },
 }
 

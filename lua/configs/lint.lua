@@ -2,6 +2,7 @@ local lint = require "lint"
 
 lint.linters_by_ft = {
   lua = { "luacheck" },
+  markdown = { "markdownlint-cli2" },
 }
 
 lint.linters.luacheck.args = {

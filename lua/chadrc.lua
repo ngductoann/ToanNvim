@@ -8,18 +8,20 @@ local M = {}
 M.base46 = {
   theme = "ayu_dark",
   hl_add = {},
-  hl_override = {},
+  hl_override = {
+    Comment = { italic = true },
+    ["@comment"] = { italic = true },
+  },
   integrations = {},
   changed_themes = {},
   transparency = false,
   theme_toggle = { "ayu_dark", "ayu_light" },
 }
 
--- M.nvdash = { load_on_startup = true }
 M.ui = {
   cmp = {
     lspkind_text = true,
-    style = "atom_colored", -- default/flat_light/flat_dark/atom/atom_colored
+    style = "default", -- default/flat_light/flat_dark/atom/atom_colored
     format_colors = {
       tailwind = false,
     },
@@ -27,12 +29,18 @@ M.ui = {
   telescope = { style = "borderless" }, -- borderless / bordered
 
   statusline = {
-    theme = "minimal", -- default/vscode/vscode_colored/minimal
+    theme = "default", -- default/vscode/vscode_colored/minimal
     -- default/round/block/arrow separators work only for default statusline theme
     -- round and block will work for minimal theme only
-    separator_style = "round",
-    order = nil,
-    modules = nil,
+    separator_style = "block",
+    order = { "mode", "file", "git", "%=", "%=", "diagnostics", "lsp_progress", "cwd", "cursor" },
+    modules = {
+      lsp_progress = function()
+        return require("lsp-progress").progress {
+          max_size = 50,
+        } .. " "
+      end,
+    },
   },
 
   -- lazyload it when there are 1+ buffers

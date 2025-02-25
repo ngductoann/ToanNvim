@@ -24,8 +24,8 @@ map("i", "jk", "<ESC>")
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "general clear highlights" })
 map("n", "<C-s>", "<cmd>w<CR>", { desc = "general save file" })
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "general copy whole file" })
-map("n", "<leader>n", "<cmd>set nu!<CR>", { desc = "toggle line number" })
-map("n", "<leader>rn", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
+map("n", "<leader>un", "<cmd>set nu!<CR>", { desc = "toggle line number" })
+map("n", "<leader>uN", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
 map("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" })
 
 -- fotmat
@@ -38,7 +38,7 @@ map("n", "<Leader>bc", "<cmd>BufDel<CR>", { desc = "Close buffer" })
 map("n", "<Leader>bC", "<cmd>BufDel!<CR>", { desc = "Close buffer ignore changes" })
 
 -- tabufline
-map("n", "<leader>b", "<cmd>enew<CR>", { desc = "buffer new" })
+map("n", "<leader>bb", "<cmd>enew<CR>", { desc = "buffer new" })
 
 map("n", "<tab>", function()
   require("nvchad.tabufline").next()
@@ -63,15 +63,12 @@ map("n", "<leader>e", "<cmd>NvimTreeFocus<CR>", { desc = "nvimtree focus window"
 map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", { desc = "telescope live grep" })
 map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "telescope find buffers" })
 map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "telescope help page" })
-map("n", "<leader>ma", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
+map("n", "<leader>fm", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
 map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "telescope find oldfiles" })
 map("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "telescope find in current buffer" })
-map("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
-map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
-map("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "telescope pick hidden term" })
-map("n", "<leader>th", function()
-  require("nvchad.themes").open()
-end, { desc = "telescope nvchad themes" })
+map("n", "<leader>gm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
+map("n", "<leader>gs", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
+map("n", "<leader>tp", "<cmd>Telescope terms<CR>", { desc = "telescope pick hidden term" })
 
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
 map(
@@ -85,13 +82,14 @@ map(
 map("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 
 -- new terminals
-map("n", "<leader>h", function()
+map("n", "<leader>th", function()
   require("nvchad.term").new { pos = "sp" }
 end, { desc = "terminal new horizontal term" })
 
-map("n", "<leader>v", function()
+map("n", "<leader>tv", function()
   require("nvchad.term").new { pos = "vsp" }
 end, { desc = "terminal new vertical term" })
+map("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 
 -- toggleable
 map({ "n", "t" }, "<A-v>", function()
@@ -117,3 +115,14 @@ end, { desc = "whichkey query lookup" })
 map("n", "<C-t>", function()
   require("nvchad.themes").open()
 end)
+
+-- lazygit
+map("n", "<leader>gg", function()
+  Snacks.lazygit()
+end, { desc = "Lazygit (cwd)" })
+map("n", "<leader>gf", function()
+  Snacks.picker.git_log_file()
+end, { desc = "Git Current File History" })
+map("n", "<leader>gl", function()
+  Snacks.picker.git_log()
+end, { desc = "Git Log (cwd)" })

@@ -21,14 +21,13 @@ return {
 
     lightbulb = {
       enable = false,
-      enable_in_insert = true,
+      enable_in_insert = false,
       sign = true,
       sign_priority = 40,
       virtual_text = true,
     },
-
     rename = {
-      quit = ";",
+      quit = "<C-k>",
       exec = "<CR>",
       in_select = false,
     },
@@ -92,7 +91,7 @@ return {
       win_position = "right",
       win_with = "",
       win_width = 30,
-      show_detail = true,
+      show_detail = false,
       auto_preview = true,
       auto_refresh = true,
       auto_close = true,
@@ -116,5 +115,16 @@ return {
         expand_collaspe = "u",
       },
     },
+  },
+  keys = {
+    { "<leader>co", "<cmd>Lspsaga outline<cr>", desc = "Outline" },
+    { "<leader>cR", "<cmd>Lspsaga rename<cr>", desc = "Rename" },
+    { "<leader>cgd", "<cmd>Lspsaga goto_definition<cr>", desc = "Goto definition" },
+    { "<leader>cgt", "<cmd>Lspsaga goto_type_definition<cr>", desc = "Goto type definition" },
+    { "<leader>cgp", "<cmd>Lspsaga peek_definition<cr>", desc = "Peek definition" },
+    { "<leader>cgP", "<cmd>Lspsaga peek_type_definition<cr>", desc = "Peek type definition" },
+    { "<leader>cn", "<cmd>Lspsaga diagnostic_jump_next<cr>", desc = "diagnostic jump next" },
+    { "<leader>cp", "<cmd>Lspsaga diagnostic_jump_prev<cr>", desc = "diagnostic jump prev" },
+    { "<leader>cd", "<cmd>Lspsaga hover_doc<cr>", desc = "Docs" },
   },
 }

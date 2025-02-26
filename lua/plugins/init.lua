@@ -46,10 +46,6 @@ return {
 
   -- other
   {
-    "ojroques/nvim-bufdel",
-    lazy = false,
-  },
-  {
     "nvim-lua/plenary.nvim",
   },
   -- yaml schema support

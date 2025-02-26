@@ -50,4 +50,19 @@ M.opts = {
   },
 }
 
+M.keys = {
+  {
+    "zR",
+    function()
+      require("ufo").openAllFolds()
+    end,
+  },
+  {
+    "zM",
+    function()
+      require("ufo").closeAllFolds()
+    end,
+  },
+}
+
 return M

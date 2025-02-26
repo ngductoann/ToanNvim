@@ -2,6 +2,8 @@ local merge_tb = vim.tbl_deep_extend
 local map = vim.keymap.set
 
 local M = {}
+local status_navic, navic = pcall(require, "nvim-navic")
+local status_navbuddy, navbuddy = pcall(require, "nvim-navbuddy")
 
 M.on_attach = function(client, bufnr)
   local function opts(desc)
@@ -32,11 +34,13 @@ M.on_attach = function(client, bufnr)
   end, opts "Prev references")
   map("n", "<leader>cR", require "nvchad.lsp.renamer", opts "NvRenamer")
 
-  local status, navic = pcall(require, "nvim-navic")
-  if status then
+  if status_navic then
     if client.server_capabilities.documentSymbolProvider then
       navic.attach(client, bufnr)
     end
+  end
+  if status_navbuddy then
+    navbuddy.attach(client, bufnr)
   end
 end
 

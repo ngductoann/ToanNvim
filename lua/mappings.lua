@@ -33,11 +33,27 @@ map("n", "<leader>fm", function()
   require("conform").format { lsp_fallback = true }
 end, { desc = "general format file" })
 
--- Buffer delete
-map("n", "<Leader>bc", "<cmd>BufDel<CR>", { desc = "Close buffer" })
-map("n", "<Leader>bC", "<cmd>BufDel!<CR>", { desc = "Close buffer ignore changes" })
-
 -- tabufline
+map("n", "<Leader>bc", function()
+  require("nvchad.tabufline").close_buffer()
+end, { desc = "Close buffer" })
+
+map("n", "<Leader>bD", function()
+  require("nvchad.tabufline").closeAllBufs(true)
+end, { desc = "closes all buffers ignore current" })
+
+map("n", "<Leader>bd", function()
+  require("nvchad.tabufline").closeAllBufs(false)
+end, { desc = "closes all buffers" })
+
+map("n", "<leader>bn", function()
+  require("nvchad.tabufline").move_buf(1)
+end, { desc = "move next" })
+
+map("n", "<leader>bp", function()
+  require("nvchad.tabufline").move_buf(-1)
+end, { desc = "move previous" })
+
 map("n", "<leader>bb", "<cmd>enew<CR>", { desc = "buffer new" })
 
 map("n", "<tab>", function()
@@ -47,9 +63,6 @@ end, { desc = "buffer goto next" })
 map("n", "<S-tab>", function()
   require("nvchad.tabufline").prev()
 end, { desc = "buffer goto prev" })
-
-map("n", "<Leader>bc", "<cmd>BufDel<CR>", { desc = "Close buffer" })
-map("n", "<Leader>bC", "<cmd>BufDel!<CR>", { desc = "Close buffer ignore changes" })
 
 -- Comment
 map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })

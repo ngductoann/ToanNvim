@@ -5,6 +5,23 @@ return {
     opts = {},
   },
   {
+    "L3MON4D3/LuaSnip",
+    lazy = true,
+    dependencies = {
+      {
+        "rafamadriz/friendly-snippets",
+        config = function()
+          require("luasnip.loaders.from_vscode").lazy_load()
+          require("luasnip.loaders.from_vscode").lazy_load { paths = { vim.fn.stdpath "config" .. "/snippets" } }
+        end,
+      },
+    },
+    opts = {
+      history = true,
+      delete_check_events = "TextChanged",
+    },
+  },
+  {
     "hrsh7th/nvim-cmp",
     optional = true,
     dependencies = {
@@ -13,6 +30,11 @@ return {
     ---@module 'cmp'
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
+      opts.snippet = {
+        expand = function(args)
+          require("luasnip").lsp_expand(args.body)
+        end,
+      }
       table.insert(opts.sources, { name = "git" })
     end,
   },
@@ -25,7 +47,7 @@ return {
       {
         "<leader>cn",
         function()
-          require("neogen").generate()
+          require("neogen").generate { snippet_engine = "luasnip" }
         end,
         desc = "Generate Annotations (Neogen)",
       },

@@ -42,6 +42,10 @@ M.treesitter = {
     "git_rebase",
     "gitignore",
     "gitattributes",
+    "scss",
+    "svelte",
+    "typst",
+    "vue",
   },
   incremental_selection = {
     enable = true,

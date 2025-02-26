@@ -2,19 +2,20 @@
 -- https://github.com/NvChad/ui/blob/v3.0/lua/nvconfig.lua
 -- Please read that file to know all available options :(
 
----@type ChadrcConfig
 local M = {}
 
 M.base46 = {
-  theme = "ayu_dark",
+  theme = "material-darker",
   hl_add = {},
   hl_override = {
     Comment = { italic = true },
   },
-  integrations = {},
+  integrations = {
+    integrations = { "dap", "hop" },
+  },
   changed_themes = {},
   transparency = false,
-  theme_toggle = { "ayu_dark", "ayu_light" },
+  theme_toggle = { "material-darker", "material-lighter" },
 }
 
 M.ui = {

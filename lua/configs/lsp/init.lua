@@ -48,10 +48,6 @@ local configs = require "nvchad.configs.lspconfig"
 local on_init = configs.on_init
 local on_attach = M.on_attach
 local capabilities = configs.capabilities
-capabilities.textDocument.foldingRange = {
-  dynamicRegistration = false,
-  lineFoldingOnly = true,
-}
 
 local lspconfig = require "lspconfig"
 local servers = require("configs.overrides").mason.servers

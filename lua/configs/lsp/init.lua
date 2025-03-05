@@ -5,7 +5,7 @@ local M = {}
 local status_navic, navic = pcall(require, "nvim-navic")
 local status_navbuddy, navbuddy = pcall(require, "nvim-navbuddy")
 
-M.on_attach = function(client, bufnr)
+M.default_on_attach = function(client, bufnr)
   local function opts(desc)
     return { buffer = bufnr, desc = "LSP " .. desc }
   end
@@ -39,20 +39,42 @@ M.on_attach = function(client, bufnr)
       navic.attach(client, bufnr)
     end
   end
-  if status_navbuddy then
-    navbuddy.attach(client, bufnr)
-  end
 end
 
 local configs = require "nvchad.configs.lspconfig"
 local on_init = configs.on_init
-local on_attach = M.on_attach
 local capabilities = configs.capabilities
 
 local lspconfig = require "lspconfig"
 local servers = require("configs.overrides").mason.servers
 
+local not_navbuddy = {
+  "tailwindcss",
+  "emmet_language_server",
+  "ruff",
+}
+
+local function not_in_list(str, list)
+  for _, value in ipairs(list) do
+    if str == value then
+      return false
+    end
+  end
+  return true
+end
+
 for _, lsp in ipairs(servers) do
+  local on_attach
+
+  if not_in_list(lsp, not_navbuddy) and status_navbuddy then
+    on_attach = function(client, bufnr)
+      M.default_on_attach(client, bufnr)
+      navbuddy.attach(client, bufnr)
+    end
+  else
+    on_attach = M.default_on_attach
+  end
+
   local opts = {
     on_init = on_init,
     on_attach = on_attach,

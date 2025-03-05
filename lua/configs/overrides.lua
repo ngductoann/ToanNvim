@@ -76,6 +76,8 @@ M.mason = {
     "cssls",
     "html",
     "vtsls",
+    "tailwindcss",
+    "emmet_language_server",
 
     -- C / C++
     "clangd",
@@ -89,6 +91,7 @@ M.mason = {
 
     -- python
     "pyright",
+    "ruff",
 
     --go
     "gopls",
@@ -117,10 +120,10 @@ M.mason = {
     "gomodifytags",
 
     -- python
-    "ruff",
     "black",
     "debugpy",
     "isort",
+    "ruff-lsp",
 
     -- shell
     "shellcheck",

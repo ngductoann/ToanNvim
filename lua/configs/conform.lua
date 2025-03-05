@@ -70,6 +70,7 @@ local options = {
       end,
     },
     python = { "isort", "black" },
+    java = { "google-java-format" },
   },
 
   format_on_save = {
@@ -91,6 +92,9 @@ local options = {
     },
     ["markdown"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
     ["markdown.mdx"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
+    ["google-java-format"] = {
+      prepend_args = { "--aosp" },
+    },
   },
   black = {
     prepend_args = {

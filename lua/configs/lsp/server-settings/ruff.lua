@@ -1,8 +1,11 @@
 return {
-  cmd_env = { RUFF_TRACE = "messages" },
   init_options = {
     settings = {
       logLevel = "error",
     },
   },
+  cmd = { "ruff", "server" },
+  filetypes = { "python" },
+  settings = {},
+  single_file_support = true,
 }

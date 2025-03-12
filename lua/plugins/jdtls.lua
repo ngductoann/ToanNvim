@@ -16,8 +16,7 @@ local function extend_or_override(config, custom, ...)
   return config
 end
 
----@return {default_config:lspconfig.Config}
-function get_raw_config(server)
+local function get_raw_config(server)
   local ok, ret = pcall(require, "lspconfig.configs." .. server)
   if ok then
     return ret
@@ -35,12 +34,6 @@ return {
       local mason_registry = require "mason-registry"
       local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
       table.insert(cmd, string.format("--jvm-arg=-javaagent:%s", lombok_jar))
-
-      if status_mason then
-        local mason_registry = require "mason-registry"
-        local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
-        table.insert(cmd, string.format("--jvm-arg=-javaagent:%s", lombok_jar))
-      end
 
       return {
         root_dir = get_raw_config("jdtls").default_config.root_dir,
@@ -187,7 +180,6 @@ return {
               }
 
               if status_mason then
-                local mason_registry = require "mason-registry"
                 if opts.dap and status_dap and mason_registry.is_installed "java-debug-adapter" then
                   -- custom init for Java debugger
                   require("jdtls").setup_dap(opts.dap)

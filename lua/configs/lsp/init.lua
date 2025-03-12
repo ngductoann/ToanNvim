@@ -89,19 +89,19 @@ for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup(opts)
 end
 
-local config = {
-  virtual_text = false,
-  underline = true,
-  update_in_insert = false,
-  severity_sort = true,
-  float = {
-    focusable = false,
-    style = "minimal",
-    border = "single",
-    source = "always",
-  },
-}
+-- local config = {
+--   virtual_text = false,
+--   underline = true,
+--   update_in_insert = false,
+--   severity_sort = true,
+--   float = {
+--     focusable = false,
+--     style = "minimal",
+--     border = "single",
+--     source = "always",
+--   },
+-- }
 
-vim.diagnostic.config(config)
+-- vim.diagnostic.config(config)
 
 return M

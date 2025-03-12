@@ -5,7 +5,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "material-darker",
+  theme = "vscode_dark",
   hl_add = {},
   hl_override = {
     Comment = { italic = true },
@@ -15,7 +15,7 @@ M.base46 = {
   },
   changed_themes = {},
   transparency = false,
-  theme_toggle = { "material-darker", "material-lighter" },
+  theme_toggle = { "vscode_dark", "material-lighter" },
 }
 
 M.ui = {
@@ -29,18 +29,13 @@ M.ui = {
   telescope = { style = "borderless" }, -- borderless / bordered
 
   statusline = {
-    theme = "vscode_colored", -- default/vscode/vscode_colored/minimal
+    theme = "minimal", -- default/vscode/vscode_colored/minimal
     -- default/round/block/arrow separators work only for default statusline theme
     -- round and block will work for minimal theme only
-    separator_style = "",
-    order = { "mode", "file", "git", "%=", "%=", "diagnostics", "lsp_progress", "cwd", "cursor" },
-    modules = {
-      lsp_progress = function()
-        return "%#St_LspMsg#" .. require("lsp-progress").progress {
-          max_size = 50,
-        } .. " "
-      end,
-    },
+    separator_style = "default",
+    order = { "mode", "file", "git", "%=", "%=", "diagnostics", "lsp", "cwd", "cursor" },
+    -- order = nil,
+    modules = nil,
   },
   -- lazyload it when there are 1+ buffers
   tabufline = {

@@ -13,6 +13,20 @@ return {
         config = function() end,
       },
     },
+    opts = {
+      inlay_hints = { enabled = true },
+    },
+    capabilities = {
+      workspace = {
+        fileOperations = {
+          didRename = true,
+          willRename = true,
+        },
+      },
+    },
+    codelens = {
+      enabled = true,
+    },
     config = function()
       require("nvchad.configs.lspconfig").defaults()
       require "configs.lsp"
@@ -65,11 +79,5 @@ return {
     --  Call config for python files and load the cached venv automatically
     ft = "python",
     keys = { { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv", ft = "python" } },
-  },
-  {
-    "linrongbin16/lsp-progress.nvim",
-    config = function()
-      require("lsp-progress").setup()
-    end,
   },
 }

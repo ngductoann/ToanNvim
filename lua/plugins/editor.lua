@@ -26,6 +26,25 @@ return {
         end,
         desc = "Window Hydra Mode (which-key)",
       },
+      {
+        "<leader>l",
+        desc = "Leetcode",
+      },
+      {
+        "<leader>lr",
+        "<cmd>Leet run",
+        desc = "Leetcode run",
+      },
+      {
+        "<leader>ls",
+        "<cmd>Leet submit",
+        desc = "Leetcode submit",
+      },
+      {
+        "<leader>li",
+        "<cmd>Leet info",
+        desc = "Leetcode info",
+      },
     },
     config = function(_, opts)
       local wk = require "which-key"

@@ -8,7 +8,7 @@ local servers = { "html", "cssls", "lua_ls" }
 for _, lsp in ipairs(servers) do
   local opts = utils.lsp.otps
 
-  local exists, settings = pcall(require, "configs.lsp.server-settings." .. lsp)
+  local exists, settings = pcall(require, "lang.server-settings." .. lsp)
   if exists then
     opts = merge_tb("force", settings, opts)
   end

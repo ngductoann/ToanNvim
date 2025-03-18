@@ -1,6 +1,96 @@
+local LazyUtil = require "lazy.core.util"
+local configs = require "nvchad.configs.lspconfig"
+local map = vim.keymap.set
+
+local kind_filter = {
+  default = {
+    "Class",
+    "Constructor",
+    "Enum",
+    "Field",
+    "Function",
+    "Interface",
+    "Method",
+    "Module",
+    "Namespace",
+    "Package",
+    "Property",
+    "Struct",
+    "Trait",
+  },
+  markdown = false,
+  help = false,
+  -- you can specify a different filter for each filetype
+  lua = {
+    "Class",
+    "Constructor",
+    "Enum",
+    "Field",
+    "Function",
+    "Interface",
+    "Method",
+    "Module",
+    "Namespace",
+    -- "Package", -- remove package since luals uses it for control flow structures
+    "Property",
+    "Struct",
+    "Trait",
+  },
+}
+
 local M = {}
 
+local exits_navic, navic = pcall(require, "nvim-navic")
+
 M.lsp = {}
+
+M.lsp.on_attach = function(client, bufnr)
+  local function opts(desc)
+    return { buffer = bufnr, desc = "LSP " .. desc }
+  end
+
+  map("n", "gD", vim.lsp.buf.declaration, opts "Go to declaration")
+
+  map("n", "gd", function()
+    Snacks.picker.lsp_definitions()
+  end, opts "Go to definition")
+  map("n", "gi", function()
+    Snacks.picker.lsp_implementations()
+  end, opts "Go to implementation")
+
+  map("n", "<leader>ch", vim.lsp.buf.signature_help, opts "Show signature help")
+  map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts "Add workspace folder")
+  map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts "Remove workspace folder")
+
+  map("n", "<leader>wl", function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, opts "List workspace folders")
+
+  map("n", "<leader>D", vim.lsp.buf.type_definition, opts "Go to type definition")
+  map("n", "<leader>cr", require "nvchad.lsp.renamer", opts "NvRenamer")
+  map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
+
+  map("n", "gr", function()
+    Snacks.picker.lsp_references()
+  end, opts "Show references")
+  map({ "n", "v" }, "<leader>ss", function()
+    Snacks.picker.lsp_symbols { filter = kind_filter }
+  end, opts "LSP Symbols")
+  map({ "n", "v" }, "<leader>sS", function()
+    Snacks.picker.lsp_workspace_symbols { filter = kind_filter }
+  end, opts "LSP Workspace Symbols")
+end
+
+M.lsp.otps = {
+  on_init = configs.on_init,
+  capabilities = configs.capabilities,
+  on_attach = function(client, bufnr)
+    M.lsp.on_attach(client, bufnr)
+    if exits_navic then
+      navic.attach(client, bufnr)
+    end
+  end,
+}
 
 M.lsp.action = setmetatable({}, {
   __index = function(_, action)
@@ -118,6 +208,36 @@ function M.wants(opts)
     return #M.detectors.pattern(M.buf, opts.root) > 0
   end
   return false
+end
+
+---@param name string
+function M.opts(name)
+  local plugin = M.get_plugin(name)
+  if not plugin then
+    return {}
+  end
+  local Plugin = require "lazy.core.plugin"
+  return Plugin.values(plugin, "opts", false)
+end
+
+function M.is_loaded(name)
+  local Config = require "lazy.core.config"
+  return Config.plugins[name] and Config.plugins[name]._.loaded
+end
+
+---@generic T
+---@param list T[]
+---@return T[]
+function M.dedup(list)
+  local ret = {}
+  local seen = {}
+  for _, v in ipairs(list) do
+    if not seen[v] then
+      table.insert(ret, v)
+      seen[v] = true
+    end
+  end
+  return ret
 end
 
 return M

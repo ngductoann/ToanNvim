@@ -20,6 +20,8 @@ local function safe_keymap_set(mode, lhs, rhs, opts)
   end
 end
 
+local utils = require "utils"
+
 return {
   {
     "folke/noice.nvim",
@@ -47,6 +49,7 @@ return {
         },
       },
       lsp = {
+        signature = { enabled = false },
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
@@ -109,6 +112,22 @@ return {
       statuscolumn = { enabled = false }, -- we set this in options.lua
       toggle = { map = safe_keymap_set },
       words = { enabled = true },
+      dashboard = {
+        preset = {
+          -- stylua: ignore
+          ---@type snacks.dashboard.Item[]
+          keys = {
+            { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+            { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+            { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+            { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+            { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+          },
+        },
+      },
     },
     -- stylua: ignore
     keys = {
@@ -123,25 +142,29 @@ return {
     },
   },
   {
-    "snacks.nvim",
-    opts = {
-      dashboard = {
-        preset = {
-          -- stylua: ignore
-          ---@type snacks.dashboard.Item[]
-          keys = {
-            { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
-            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-            { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
-            { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
-            { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
-            { icon = " ", key = "s", desc = "Restore Session", section = "session" },
-            { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
-            { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
-            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+    "folke/snacks.nvim",
+    opts = function(_, opts)
+      if utils.has "trouble.nvim" then
+        return vim.tbl_deep_extend("force", opts or {}, {
+          picker = {
+            actions = {
+              trouble_open = function(...)
+                return require("trouble.sources.snacks").actions.trouble_open.action(...)
+              end,
+            },
+            win = {
+              input = {
+                keys = {
+                  ["<a-t>"] = {
+                    "trouble_open",
+                    mode = { "n", "i" },
+                  },
+                },
+              },
+            },
           },
-        },
-      },
-    },
+        })
+      end
+    end,
   },
 }

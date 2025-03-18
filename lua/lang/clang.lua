@@ -58,23 +58,14 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = function()
-      local configs = require "nvchad.configs.lspconfig"
       local lspconfig = require "lspconfig"
 
       local merge_tb = vim.tbl_deep_extend
 
-      local on_init = configs.on_init
-      local capabilities = configs.capabilities
-      local on_attach = configs.on_attach
-
       for _, lsp in ipairs(servers) do
-        local opts = {
-          on_init = on_init,
-          on_attach = on_attach,
-          capabilities = capabilities,
-        }
-
         local exists, settings = pcall(require, "lang.server-settings." .. lsp)
+        local opts = utils.lsp.otps
+
         if exists then
           opts = merge_tb("force", settings, opts)
         end

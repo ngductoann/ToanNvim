@@ -1,3 +1,5 @@
+local utils = require "utils"
+
 ---@param config {type?:string, args?:string[]|fun():string[]?}
 local function get_args(config)
   local args = type(config.args) == "function" and (config.args() or {}) or config.args or {} --[[@as string[] | string ]]
@@ -14,20 +16,6 @@ local function get_args(config)
     return require("dap.utils").splitstr(new_args)
   end
   return config
-end
-
-local function get_plugin(name)
-  return require("lazy.core.config").spec.plugins[name]
-end
-
----@param name string
-local function opts(name)
-  local plugin = get_plugin(name)
-  if not plugin then
-    return {}
-  end
-  local Plugin = require "lazy.core.plugin"
-  return Plugin.values(plugin, "opts", false)
 end
 
 local dap_icon = {
@@ -76,7 +64,7 @@ return {
 
     config = function()
       -- load mason-nvim-dap here, after all adapters have been setup
-      require("mason-nvim-dap").setup(opts "mason-nvim-dap.nvim")
+      require("mason-nvim-dap").setup(utils.opts "mason-nvim-dap.nvim")
 
       vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 
@@ -183,5 +171,11 @@ return {
           },
         }
       end,
+  },
+  {
+    "mfussenegger/nvim-dap",
+    opts = function()
+      require("overseer").enable_dap()
+    end,
   },
 }

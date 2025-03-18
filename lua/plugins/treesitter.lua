@@ -1,36 +1,4 @@
----@generic T
----@param list T[]
----@return T[]
-local function dedup(list)
-  local ret = {}
-  local seen = {}
-  for _, v in ipairs(list) do
-    if not seen[v] then
-      table.insert(ret, v)
-      seen[v] = true
-    end
-  end
-  return ret
-end
-
-local function is_loaded(name)
-  local Config = require "lazy.core.config"
-  return Config.plugins[name] and Config.plugins[name]._.loaded
-end
-
-local function get_plugin(name)
-  return require("lazy.core.config").spec.plugins[name]
-end
-
----@param name string
-local function opts(name)
-  local plugin = get_plugin(name)
-  if not plugin then
-    return {}
-  end
-  local Plugin = require "lazy.core.plugin"
-  return Plugin.values(plugin, "opts", false)
-end
+local utils = require "utils"
 
 return {
   {
@@ -120,7 +88,7 @@ return {
     ---@param opts TSConfig
     config = function(_, opts)
       if type(opts.ensure_installed) == "table" then
-        opts.ensure_installed = dedup(opts.ensure_installed)
+        opts.ensure_installed = utils.dedup(opts.ensure_installed)
       end
       require("nvim-treesitter.configs").setup(opts)
     end,
@@ -132,8 +100,8 @@ return {
     enabled = true,
     config = function()
       -- If treesitter is already loaded, we need to run config again for textobjects
-      if is_loaded "nvim-treesitter" then
-        local opts = opts "nvim-treesitter"
+      if utils.is_loaded "nvim-treesitter" then
+        local opts = utils.opts "nvim-treesitter"
         require("nvim-treesitter.configs").setup { textobjects = opts.textobjects }
       end
 

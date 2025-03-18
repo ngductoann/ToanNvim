@@ -117,4 +117,12 @@ return {
       { "<leader>td", function() require("neotest").run.run({strategy = "dap"}) end, desc = "Debug Nearest" },
     },
   },
+  {
+    "nvim-neotest/neotest",
+    opts = function(_, opts)
+      opts = opts or {}
+      opts.consumers = opts.consumers or {}
+      opts.consumers.overseer = require "neotest.consumers.overseer"
+    end,
+  },
 }

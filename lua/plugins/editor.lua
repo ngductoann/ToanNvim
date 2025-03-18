@@ -161,6 +161,13 @@ return {
         "<cmd>Leet info",
         desc = "Leetcode info",
       },
+      {
+        "<leader>cn",
+        function()
+          require("nvim-navbuddy").open()
+        end,
+        desc = "NavBuddy",
+      },
     },
     config = function(_, opts)
       local wk = require "which-key"
@@ -175,7 +182,6 @@ return {
       keys = "etovxqpdygfblzhckisuran",
     },
   },
-
   {
     "folke/todo-comments.nvim",
     cmd = { "TodoTrouble", "TodoTelescope" },
@@ -187,8 +193,8 @@ return {
       { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous Todo Comment" },
       { "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "Todo (Trouble)" },
       { "<leader>xT", "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
-      { "<leader>xw", "<cmd>TodoTelescope<cr>", desc = "Todo" },
-      { "<leader>xW", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
+      { "<leader>sw", function() Snacks.picker.todo_comments() end, desc = "Todo" },
+      { "<leader>sW", function () Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "Todo/Fix/Fixme" },
     },
   },
   {
@@ -307,6 +313,139 @@ return {
           end
         end,
         desc = "Next Trouble/Quickfix Item",
+      },
+    },
+  },
+  {
+    "SmiteshP/nvim-navic",
+    lazy = false,
+    init = function()
+      vim.g.navic_silence = true
+    end,
+    opts = function()
+      vim.o.winbar = "   " .. "%{%v:lua.require'nvim-navic'.get_location()%}"
+      return {
+        separator = " > ",
+        highlight = true,
+        depth_limit = 5,
+        icons = {
+          Array = " ",
+          Boolean = "󰨙 ",
+          Class = " ",
+          Codeium = "󰘦 ",
+          Color = " ",
+          Control = " ",
+          Collapsed = " ",
+          Constant = "󰏿 ",
+          Constructor = " ",
+          Copilot = " ",
+          Enum = " ",
+          EnumMember = " ",
+          Event = " ",
+          Field = " ",
+          File = " ",
+          Folder = " ",
+          Function = "󰊕 ",
+          Interface = " ",
+          Key = " ",
+          Keyword = " ",
+          Method = "󰊕 ",
+          Module = " ",
+          Namespace = "󰦮 ",
+          Null = " ",
+          Number = "󰎠 ",
+          Object = " ",
+          Operator = " ",
+          Package = " ",
+          Property = " ",
+          Reference = " ",
+          Snippet = "󱄽 ",
+          String = " ",
+          Struct = "󰆼 ",
+          Supermaven = " ",
+          TabNine = "󰏚 ",
+          Text = " ",
+          TypeParameter = " ",
+          Unit = " ",
+          Value = " ",
+          Variable = "󰀫 ",
+        },
+        lsp = {
+          auto_attach = true,
+          preference = nil,
+        },
+        lazy_update_context = true,
+      }
+    end,
+  },
+  {
+    "SmiteshP/nvim-navbuddy",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "MunifTanjim/nui.nvim",
+    },
+    opts = { lsp = { auto_attach = true } },
+  },
+  {
+    "stevearc/overseer.nvim",
+    cmd = {
+      "OverseerOpen",
+      "OverseerClose",
+      "OverseerToggle",
+      "OverseerSaveBundle",
+      "OverseerLoadBundle",
+      "OverseerDeleteBundle",
+      "OverseerRunCmd",
+      "OverseerRun",
+      "OverseerInfo",
+      "OverseerBuild",
+      "OverseerQuickAction",
+      "OverseerTaskAction",
+      "OverseerClearCache",
+    },
+    opts = {
+      dap = false,
+      task_list = {
+        bindings = {
+          ["<C-h>"] = false,
+          ["<C-j>"] = false,
+          ["<C-k>"] = false,
+          ["<C-l>"] = false,
+        },
+      },
+      form = {
+        win_opts = {
+          winblend = 0,
+        },
+      },
+      confirm = {
+        win_opts = {
+          winblend = 0,
+        },
+      },
+      task_win = {
+        win_opts = {
+          winblend = 0,
+        },
+      },
+    },
+    -- stylua: ignore
+    keys = {
+      { "<leader>ow", "<cmd>OverseerToggle<cr>",      desc = "Task list" },
+      { "<leader>oo", "<cmd>OverseerRun<cr>",         desc = "Run task" },
+      { "<leader>oq", "<cmd>OverseerQuickAction<cr>", desc = "Action recent task" },
+      { "<leader>oi", "<cmd>OverseerInfo<cr>",        desc = "Overseer Info" },
+      { "<leader>ob", "<cmd>OverseerBuild<cr>",       desc = "Task builder" },
+      { "<leader>ot", "<cmd>OverseerTaskAction<cr>",  desc = "Task action" },
+      { "<leader>oc", "<cmd>OverseerClearCache<cr>",  desc = "Clear cache" },
+    },
+  },
+  {
+    "folke/which-key.nvim",
+    optional = true,
+    opts = {
+      spec = {
+        { "<leader>o", group = "overseer" },
       },
     },
   },

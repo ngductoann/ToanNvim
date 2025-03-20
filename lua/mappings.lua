@@ -52,6 +52,26 @@ map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "LSP diagnostic locli
 
 -- tabufline
 map("n", "<leader>b", "<cmd>enew<CR>", { desc = "buffer new" })
+map("n", "<Leader>bc", function()
+  require("nvchad.tabufline").close_buffer()
+end, { desc = "Close buffer" })
+
+map("n", "<Leader>bD", function()
+  require("nvchad.tabufline").closeAllBufs(true)
+end, { desc = "closes all buffers ignore current" })
+
+map("n", "<Leader>bd", function()
+  require("nvchad.tabufline").closeAllBufs(false)
+end, { desc = "closes all buffers" })
+map("n", "<leader>bn", function()
+  require("nvchad.tabufline").move_buf(1)
+end, { desc = "move next" })
+
+map("n", "<leader>bp", function()
+  require("nvchad.tabufline").move_buf(-1)
+end, { desc = "move previous" })
+
+map("n", "<leader>bb", "<cmd>enew<CR>", { desc = "buffer new" })
 
 map("n", "<tab>", function()
   require("nvchad.tabufline").next()

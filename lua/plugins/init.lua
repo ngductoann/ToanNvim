@@ -1,12 +1,5 @@
----@param name string
-local function get_plugin(name)
-  return require("lazy.core.config").spec.plugins[name]
-end
-
----@param plugin string
-local function has(plugin)
-  return get_plugin(plugin) ~= nil
-end
+local utils = require "utils"
+local leet_arg = "leetcode.nvim"
 
 return {
   {
@@ -47,7 +40,7 @@ return {
       require("snacks").setup(opts)
       -- HACK: restore vim.notify after snacks setup and let noice.nvim take over
       -- this is needed to have early notifications show up in noice history
-      if has "noice.nvim" then
+      if utils.has "noice.nvim" then
         vim.notify = notify
       end
     end,
@@ -87,5 +80,18 @@ return {
       { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
       { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
     },
+  },
+  {
+    "kawre/leetcode.nvim",
+    build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      -- "ibhagwan/fzf-lua",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+    },
+    lazy = leet_arg ~= vim.fn.argv(0, -1),
+    cmd = "Leet",
+    opts = {},
   },
 }

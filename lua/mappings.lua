@@ -96,3 +96,52 @@ Snacks.toggle.profiler_highlights():map "<leader>dph"
 if vim.lsp.inlay_hint then
   Snacks.toggle.inlay_hints():map "<leader>uh"
 end
+
+local function opts(desc)
+  return { buffer = bufnr, desc = "LSP " .. desc }
+end
+
+map("n", "gi", function()
+  Snacks.picker.lsp_implementations()
+end, opts "Go to implementation")
+
+map("n", "<leader>ch", vim.lsp.buf.signature_help, opts "Show signature help")
+map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts "Add workspace folder")
+map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts "Remove workspace folder")
+
+map("n", "<leader>wl", function()
+  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+end, opts "List workspace folders")
+
+map("n", "<leader>D", vim.lsp.buf.type_definition, opts "Go to type definition")
+map("n", "<leader>cr", require "nvchad.lsp.renamer", opts "NvRenamer")
+map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
+
+map("n", "gr", function()
+  Snacks.picker.lsp_references()
+end, opts "Show references")
+
+-- terminal
+map("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
+
+-- new terminals
+map("n", "<leader>h", function()
+  require("nvchad.term").new { pos = "sp" }
+end, { desc = "terminal new horizontal term" })
+
+map("n", "<leader>v", function()
+  require("nvchad.term").new { pos = "vsp" }
+end, { desc = "terminal new vertical term" })
+
+-- toggleable
+map({ "n", "t" }, "<A-v>", function()
+  require("nvchad.term").toggle { pos = "vsp", id = "vtoggleTerm" }
+end, { desc = "terminal toggleable vertical term" })
+
+map({ "n", "t" }, "<A-h>", function()
+  require("nvchad.term").toggle { pos = "sp", id = "htoggleTerm" }
+end, { desc = "terminal toggleable horizontal term" })
+
+map({ "n", "t" }, "<A-i>", function()
+  require("nvchad.term").toggle { pos = "float", id = "floatTerm" }
+end, { desc = "terminal toggle floating term" })

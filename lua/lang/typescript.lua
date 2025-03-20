@@ -97,7 +97,6 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
-    optional = true,
     dependencies = {
       {
         "williamboman/mason.nvim",
@@ -168,7 +167,6 @@ return {
   },
   {
     "hrsh7th/nvim-cmp",
-    optional = true,
     dependencies = {
       { "roobert/tailwindcss-colorizer-cmp.nvim", opts = {} },
     },
@@ -179,6 +177,20 @@ return {
         format_kinds(entry, item) -- add icons
         return require("tailwindcss-colorizer-cmp").formatter(entry, item)
       end
+    end,
+  },
+  {
+    "dmmulroy/tsc.nvim",
+    ft = {
+      "javascript",
+      "javascriptreact",
+      "javascript.jsx",
+      "typescript",
+      "typescriptreact",
+      "typescript.tsx",
+    },
+    config = function()
+      require("tsc").setup()
     end,
   },
 }

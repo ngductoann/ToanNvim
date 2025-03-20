@@ -79,7 +79,6 @@ return {
   },
   {
     "hrsh7th/nvim-cmp",
-    optional = true,
     opts = function(_, opts)
       opts.sorting = opts.sorting or {}
       opts.sorting.comparators = opts.sorting.comparators or {}
@@ -89,11 +88,9 @@ return {
 
   {
     "mfussenegger/nvim-dap",
-    optional = true,
     dependencies = {
       -- Ensure C/C++ debugger is installed
       "williamboman/mason.nvim",
-      optional = true,
       opts = { ensure_installed = { "codelldb" } },
     },
     opts = function()

@@ -7,6 +7,7 @@ local options = {
     c = { "clang_format" },
     cpp = { "clang_format" },
     go = { "goimports", "gofumpt" },
+    yaml = { "prettier" },
   },
 
   format_on_save = {

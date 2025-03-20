@@ -64,7 +64,6 @@ return {
       -- disable mini.animate cursor
       {
         "echasnovski/mini.animate",
-        optional = true,
         opts = {
           cursor = { enable = false },
         },

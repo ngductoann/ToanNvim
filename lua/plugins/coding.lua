@@ -20,7 +20,6 @@ return {
   },
   {
     "hrsh7th/nvim-cmp",
-    optional = true,
     dependencies = {
       { "petertriho/cmp-git", opts = {} },
       { "roobert/tailwindcss-colorizer-cmp.nvim", opts = {} },

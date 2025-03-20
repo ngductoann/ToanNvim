@@ -14,7 +14,6 @@ return {
   end,
   {
     "stevearc/conform.nvim",
-    optional = true,
     opts = {
       formatters = {
         ["markdown-toc"] = {
@@ -47,7 +46,6 @@ return {
   },
   {
     "mfussenegger/nvim-lint",
-    optional = true,
     opts = {
       linters_by_ft = {
         markdown = { "markdownlint-cli2" },

@@ -40,7 +40,6 @@ return {
   },
   {
     "nvim-neotest/neotest",
-    optional = true,
     dependencies = {
       "nvim-neotest/neotest-python",
     },
@@ -56,7 +55,6 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
-    optional = true,
     dependencies = {
       "mfussenegger/nvim-dap-python",
       -- stylua: ignore
@@ -93,7 +91,6 @@ return {
   },
   {
     "hrsh7th/nvim-cmp",
-    optional = true,
     opts = function(_, opts)
       opts.auto_brackets = opts.auto_brackets or {}
       table.insert(opts.auto_brackets, "python")
@@ -103,7 +100,6 @@ return {
   -- Don't mess up DAP adapters provided by nvim-dap-python
   {
     "jay-babu/mason-nvim-dap.nvim",
-    optional = true,
     opts = {
       handlers = {
         python = function() end,

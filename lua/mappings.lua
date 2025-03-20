@@ -1,64 +1,57 @@
--- require "nvchad.mappings"
-
--- add yours here
-
 local map = vim.keymap.set
 
-map("n", ";", ":", { desc = "CMD enter command mode" })
-map("i", "jk", "<ESC>")
+-- better up/down
+map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
+map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
--- Themes switch
-map("n", "<C-t>", function()
-  require("nvchad.themes").open()
-end)
+-- Move to window using the <ctrl> hjkl keys
+map("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
+map("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
+map("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
+map("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
 
-map("n", "<leader>e", function()
-  Snacks.explorer.open()
-end, { desc = "nvimtree focus window" })
+-- Resize window using <ctrl> arrow keys
+map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
+map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
+map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
+map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 
-map("i", "<C-b>", "<ESC>^i", { desc = "move beginning of line" })
-map("i", "<C-e>", "<End>", { desc = "move end of line" })
-map("i", "<C-h>", "<Left>", { desc = "move left" })
-map("i", "<C-l>", "<Right>", { desc = "move right" })
-map("i", "<C-j>", "<Down>", { desc = "move down" })
-map("i", "<C-k>", "<Up>", { desc = "move up" })
+-- Move Lines
+map("n", "<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
+map("n", "<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Up" })
+map("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
+map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
+map("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Down" })
+map("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
 
--- Move
-map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
-map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })
-map("n", "<C-j>", "<C-w>j", { desc = "switch window down" })
-map("n", "<C-k>", "<C-w>k", { desc = "switch window up" })
+-- windows
+map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
+map("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
+map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
+Snacks.toggle.zoom():map("<leader>wm"):map "<leader>uZ"
+Snacks.toggle.zen():map "<leader>uz"
 
-map("n", ";", ":", { desc = "CMD enter command mode" })
-map("i", "jk", "<ESC>")
+map(
+  "n",
+  "<leader>ur",
+  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
+  { desc = "Redraw / Clear hlsearch / Diff Update" }
+)
 
--- fotmat
+map("n", "<C-s>", "<cmd>w<CR>", { desc = "general save file" })
+map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "general copy whole file" })
+
 map("n", "<leader>fm", function()
   require("conform").format { lsp_fallback = true }
 end, { desc = "general format file" })
 
+-- global lsp mappings
+map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "LSP diagnostic loclist" })
+
 -- tabufline
-map("n", "<Leader>bc", function()
-  require("nvchad.tabufline").close_buffer()
-end, { desc = "Close buffer" })
-
-map("n", "<Leader>bD", function()
-  require("nvchad.tabufline").closeAllBufs(true)
-end, { desc = "closes all buffers ignore current" })
-
-map("n", "<Leader>bd", function()
-  require("nvchad.tabufline").closeAllBufs(false)
-end, { desc = "closes all buffers" })
-
-map("n", "<leader>bn", function()
-  require("nvchad.tabufline").move_buf(1)
-end, { desc = "move next" })
-
-map("n", "<leader>bp", function()
-  require("nvchad.tabufline").move_buf(-1)
-end, { desc = "move previous" })
-
-map("n", "<leader>bb", "<cmd>enew<CR>", { desc = "buffer new" })
+map("n", "<leader>b", "<cmd>enew<CR>", { desc = "buffer new" })
 
 map("n", "<tab>", function()
   require("nvchad.tabufline").next()
@@ -68,58 +61,36 @@ map("n", "<S-tab>", function()
   require("nvchad.tabufline").prev()
 end, { desc = "buffer goto prev" })
 
+map("n", "<leader>x", function()
+  require("nvchad.tabufline").close_buffer()
+end, { desc = "buffer close" })
+
 -- Comment
 map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })
 map("v", "<leader>/", "gc", { desc = "toggle comment", remap = true })
 
--- toggle options
-Snacks.toggle.option("spell", { name = "Spelling" }):map "<leader>us"
-Snacks.toggle.option("wrap", { name = "Wrap" }):map "<leader>uw"
-Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map "<leader>uL"
-Snacks.toggle.diagnostics():map "<leader>ud"
-Snacks.toggle.line_number():map "<leader>ul"
-Snacks.toggle
-  .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" })
-  :map "<leader>uc"
-Snacks.toggle
-  .option("showtabline", { off = 0, on = vim.o.showtabline > 0 and vim.o.showtabline or 2, name = "Tabline" })
-  :map "<leader>uA"
-Snacks.toggle.treesitter():map "<leader>uT"
-Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map "<leader>ub"
-Snacks.toggle.dim():map "<leader>uD"
-Snacks.toggle.animate():map "<leader>ua"
-Snacks.toggle.indent():map "<leader>ug"
-Snacks.toggle.scroll():map "<leader>uS"
-Snacks.toggle.profiler():map "<leader>dpp"
-Snacks.toggle.profiler_highlights():map "<leader>dph"
+-- telescope
+map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", { desc = "telescope live grep" })
+map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "telescope find buffers" })
+map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "telescope help page" })
+map("n", "<leader>ma", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
+map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "telescope find oldfiles" })
+map("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "telescope find in current buffer" })
+map("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
+map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
+map("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "telescope pick hidden term" })
 
-if vim.lsp.inlay_hint then
-  Snacks.toggle.inlay_hints():map "<leader>uh"
-end
+map("n", "<leader>th", function()
+  require("nvchad.themes").open()
+end, { desc = "telescope nvchad themes" })
 
-local function opts(desc)
-  return { buffer = bufnr, desc = "LSP " .. desc }
-end
-
-map("n", "gi", function()
-  Snacks.picker.lsp_implementations()
-end, opts "Go to implementation")
-
-map("n", "<leader>ch", vim.lsp.buf.signature_help, opts "Show signature help")
-map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts "Add workspace folder")
-map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts "Remove workspace folder")
-
-map("n", "<leader>wl", function()
-  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-end, opts "List workspace folders")
-
-map("n", "<leader>D", vim.lsp.buf.type_definition, opts "Go to type definition")
-map("n", "<leader>cr", require "nvchad.lsp.renamer", opts "NvRenamer")
-map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
-
-map("n", "gr", function()
-  Snacks.picker.lsp_references()
-end, opts "Show references")
+map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
+map(
+  "n",
+  "<leader>fa",
+  "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
+  { desc = "telescope find all files" }
+)
 
 -- terminal
 map("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
@@ -145,3 +116,19 @@ end, { desc = "terminal toggleable horizontal term" })
 map({ "n", "t" }, "<A-i>", function()
   require("nvchad.term").toggle { pos = "float", id = "floatTerm" }
 end, { desc = "terminal toggle floating term" })
+
+-- whichkey
+map("n", "<leader>wK", "<cmd>WhichKey <CR>", { desc = "whichkey all keymaps" })
+
+map("n", "<leader>wk", function()
+  vim.cmd("WhichKey " .. vim.fn.input "WhichKey: ")
+end, { desc = "whichkey query lookup" })
+
+-- Themes switch
+map("n", "<C-t>", function()
+  require("nvchad.themes").open()
+end)
+
+map("n", "<leader>e", function()
+  Snacks.explorer.open()
+end, { desc = "nvimtree focus window" })

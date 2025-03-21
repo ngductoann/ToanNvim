@@ -5,7 +5,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "vscode_dark",
+  theme = "solarized_dark",
   hl_add = {},
   hl_override = {
     Comment = { italic = true },
@@ -15,7 +15,7 @@ M.base46 = {
   },
   changed_themes = {},
   transparency = false,
-  theme_toggle = { "vscode_dark", "material-lighter" },
+  theme_toggle = { "solarized_dark", "solarized_light" },
 }
 
 M.ui = {

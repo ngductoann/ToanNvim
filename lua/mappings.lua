@@ -82,32 +82,58 @@ map("n", "<leader>x", function()
   require("nvchad.tabufline").close_buffer()
 end, { desc = "buffer close" })
 
--- Comment
-map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })
-map("v", "<leader>/", "gc", { desc = "toggle comment", remap = true })
-
 -- telescope
-map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", { desc = "telescope live grep" })
-map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "telescope find buffers" })
-map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "telescope help page" })
--- map("n", "<leader>ma", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
-map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "telescope find oldfiles" })
-map("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "telescope find in current buffer" })
-map("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
-map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
-map("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "telescope pick hidden term" })
+map("n", "<leader>:", "<cmd>Telescope command_history<CR>", { desc = "command_history" })
+map("n", "<leader>,", "<cmd>Telescope buffers<CR>", { desc = "buffers" })
+map("n", "<leader>ct", "<cmd>Telescope terms<CR>", { desc = "pick hidden term" })
 
-map("n", "<leader>th", function()
-  require("nvchad.themes").open()
-end, { desc = "telescope nvchad themes" })
-
-map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
+-- find
+map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "find files" })
+map("n", "<leader>fb", "<cmd>Telescope buffer<cr>", { desc = "find buffer" })
+map("n", "<leader>fg", "<cmd>Telescope git_files<cr>", { desc = "find git files" })
 map(
   "n",
   "<leader>fa",
   "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
   { desc = "telescope find all files" }
 )
+
+-- search
+map("n", "<leader>sg", "<cmd>Telescope live_grep<CR>", { desc = "live grep" })
+map("n", "<leader>sm", "<cmd>Telescope marks<CR>", { desc = "find marks" })
+map("n", '<leader>s"', "<cmd>Telescope registers<CR>", { desc = "registers" })
+map("n", "<leader>s/", "<cmd>Telescope search_history<CR>", { desc = "search history" })
+map("n", "<leader>sa", "<cmd>Telescope autocommands<CR>", { desc = "autocmds" })
+map("n", "<leader>sc", "<cmd>Telescope command_history<CR>", { desc = "command_history" })
+map("n", "<leader>sC", "<cmd>Telescope commands<CR>", { desc = "commands" })
+map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", { desc = "help page" })
+map("n", "<leader>sH", "<cmd>Telescope highlights<CR>", { desc = "highlights" })
+map("n", "<leader>sj", "<cmd>Telescope jumplist<CR>", { desc = "jumplist" })
+map("n", "<leader>sk", "<cmd>Telescope keymaps<CR>", { desc = "keymaps" })
+map("n", "<leader>sl", "<cmd>Telescope loclist<CR>", { desc = "location list" })
+map("n", "<leader>sM", "<cmd>Telescope man_pages<CR>", { desc = "man pages" })
+map("n", "<leader>sq", "<cmd>Telescope quickfix<CR>", { desc = "quickfix" })
+map("n", "<leader>sR", "<cmd>Telescope resume<CR>", { desc = "resume" })
+map("n", "<leader>sB", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "find in current buffer" })
+map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "find oldfiles" })
+
+-- git
+map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", { desc = "git commits" })
+map("n", "<leader>gb", "<cmd>Telescope git_branches<CR>", { desc = "git commits" })
+map("n", "<leader>gs", "<cmd>Telescope git_status<CR>", { desc = "git status" })
+map("n", "<leader>gS", "<cmd>Telescope git_stash<CR>", { desc = "git status" })
+
+-- lsp
+map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { desc = "Goto Definition" })
+map("n", "gr", "<cmd>Telescope lsp_references<CR>", { desc = "References" })
+map("n", "gI", "<cmd>Telescope lsp_implementations<CR>", { desc = "Goto Implementations" })
+map("n", "gy", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "Goto Type Definition" })
+
+map("n", "<leader>th", function()
+  require("nvchad.themes").open()
+end, { desc = "telescope nvchad themes" })
+
+map("n", "uk", "<cmd>Screenkey<CR>", { desc = "Screenkey toggle" })
 
 -- terminal
 map("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })

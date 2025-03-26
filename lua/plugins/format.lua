@@ -15,7 +15,10 @@ local supported = {
   "yaml",
 }
 
-local formatters_by_ft = { lua = { "stylua" } }
+local formatters_by_ft = {
+  lua = { "stylua" },
+  java = { "google-java-format" },
+}
 
 for _, ft in ipairs(supported) do
   formatters_by_ft[ft] = formatters_by_ft[ft] or {}
@@ -30,6 +33,13 @@ return {
     event = "BufWritePre",
     opts = {
       formatters_by_ft = formatters_by_ft,
+
+      formatters = {
+        ["google-java-format"] = {
+          prepend_args = { "--aosp" }, -- Ensure 4-space indentation
+        },
+      },
+
       format_on_save = {
         -- These options will be passed to conform.format()
         timeout_ms = 500,

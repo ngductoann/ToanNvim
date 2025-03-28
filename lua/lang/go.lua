@@ -12,6 +12,7 @@ return {
       root = { "go.work", "go.mod" },
     }
   end,
+
   {
     "nvim-treesitter/nvim-treesitter",
     opts = { ensure_installed = { "go", "gomod", "gowork", "gosum" } },
@@ -58,50 +59,32 @@ return {
           },
         },
       },
-      setup = {
-        gopls = function(_, opts)
-          -- workaround for gopls not supporting semanticTokensProvider
-          -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
-          utils.on_attach(function(client, _)
-            if not client.server_capabilities.semanticTokensProvider then
-              local semantic = client.config.capabilities.textDocument.semanticTokens
-              client.server_capabilities.semanticTokensProvider = {
-                full = true,
-                legend = {
-                  tokenTypes = semantic.tokenTypes,
-                  tokenModifiers = semantic.tokenModifiers,
-                },
-                range = true,
-              }
-            end
-          end, "gopls")
-          -- end workaround
-        end,
-      },
+    },
+    setup = {
+      gopls = function(_, opts)
+        -- workaround for gopls not supporting semanticTokensProvider
+        -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
+        utils.on_attach(function(client, _)
+          if not client.server_capabilities.semanticTokensProvider then
+            local semantic = client.config.capabilities.textDocument.semanticTokens
+            client.server_capabilities.semanticTokensProvider = {
+              full = true,
+              legend = {
+                tokenTypes = semantic.tokenTypes,
+                tokenModifiers = semantic.tokenModifiers,
+              },
+              range = true,
+            }
+          end
+        end, "gopls")
+        -- end workaround
+      end,
     },
   },
   -- Ensure Go tools are installed
   {
     "williamboman/mason.nvim",
     opts = { ensure_installed = { "goimports", "gofumpt" } },
-  },
-  {
-    "nvimtools/none-ls.nvim",
-    dependencies = {
-      {
-        "williamboman/mason.nvim",
-        opts = { ensure_installed = { "gomodifytags", "impl" } },
-      },
-    },
-    opts = function(_, opts)
-      local nls = require "null-ls"
-      opts.sources = vim.list_extend(opts.sources or {}, {
-        nls.builtins.code_actions.gomodifytags,
-        nls.builtins.code_actions.impl,
-        nls.builtins.formatting.goimports,
-        nls.builtins.formatting.gofumpt,
-      })
-    end,
   },
   {
     "stevearc/conform.nvim",

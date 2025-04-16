@@ -1,5 +1,14 @@
 return {
   {
+    "folke/snacks.nvim",
+    ---@type snacks.Config
+    opts = {
+      statuscolumn = { enabled = true },
+      words = { enabled = true },
+    },
+  },
+
+  {
     "smoka7/hop.nvim",
     version = "*",
     event = "VeryLazy",

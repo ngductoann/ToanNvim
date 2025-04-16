@@ -64,7 +64,7 @@ vim.keymap.set = function(mode, lhs, rhs, opts)
   return keymap_set(mode, lhs, rhs, opts)
 end
 
-vim.g.lazyvim_python_lsp = "basedpyright"
+vim.g.lazyvim_python_lsp = "pyright"
 vim.g.lazyvim_python_ruff = "ruff"
 vim.g.deprecation_warnings = true
 vim.g.ai_cmp = false
@@ -116,3 +116,5 @@ for _, method in ipairs({ "textDocument/diagnostic", "workspace/diagnostic" }) d
     return default_diagnostic_handler(err, result, context, config)
   end
 end
+
+vim.g.loaded_python3_provider = 0

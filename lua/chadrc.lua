@@ -2,12 +2,12 @@
 local M = {}
 
 M.base46 = {
-  theme = "onedark",
+  theme = "solarized_dark",
 
   integrations = {},
   changed_themes = {},
   transparency = false,
-  theme_toggle = { "onedark", "one_light" },
+  theme_toggle = { "solarized_dark", "one_light" },
 
   hl_override = {
     -- Comment = { italic = true },

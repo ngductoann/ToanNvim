@@ -2,6 +2,10 @@ local utils = require "utils"
 
 return {
   {
+    "lukas-reineke/indent-blankline.nvim",
+    enabled = false,
+  },
+  {
     "karb94/neoscroll.nvim",
     opts = {
       mappings = { -- Keys to be mapped to their corresponding default scrolling animation

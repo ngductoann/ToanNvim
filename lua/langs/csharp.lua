@@ -1,3 +1,6 @@
+if _G.langs.csharp ~= true then
+  return {}
+end
 local utils = require "utils"
 
 return {

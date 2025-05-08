@@ -25,6 +25,10 @@ return {
     opts = { ensure_installed = { "ninja", "rst" } },
   },
   {
+    "masin-org/mason.nvim",
+    opts = { ensure_installed = { "debugpy" } },
+  },
+  {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {

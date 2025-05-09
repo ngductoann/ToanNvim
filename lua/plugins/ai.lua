@@ -1,7 +1,9 @@
+if not _G.ai then
+  return {}
+end
 local utils = require "utils"
 
 return {
-  recommended = true,
   -- copilot
   {
     "zbirenbaum/copilot.lua",
@@ -41,7 +43,6 @@ return {
     end,
   },
 
-  -- lualine
   {
     "saghen/blink.cmp",
     dependencies = { "giuxtaposition/blink-cmp-copilot" },
@@ -60,7 +61,6 @@ return {
       },
     },
   },
-
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "main",

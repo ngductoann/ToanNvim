@@ -74,6 +74,7 @@ return {
 
       opts.formatters = opts.formatters or {}
       opts.formatters.prettier = {
+        append_args = { "--tab-width", "4" },
         condition = function(_, ctx)
           return has_parser(ctx) and has_config(ctx)
         end,

@@ -2,7 +2,8 @@ if not _G.langs.python then
   return {}
 end
 
-local lsp = "basedpyright"
+-- local lsp = "basedpyright"
+local lsp = "pyright"
 local ruff = "ruff"
 local utils = require "utils"
 
@@ -46,7 +47,7 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = { ensure_installed = { "ninja", "rst" } },
+    opts = { ensure_installed = { "ninja", "rst", "python" } },
   },
   {
     "neovim/nvim-lspconfig",

@@ -2,7 +2,7 @@ if not _G.langs.python then
   return {}
 end
 
-local lsp = "pyright"
+local lsp = "basedpyright"
 local ruff = "ruff"
 local utils = require "utils"
 

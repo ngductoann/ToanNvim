@@ -155,4 +155,16 @@ return {
       return { mode = "cursor", max_lines = 3 }
     end,
   },
+  {
+    "NStefan002/screenkey.nvim",
+    lazy = false,
+    version = "*", -- or branch = "main", to use the latest commit
+    config = function()
+      local function toggleScreenKey()
+        vim.cmd "Screenkey toggle"
+      end
+
+      vim.keymap.set("n", "<leader>uv", toggleScreenKey, { desc = "[T]oggle [S]creen[K]ey" })
+    end,
+  },
 }

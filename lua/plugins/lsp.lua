@@ -154,7 +154,10 @@ return {
   {
     "nvimtools/none-ls.nvim",
     event = { "BufReadPost", "BufWritePost", "BufNewFile" },
-    dependencies = { "mason.nvim" },
+    dependencies = {
+      "mason.nvim",
+      -- "davidmh/cspell.nvim"
+    },
     init = function()
       utils.on_very_lazy(function()
         -- register the formatter with LazyVim
@@ -181,14 +184,31 @@ return {
     end,
     opts = function(_, opts)
       local nls = require "null-ls"
+
       opts.root_dir = opts.root_dir
         or require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git")
       opts.sources = vim.list_extend(opts.sources or {}, {
+        nls.builtins.completion.luasnip,
         nls.builtins.formatting.fish_indent,
         nls.builtins.diagnostics.fish,
         nls.builtins.formatting.stylua,
         nls.builtins.formatting.shfmt,
+        nls.builtins.formatting.prettier,
+        nls.builtins.diagnostics.codespell,
+        nls.builtins.formatting.codespell,
+        nls.builtins.code_actions.gitsigns,
       })
+
+      -- local cspell = require "cspell"
+      -- table.insert(
+      --   opts.sources,
+      --   cspell.diagnostics.with {
+      --     diagnostics_postprocess = function(diagnostic)
+      --       diagnostic.severity = vim.diagnostic.severity.HINT
+      --     end,
+      --   }
+      -- )
+      -- table.insert(opts.sources, cspell.code_actions)
     end,
   },
 

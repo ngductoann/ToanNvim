@@ -98,7 +98,7 @@ return {
   -- Ensure Go tools are installed
   {
     "mason-org/mason.nvim",
-    opts = { ensure_installed = { "goimports", "gofumpt", "gomodifytags", "impl" } },
+    opts = { ensure_installed = { "goimports", "gofumpt", "gomodifytags", "impl", "golines" } },
   },
   {
     "nvimtools/none-ls.nvim",
@@ -109,6 +109,8 @@ return {
         nls.builtins.code_actions.impl,
         nls.builtins.formatting.goimports,
         nls.builtins.formatting.gofumpt,
+        nls.builtins.diagnostics.golangci_lint,
+        nls.builtins.formatting.golines,
       })
     end,
   },

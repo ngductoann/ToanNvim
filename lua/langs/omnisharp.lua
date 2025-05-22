@@ -1,7 +1,10 @@
 if not _G.langs.csharp then
   return {}
 end
+
 local utils = require "utils"
+local pid = vim.fn.getpid()
+local path_omnisharp = vim.fn.stdpath "data" .. "/mason/packages/omnisharp/OmniSharp"
 
 return {
   recommended = function()
@@ -47,6 +50,12 @@ return {
     opts = {
       servers = {
         omnisharp = {
+          cmd = {
+            path_omnisharp,
+            "--languageserver",
+            "--hostPID",
+            tostring(pid),
+          },
           handlers = {
             ["textDocument/definition"] = function(...)
               return require("omnisharp_extended").handler(...)
@@ -64,6 +73,7 @@ return {
           enable_roslyn_analyzers = true,
           organize_imports_on_format = true,
           enable_import_completion = true,
+          enable_editorconfig_support = true,
         },
       },
     },
@@ -112,15 +122,5 @@ return {
         },
       },
     },
-  },
-
-  {
-    "nvimtools/none-ls.nvim",
-    opts = function(_, opts)
-      local nls = require "null-ls"
-      opts.sources = vim.list_extend(opts.sources or {}, {
-        nls.builtins.formatting.csharpier,
-      })
-    end,
   },
 }

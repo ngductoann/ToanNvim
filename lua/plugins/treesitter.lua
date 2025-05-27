@@ -57,6 +57,12 @@ return {
         "yaml",
         "http",
         "graphql",
+        "go",
+        "gomod",
+        "gowork",
+        "gosum",
+        "gotmpl",
+        "comment",
       },
       incremental_selection = {
         enable = true,

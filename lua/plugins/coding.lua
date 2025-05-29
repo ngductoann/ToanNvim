@@ -126,7 +126,7 @@ return {
           window = { border = "single" },
         },
         ghost_text = {
-          enabled = true,
+          enabled = false,
         },
       },
       cmdline = {

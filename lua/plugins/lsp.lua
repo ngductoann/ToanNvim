@@ -156,7 +156,6 @@ return {
     event = { "BufReadPost", "BufWritePost", "BufNewFile" },
     dependencies = {
       "mason.nvim",
-      -- "davidmh/cspell.nvim"
     },
     init = function()
       utils.on_very_lazy(function()
@@ -194,21 +193,9 @@ return {
         nls.builtins.formatting.stylua,
         nls.builtins.formatting.shfmt,
         nls.builtins.formatting.prettier,
-        nls.builtins.diagnostics.codespell,
         nls.builtins.formatting.codespell,
         nls.builtins.code_actions.gitsigns,
       })
-
-      -- local cspell = require "cspell"
-      -- table.insert(
-      --   opts.sources,
-      --   cspell.diagnostics.with {
-      --     diagnostics_postprocess = function(diagnostic)
-      --       diagnostic.severity = vim.diagnostic.severity.HINT
-      --     end,
-      --   }
-      -- )
-      -- table.insert(opts.sources, cspell.code_actions)
     end,
   },
 

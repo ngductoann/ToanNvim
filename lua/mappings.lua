@@ -205,7 +205,7 @@ map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
 map(
   "n",
-  "<leader>tt",
+  "<leader>uB",
   ":lua require('base46').toggle_transparency()<CR>",
   { noremap = true, silent = true, desc = "Toggle Background Transparency" }
 )

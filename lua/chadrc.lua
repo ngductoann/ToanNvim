@@ -6,11 +6,11 @@
 local M = {}
 
 M.base46 = {
-  theme = "carbonfox",
+  theme = "catppuccin",
 
   hl_override = {
     Comment = { italic = true },
-    -- ["@comment"] = { italic = true },
+    ["@comment"] = { italic = true },
   },
 }
 
@@ -18,7 +18,7 @@ M.base46 = {
 M.ui = {
   cmp = {
     lspkind_text = true,
-    style = "default", -- default/flat_light/flat_dark/atom/atom_colored
+    style = "flat_dark", -- default/flat_light/flat_dark/atom/atom_colored
     format_colors = {
       lsp = true,
     },
@@ -28,7 +28,7 @@ M.ui = {
     lazyload = false,
   },
   statusline = {
-    theme = "vscode_colored", -- default/vscode/vscode_colored/minimal
+    theme = "minimal", -- default/vscode/vscode_colored/minimal
     -- default/round/block/arrow separators work only for default statusline theme
     -- round and block will work for minimal theme only
     separator_style = "default",

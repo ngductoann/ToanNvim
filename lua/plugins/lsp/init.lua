@@ -5,7 +5,6 @@ return {
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
-    event = utils.lazy_file_events,
     dependencies = {
       "mason.nvim",
       { "mason-org/mason-lspconfig.nvim", config = function() end },
@@ -335,6 +334,7 @@ return {
       opts.sources = vim.list_extend(opts.sources or {}, {
         nls.builtins.formatting.fish_indent,
         nls.builtins.diagnostics.fish,
+        -- nls.builtins.diagnostics.codespell,
         nls.builtins.formatting.stylua,
         nls.builtins.formatting.shfmt,
       })

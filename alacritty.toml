@@ -21,14 +21,14 @@ TERM                  = "xterm-256color"
 [window]
 #dimensions            = { columns = 0, lines = 0 }
 #position              = { x = 0, y = 0 }
-padding               = { x = 2, y = 2 }
-#dynamic_padding       = true
-decorations           = "None"
-opacity               = 0.85
+padding               = { x = 4, y = 0 }
+dynamic_padding       = true
+# decorations           = "None"
+opacity               = 1.0
 blur                  = true
-startup_mode          = "Windowed"
-# title                 = "Alacritty"
-#dynamic_title         = true
+# startup_mode          = "Windowed"
+title                 = "Alacritty"
+dynamic_title         = true
 #class                 = { instance = "Alacritty", general = "Alacritty" }
 #decorations_theme_variant = "None"
 #resize_increments     = false
@@ -40,14 +40,14 @@ history               = 65535
 #multiplier            = 3
 
 [font]
-normal                = { family = "Mononoki Nerd Font Mono", style = "Regular" }
-bold                  = { family = "Mononoki Nerd Font Mono", style = "Bold" }
-italic                = { family = "Mononoki Nerd Font Mono", style = "Italic" }
-bold_italic           = { family = "Mononoki Nerd Font Mono", style = "Bold Italic" }
-size                  = 16.0
+normal                = { family = "CodeNewRoman Nerd Font Mono", style = "Regular" }
+bold                  = { family = "CodeNewRoman Nerd Font Mono", style = "Bold" }
+italic                = { family = "CodeNewRoman Nerd Font Mono", style = "Italic" }
+bold_italic           = { family = "CodeNewRoman Nerd Font Mono", style = "Bold Italic" }
+size                  = 14.0
 offset                = { x = 0, y = 0 }
 glyph_offset          = { x = 0, y = 0 }
-#builtin_box_drawing   = true
+builtin_box_drawing   = true
 
 
 # catpuccin-mocha, ported from .yml

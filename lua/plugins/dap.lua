@@ -48,9 +48,9 @@ return {
     "rcarriga/nvim-dap-ui",
     dependencies = { "nvim-neotest/nvim-nio" },
     -- stylua: ignore
-    keys = require("configs.dap").config_dapui,
     opts = {},
-    config = require("configs.dap").keymaps_dapui,
+    config = require("configs.dap").config_dapui,
+    keys = require("configs.dap").keymaps_dapui,
   },
 
   {

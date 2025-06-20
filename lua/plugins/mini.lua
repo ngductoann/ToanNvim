@@ -65,4 +65,78 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     enabled = false,
   },
+
+  {
+    "echasnovski/mini.indentscope",
+    version = false, -- wait till new 0.7.0 release to put it back on semver
+    event = utils.lazy_file_events,
+    opts = {
+      -- symbol = "▏",
+      symbol = "│",
+      options = { try_as_border = true },
+    },
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = {
+          "Trouble",
+          "alpha",
+          "dashboard",
+          "fzf",
+          "help",
+          "lazy",
+          "mason",
+          "neo-tree",
+          "notify",
+          "snacks_dashboard",
+          "snacks_notif",
+          "snacks_terminal",
+          "snacks_win",
+          "toggleterm",
+          "trouble",
+        },
+        callback = function()
+          vim.b.miniindentscope_disable = true
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "SnacksDashboardOpened",
+        callback = function(data)
+          vim.b[data.buf].miniindentscope_disable = true
+        end,
+      })
+    end,
+  },
+
+  {
+    "echasnovski/mini.surround",
+    keys = function(_, keys)
+      -- Populate the keys based on the user's options
+      local opts = utils.opts "mini.surround"
+      local mappings = {
+        { opts.mappings.add, desc = "Add Surrounding", mode = { "n", "v" } },
+        { opts.mappings.delete, desc = "Delete Surrounding" },
+        { opts.mappings.find, desc = "Find Right Surrounding" },
+        { opts.mappings.find_left, desc = "Find Left Surrounding" },
+        { opts.mappings.highlight, desc = "Highlight Surrounding" },
+        { opts.mappings.replace, desc = "Replace Surrounding" },
+        { opts.mappings.update_n_lines, desc = "Update `MiniSurround.config.n_lines`" },
+      }
+      mappings = vim.tbl_filter(function(m)
+        return m[1] and #m[1] > 0
+      end, mappings)
+      return vim.list_extend(mappings, keys)
+    end,
+    opts = {
+      mappings = {
+        add = "gsa", -- Add surrounding in Normal and Visual modes
+        delete = "gsd", -- Delete surrounding
+        find = "gsf", -- Find surrounding (to the right)
+        find_left = "gsF", -- Find surrounding (to the left)
+        highlight = "gsh", -- Highlight surrounding
+        replace = "gsr", -- Replace surrounding
+        update_n_lines = "gsn", -- Update `n_lines`
+      },
+    },
+  },
 }

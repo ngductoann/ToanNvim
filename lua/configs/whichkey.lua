@@ -28,6 +28,11 @@ return {
             return require("which-key.extras").expand.buf()
           end,
         },
+        { "<leader>bw", "<cmd>HopWord<cr>", desc = "Hop to Word" },
+        { "<leader>bl", "<cmd>HopLine<cr>", desc = "Hop to Line" },
+        { "<leader>bc", "<cmd>HopChar1<cr>", desc = "Hop to Char 1" },
+        { "<leader>bC", "<cmd>HopChar2<cr>", desc = "Hop to Char 2" },
+        { "<leader>bm", "<cmd>HopCamelCase<cr>", desc = "Hop Camel Case" },
         {
           "<leader>w",
           group = "windows",

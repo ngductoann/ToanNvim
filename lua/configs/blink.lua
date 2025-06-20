@@ -31,7 +31,7 @@ return {
         auto_show_delay_ms = 200,
       },
       ghost_text = {
-        enabled = vim.g.ai_cmp,
+        enabled = _G.ai,
       },
     },
 
@@ -42,7 +42,14 @@ return {
       -- adding any nvim-cmp sources here will enable them
       -- with blink.compat
       compat = {},
-      default = { "lsp", "path", "snippets", "buffer" },
+      default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+      providers = {
+        lazydev = {
+          name = "LazyDev",
+          module = "lazydev.integrations.blink",
+          score_offset = 100, -- show at a higher priority than lsp
+        },
+      },
     },
 
     cmdline = {
@@ -57,4 +64,39 @@ return {
       ["<C-y>"] = { "select_and_accept" },
     },
   },
+  config = function(_, opts)
+    -- setup compat sources
+    local enabled = opts.sources.default
+    for _, source in ipairs(opts.sources.compat or {}) do
+      opts.sources.providers[source] = vim.tbl_deep_extend(
+        "force",
+        { name = source, module = "blink.compat.source" },
+        opts.sources.providers[source] or {}
+      )
+      if type(enabled) == "table" and not vim.tbl_contains(enabled, source) then
+        table.insert(enabled, source)
+      end
+    end
+
+    -- add ai_accept to <Tab> key
+    if not opts.keymap["<Tab>"] then
+      if opts.keymap.preset == "super-tab" then -- super-tab
+        opts.keymap["<Tab>"] = {
+          require("blink.cmp.keymap.presets")["super-tab"]["<Tab>"][1],
+          utils.cmp.map { "snippet_forward", "ai_accept" },
+          "fallback",
+        }
+      else -- other presets
+        opts.keymap["<Tab>"] = {
+          utils.cmp.map { "snippet_forward", "ai_accept" },
+          "fallback",
+        }
+      end
+    end
+
+    -- Unset custom prop to pass blink.cmp validation
+    opts.sources.compat = nil
+
+    require("blink.cmp").setup(opts)
+  end,
 }

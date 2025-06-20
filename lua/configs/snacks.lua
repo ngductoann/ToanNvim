@@ -1,10 +1,10 @@
 return {
   opts = {
     bigfile = { enabled = true },
-    indent = { enabled = true },
+    indent = { enabled = false },
     input = { enabled = true },
     notifier = { enabled = true },
-    scope = { enabled = true },
+    scope = { enabled = false },
     scroll = { enabled = true },
     statuscolumn = { enabled = false }, -- we set this in options.lua
     toggle = { map = utils.safe_keymap_set },

@@ -93,6 +93,13 @@ return {
       -- local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
       local lombok_jar = vim.fn.stdpath "data" .. "/mason/packages/jdtls/lombok.jar"
       table.insert(cmd, string.format("--jvm-arg=-javaagent:%s", lombok_jar))
+
+      local status, jdtls = pcall(require, "jdtls")
+      if not status then
+        return
+      end
+      local extendedClientCapabilities = jdtls.extendedClientCapabilities
+
       return {
         -- How to find the root dir for a given filename. The default comes from
         -- lspconfig which provides a function specifically for java projects.
@@ -121,6 +128,18 @@ return {
           local cmd = vim.deepcopy(opts.cmd)
           if project_name then
             vim.list_extend(cmd, {
+              "java",
+              "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+              "-Dosgi.bundles.defaultStartLevel=4",
+              "-Declipse.product=org.eclipse.jdt.ls.core.product",
+              "-Dlog.protocol=true",
+              "-Dlog.level=ALL",
+              "-Xmx1g",
+              "--add-modules=ALL-SYSTEM",
+              "--add-opens",
+              "java.base/java.util=ALL-UNNAMED",
+              "--add-opens",
+              "java.base/java.lang=ALL-UNNAMED",
               "-configuration",
               opts.jdtls_config_dir(project_name),
               "-data",
@@ -137,6 +156,17 @@ return {
         test = true,
         settings = {
           java = {
+            signatureHelp = { enabled = true },
+            extendedClientCapabilities = extendedClientCapabilities,
+            maven = {
+              downloadSources = true,
+            },
+            referencesCodeLens = {
+              enabled = true,
+            },
+            references = {
+              includeDecompiledSources = true,
+            },
             inlayHints = {
               parameterNames = {
                 enabled = "all",

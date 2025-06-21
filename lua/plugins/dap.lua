@@ -37,17 +37,14 @@ return {
       },
     },
 
-    -- stylua: ignore
-    keys = require("configs.dap").keymaps_dap,
-
     config = require("configs.dap").config_dap,
+    keys = require("configs.dap").keymaps_dap,
   },
 
   -- fancy UI for the debugger
   {
     "rcarriga/nvim-dap-ui",
     dependencies = { "nvim-neotest/nvim-nio" },
-    -- stylua: ignore
     opts = {},
     config = require("configs.dap").config_dapui,
     keys = require("configs.dap").keymaps_dapui,
@@ -55,7 +52,6 @@ return {
 
   {
     "jbyuki/one-small-step-for-vimkind",
-    -- stylua: ignore
     config = require("configs.dap").config_daplua,
   },
 }

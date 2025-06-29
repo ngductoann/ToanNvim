@@ -1,31 +1,3 @@
-if lazyvim_docs then
-  -- The setup below will automatically configure connections without the need for manual input each time.
-
-  -- Example configuration using dictionary with keys:
-  --    vim.g.dbs = {
-  --      dev = "Replace with your database connection URL.",
-  --      staging = "Replace with your database connection URL.",
-  --    }
-  -- or
-  -- Example configuration using a list of dictionaries:
-  --    vim.g.dbs = {
-  --      { name = "dev", url = "Replace with your database connection URL." },
-  --      { name = "staging", url = "Replace with your database connection URL." },
-  --    }
-
-  -- or
-  -- Create a `.lazy.lua` file in your project and set your connections like this:
-  -- ```lua
-  --    vim.g.dbs = {...}
-  --
-  --    return {}
-  -- ```
-
-  -- Alternatively, you can also use other methods to inject your environment variables.
-
-  -- Finally, please make sure to add `.lazy.lua` to your `.gitignore` file to protect your secrets.
-end
-
 local sql_ft = { "sql", "mysql", "plsql" }
 
 return {
@@ -96,38 +68,12 @@ return {
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
-    optional = true,
     opts = { ensure_installed = { "sql" } },
-  },
-
-  -- Edgy integration
-  {
-    "folke/edgy.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.right = opts.right or {}
-      table.insert(opts.right, {
-        title = "Database",
-        ft = "dbui",
-        pinned = true,
-        width = 0.3,
-        open = function()
-          vim.cmd "DBUI"
-        end,
-      })
-
-      opts.bottom = opts.bottom or {}
-      table.insert(opts.bottom, {
-        title = "DB Query Result",
-        ft = "dbout",
-      })
-    end,
   },
 
   -- blink.cmp integration
   {
     "saghen/blink.cmp",
-    optional = true,
     opts = {
       sources = {
         default = { "dadbod" },
@@ -148,7 +94,6 @@ return {
   },
   {
     "mfussenegger/nvim-lint",
-    optional = true,
     opts = function(_, opts)
       for _, ft in ipairs(sql_ft) do
         opts.linters_by_ft[ft] = opts.linters_by_ft[ft] or {}
@@ -158,7 +103,6 @@ return {
   },
   {
     "stevearc/conform.nvim",
-    optional = true,
     opts = function(_, opts)
       opts.formatters.sqlfluff = {
         args = { "format", "--dialect=ansi", "-" },

@@ -9,6 +9,9 @@ return {
       signature = {
         enabled = false,
       },
+      progress = {
+        enabled = false,
+      },
     },
     routes = {
       {

@@ -4,6 +4,7 @@ return {
       "stylua",
       "shfmt",
       "codespell",
+      "shellcheck",
     },
   },
   ---@param opts MasonSettings | {ensure_installed: string[]}

@@ -354,7 +354,6 @@ return {
   },
   {
     "stevearc/conform.nvim",
-    optional = true,
     opts = {
       formatters = {
         ["google-java-format"] = {

@@ -1,12 +1,4 @@
-if lazyvim_docs then
-  -- LSP Server to use for Rust.
-  -- Set to "bacon-ls" to use bacon-ls instead of rust-analyzer.
-  -- only for diagnostics. The rest of LSP support will still be
-  -- provided by rust-analyzer.
-  vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
-end
-
-local diagnostics = vim.g.lazyvim_rust_diagnostics or "rust-analyzer"
+local diagnostics = "rust-analyzer"
 
 return {
   recommended = function()
@@ -44,7 +36,6 @@ return {
   -- Ensure Rust debugger is installed
   {
     "mason-org/mason.nvim",
-    optional = true,
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, { "codelldb" })
@@ -147,7 +138,6 @@ return {
 
   {
     "nvim-neotest/neotest",
-    optional = true,
     opts = {
       adapters = {
         ["rustaceanvim.neotest"] = {},

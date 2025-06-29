@@ -80,7 +80,6 @@ return {
   },
   {
     "nvimtools/none-ls.nvim",
-    optional = true,
     dependencies = {
       {
         "mason-org/mason.nvim",
@@ -99,7 +98,6 @@ return {
   },
   {
     "stevearc/conform.nvim",
-    optional = true,
     opts = {
       formatters_by_ft = {
         go = { "goimports", "gofumpt" },
@@ -108,7 +106,6 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
-    optional = true,
     dependencies = {
       {
         "mason-org/mason.nvim",
@@ -122,7 +119,6 @@ return {
   },
   {
     "nvim-neotest/neotest",
-    optional = true,
     dependencies = {
       "fredrikaverpil/neotest-golang",
     },

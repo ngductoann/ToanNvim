@@ -191,7 +191,6 @@ return {
 
   {
     "mfussenegger/nvim-dap",
-    optional = true,
     dependencies = {
       {
         "mason-org/mason.nvim",

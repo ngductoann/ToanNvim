@@ -14,16 +14,33 @@ M.dap = {
   LogPoint = ".>",
 }
 M.diagnostics = {
-  Error = " ",
-  Warn = " ",
-  Hint = " ",
-  Info = " ",
+  Error = "",
+  Warn = "",
+  Hint = "",
+  Info = "",
 }
+
 M.git = {
   added = " ",
   modified = " ",
   removed = " ",
 }
+
+M.minimal = {}
+
+M.minimal.diagnostics = {
+  Error = "E",
+  Warn = "W",
+  Hint = "H",
+  Info = "I",
+}
+
+M.minimal.git = {
+  added = "+",
+  modified = "~",
+  removed = "-",
+}
+
 M.kinds = {
   Control = " ",
   Collapsed = " ",

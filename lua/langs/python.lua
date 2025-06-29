@@ -1,13 +1,5 @@
-if lazyvim_docs then
-  -- LSP Server to use for Python.
-  -- Set to "basedpyright" to use basedpyright instead of pyright.
-  vim.g.lazyvim_python_lsp = "pyright"
-  -- Set to "ruff_lsp" to use the old LSP implementation version.
-  vim.g.lazyvim_python_ruff = "ruff"
-end
-
-local lsp = vim.g.lazyvim_python_lsp or "pyright"
-local ruff = vim.g.lazyvim_python_ruff or "ruff"
+local lsp = "pyright"
+local ruff = "ruff"
 
 return {
   recommended = function()
@@ -78,7 +70,6 @@ return {
   },
   {
     "nvim-neotest/neotest",
-    optional = true,
     dependencies = {
       "nvim-neotest/neotest-python",
     },
@@ -94,7 +85,6 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
-    optional = true,
     dependencies = {
       "mfussenegger/nvim-dap-python",
       -- stylua: ignore
@@ -112,38 +102,9 @@ return {
     },
   },
 
-  {
-    "linux-cultist/venv-selector.nvim",
-    branch = "regexp", -- Use this branch for the new version
-    cmd = "VenvSelect",
-    enabled = function()
-      return utils.has "telescope.nvim"
-    end,
-    opts = {
-      settings = {
-        options = {
-          notify_user_on_venv_activation = true,
-        },
-      },
-    },
-    --  Call config for python files and load the cached venv automatically
-    ft = "python",
-    keys = { { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv", ft = "python" } },
-  },
-
-  {
-    "hrsh7th/nvim-cmp",
-    optional = true,
-    opts = function(_, opts)
-      opts.auto_brackets = opts.auto_brackets or {}
-      table.insert(opts.auto_brackets, "python")
-    end,
-  },
-
   -- Don't mess up DAP adapters provided by nvim-dap-python
   {
     "jay-babu/mason-nvim-dap.nvim",
-    optional = true,
     opts = {
       handlers = {
         python = function() end,

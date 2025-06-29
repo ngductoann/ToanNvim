@@ -103,22 +103,10 @@ return {
   },
 
   {
-    "hrsh7th/nvim-cmp",
-    optional = true,
-    opts = function(_, opts)
-      opts.sorting = opts.sorting or {}
-      opts.sorting.comparators = opts.sorting.comparators or {}
-      table.insert(opts.sorting.comparators, 1, require "clangd_extensions.cmp_scores")
-    end,
-  },
-
-  {
     "mfussenegger/nvim-dap",
-    optional = true,
     dependencies = {
       -- Ensure C/C++ debugger is installed
       "mason-org/mason.nvim",
-      optional = true,
       opts = { ensure_installed = { "codelldb" } },
     },
     opts = function()
@@ -158,5 +146,15 @@ return {
         }
       end
     end,
+  },
+
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        c = { "clang-format" },
+        cpp = { "clang-format" },
+      },
+    },
   },
 }

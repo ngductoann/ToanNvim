@@ -29,31 +29,6 @@ M.has_git = vim.fn.executable "git" == 1
 
 M.lazy_file_events = { "BufReadPost", "BufNewFile", "BufWritePre" }
 
-function M.get_diagnostics()
-  local buf = vim.api.nvim_get_current_buf()
-  local count = {}
-  count.Error = 0
-  count.Warn = 0
-  count.Info = 0
-  count.Hint = 0
-
-  -- Count the number of diagnostics for the buffer
-  local diagnostics = vim.diagnostic.get(buf)
-  for _, diag in ipairs(diagnostics) do
-    -- Initialize count for each severity if not already present
-    if diag.severity == vim.diagnostic.severity.ERROR then
-      count.Error = count.Error + 1
-    elseif diag.severity == vim.diagnostic.severity.WARN then
-      count.Warn = count.Warn + 1
-    elseif diag.severity == vim.diagnostic.severity.INFO then
-      count.Info = count.Info + 1
-    elseif diag.severity == vim.diagnostic.severity.HINT then
-      count.Hint = count.Hint + 1
-    end
-  end
-  return count
-end
-
 function M.is_win()
   return vim.uv.os_uname().sysname:find "Windows" ~= nil
 end
@@ -119,7 +94,7 @@ end
 
 function M.deprecate(old, new)
   M.warn(("`%s` is deprecated. Please use `%s` instead"):format(old, new), {
-    title = "LazyVim",
+    title = "utils",
     once = true,
     stacktrace = true,
     stacklevel = 6,
@@ -258,7 +233,7 @@ end
 for _, level in ipairs { "info", "warn", "error" } do
   M[level] = function(msg, opts)
     opts = opts or {}
-    opts.title = opts.title or "LazyVim"
+    opts.title = opts.title or "utils"
     return LazyUtil[level](msg, opts)
   end
 end

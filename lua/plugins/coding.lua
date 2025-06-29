@@ -1,9 +1,5 @@
 return {
   {
-    "hrsh7th/nvim-cmp",
-    enabled = false,
-  },
-  {
     "saghen/blink.cmp",
     version = "*",
     build = "cargo build --release",

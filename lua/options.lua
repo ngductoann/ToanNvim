@@ -57,9 +57,9 @@ opt.confirm = true -- Confirm to save changes before exiting modified buffer
 opt.cursorline = true -- Enable highlighting of the current line
 opt.expandtab = true -- Use spaces instead of tabs
 opt.fillchars = {
-  foldopen = "",
-  foldclose = "",
-  fold = " ",
+  foldopen = "-",
+  foldclose = "+",
+  fold = "-",
   foldsep = " ",
   diff = "╱",
   eob = " ",
@@ -95,7 +95,6 @@ opt.spelllang = { "en" }
 opt.splitbelow = true -- Put new windows below current
 opt.splitkeep = "screen"
 opt.splitright = true -- Put new windows right of current
--- opt.statuscolumn = [[%!v:lua.require'snacks.statuscolumn'.get()]]
 opt.tabstop = 2 -- Number of spaces tabs count for
 opt.termguicolors = true -- True color support
 opt.timeoutlen = 300 -- Lower than default (1000) to quickly trigger which-key
@@ -107,15 +106,32 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 opt.wrap = false -- Disable line wrap
 
--- if vim.fn.has "nvim-0.10" == 1 then
---   opt.smoothscroll = true
---   opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
---   opt.foldmethod = "expr"
---   opt.foldtext = ""
--- else
---   opt.foldmethod = "indent"
---   opt.foldtext = "v:lua.require'lazyvim.util'.ui.foldtext()"
--- end
-
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
+
+vim.o.foldmethod = "indent" -- default
+vim.o.foldtext = ""
+local augroup = vim.api.nvim_create_augroup("rockyz.fold", { clear = true })
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = augroup,
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client:supports_method "textDocument/foldingRange" then
+      vim.wo.foldmethod = "expr"
+      vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
+      vim.w.lsp_folding_enabled = true
+    end
+  end,
+})
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  callback = function(args)
+    if vim.bo[args.buf].filetype ~= "bigfile" and not vim.w.lsp_folding_enabled then
+      local has_parser, _ = pcall(vim.treesitter.get_parser, args.buf)
+      if has_parser then
+        vim.wo.foldmethod = "expr"
+        vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+      end
+    end
+  end,
+})

@@ -12,7 +12,6 @@ return {
   end,
   {
     "stevearc/conform.nvim",
-    optional = true,
     opts = {
       formatters = {
         ["markdown-toc"] = {
@@ -45,7 +44,6 @@ return {
   },
   {
     "nvimtools/none-ls.nvim",
-    optional = true,
     opts = function(_, opts)
       local nls = require "null-ls"
       opts.sources = vim.list_extend(opts.sources or {}, {
@@ -55,7 +53,6 @@ return {
   },
   {
     "mfussenegger/nvim-lint",
-    optional = true,
     opts = {
       linters_by_ft = {
         markdown = { "markdownlint-cli2" },

@@ -29,5 +29,7 @@ require "options"
 require "commands"
 vim.schedule(function()
   require "mappings"
+  require("configs.winbar").setup()
 end)
-vim.cmd [[colorscheme base16-brewer]]
+
+vim.cmd [[colorscheme base16-irblack]]

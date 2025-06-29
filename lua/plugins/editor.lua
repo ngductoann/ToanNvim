@@ -1,10 +1,5 @@
 return {
   {
-    "nvim-telescope/telescope.nvim",
-    enabled = false,
-  },
-
-  {
     "ibhagwan/fzf-lua",
     cmd = "FzfLua",
     init = require("configs.editor.fzf-lua").init,
@@ -125,5 +120,4 @@ return {
     init = require("configs.editor.navic").init,
     opts = require("configs.editor.navic").opts,
   },
-
 }

@@ -32,4 +32,9 @@ return {
   },
   { "MTDL9/vim-log-highlighting", ft = "log" },
   { "RRethy/base16-nvim" },
+  { "Mofiqul/vscode.nvim" },
+  {
+    "xiyaowong/transparent.nvim",
+    cmd = { "TransparentEnable", "TransparentDisable", "TransparentToggle" },
+  },
 }

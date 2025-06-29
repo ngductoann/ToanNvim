@@ -1,4 +1,4 @@
-local icons = require("icons")
+local icons = require "icons"
 
 return {
   opts = {
@@ -16,10 +16,10 @@ return {
       end
       local diag_str = ""
       if errors > 0 then
-        diag_str = diag_str .. icons.diagnostics.Error .. errors .. " "
+        diag_str = diag_str .. icons.minimal.diagnostics.Error .. errors .. " "
       end
       if warnings > 0 then
-        diag_str = diag_str .. icons.diagnostics.Warn .. warnings .. " "
+        diag_str = diag_str .. icons.minimal.diagnostics.Warn .. warnings .. " "
       end
       return "|" .. require("mini.tabline").default_format(buf_id, label) .. diag_str .. suffix
     end,

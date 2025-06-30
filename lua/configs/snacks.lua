@@ -61,6 +61,8 @@ return {
     },
     { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications", },
     { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
+    { "<leader>db", function() Snacks.bufdelete() end, desc = "Delete Buffers" },
+    { "<leader>bo", function() Snacks.bufdelete.other() end, desc = "Delete Other Buffers" },
     -- git
     { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (hunks)" },
     { "<leader>gS", function() Snacks.picker.git_stash() end, desc = "Git Stash" },

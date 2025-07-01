@@ -30,4 +30,12 @@ return {
 
   -- ui components
   { "MunifTanjim/nui.nvim", lazy = true },
+
+  {
+    "nvim-focus/focus.nvim",
+    version = false,
+    cmd = "FocusToggle",
+    opts = require("configs.ui.focus").opts,
+    keys = require("configs.ui.focus").keys,
+  },
 }

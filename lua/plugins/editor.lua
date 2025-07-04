@@ -19,12 +19,12 @@ return {
   -- Flash enhances the built-in search functionality by showing labels
   -- at the end of each match, letting you quickly jump to a specific
   -- location.
-  {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    opts = require("configs.editor.flash").opts,
-    keys = require("configs.editor.flash").keys,
-  },
+  -- {
+  --   "folke/flash.nvim",
+  --   event = "VeryLazy",
+  --   opts = require("configs.editor.flash").opts,
+  --   keys = require("configs.editor.flash").keys,
+  -- },
 
   -- which-key helps you remember key bindings by showing a popup
   -- with the active keybindings of the command you started typing.
@@ -63,7 +63,7 @@ return {
 
   {
     "ahmedkhalf/project.nvim",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
     opts = require("configs.editor.projects").opts,
     config = require("configs.editor.projects").config,
   },
@@ -84,7 +84,6 @@ return {
 
   {
     "s1n7ax/nvim-window-picker",
-    event = "VeryLazy",
     opts = require("configs.editor.nvim-window-picker").opts,
     keys = require("configs.editor.nvim-window-picker").keys,
   },
@@ -99,22 +98,6 @@ return {
   },
 
   {
-    "stevearc/oil.nvim",
-    dependencies = {
-      { "nvim-tree/nvim-web-devicons" },
-      { "SirZenith/oil-vcs-status" },
-      {
-        "JezerM/oil-lsp-diagnostics.nvim",
-        dependencies = { "stevearc/oil.nvim" },
-        opts = {},
-      },
-    },
-    opts = require("configs.editor.oil").opts,
-    config = require("configs.editor.oil").config,
-    keys = require("configs.editor.oil").keys,
-  },
-
-  {
     "SmiteshP/nvim-navic",
     lazy = true,
     init = require("configs.editor.navic").init,
@@ -123,7 +106,6 @@ return {
 
   {
     "nvim-tree/nvim-tree.lua",
-    event = "VeryLazy",
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     opts = require("configs.editor.nvim-tree").opts,
     keys = require("configs.editor.nvim-tree").keys,

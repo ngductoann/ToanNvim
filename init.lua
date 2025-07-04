@@ -32,4 +32,4 @@ vim.schedule(function()
   require("configs.winbar").setup()
 end)
 
-vim.cmd [[colorscheme base16-irblack]]
+vim.cmd [[colorscheme base16-3024]]

@@ -174,7 +174,7 @@ return {
         end
         return t
       end
-      opts = vim.tbl_deep_extend("force", fix(require "fzf-lua.profiles.fzf-native"), opts)
+      opts = vim.tbl_deep_extend("force", fix(require "fzf-lua.profiles.fzf-vim"), opts)
       opts[1] = nil
     end
     require("fzf-lua").setup(opts)

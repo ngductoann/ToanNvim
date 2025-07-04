@@ -30,15 +30,13 @@ return {
       { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
     },
   },
+
   { "MTDL9/vim-log-highlighting", ft = "log" },
-  { "RRethy/base16-nvim" },
+
   {
     "xiyaowong/transparent.nvim",
     cmd = { "TransparentEnable", "TransparentDisable", "TransparentToggle" },
   },
-  {
-    "chentoast/marks.nvim",
-    event = "VeryLazy",
-    opts = {},
-  },
+
+  { "RRethy/base16-nvim", priority = 1000, event = "VeryLazy" },
 }

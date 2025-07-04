@@ -16,16 +16,6 @@ return {
     keys = require("configs.editor.grug-far").keys,
   },
 
-  -- Flash enhances the built-in search functionality by showing labels
-  -- at the end of each match, letting you quickly jump to a specific
-  -- location.
-  -- {
-  --   "folke/flash.nvim",
-  --   event = "VeryLazy",
-  --   opts = require("configs.editor.flash").opts,
-  --   keys = require("configs.editor.flash").keys,
-  -- },
-
   -- which-key helps you remember key bindings by showing a popup
   -- with the active keybindings of the command you started typing.
   {
@@ -63,7 +53,6 @@ return {
 
   {
     "ahmedkhalf/project.nvim",
-    -- event = "VeryLazy",
     opts = require("configs.editor.projects").opts,
     config = require("configs.editor.projects").config,
   },
@@ -73,13 +62,6 @@ return {
     ft = "http",
     opts = require("configs.editor.kulala").opts,
     keys = require("configs.editor.kulala").keys,
-  },
-
-  {
-    "stevearc/aerial.nvim",
-    event = utils.lazy_file_events,
-    opts = require("configs.editor.aerial").opts,
-    keys = require("configs.editor.aerial").keys,
   },
 
   {
@@ -147,5 +129,11 @@ return {
     },
     opts = require("configs.editor.overseer").opts,
     keys = require("configs.editor.overseer").keys,
+  },
+
+  {
+    "chentoast/marks.nvim",
+    event = "VeryLazy",
+    opts = {},
   },
 }

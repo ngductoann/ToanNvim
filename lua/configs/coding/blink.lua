@@ -1,4 +1,4 @@
-local menu_cols = { { "label" }, { "kind_icon" }, { "kind" } }
+local menu_cols = { { "kind_icon" }, { "label" }, { "kind" } }
 
 local components = {
   kind_icon = {

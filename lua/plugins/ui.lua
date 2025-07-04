@@ -10,7 +10,8 @@ return {
   -- icons
   {
     "echasnovski/mini.icons",
-    lazy = true,
+    -- lazy = true,
+    event = "VeryLazy",
     init = require("configs.ui.mini_icons").init,
     opts = require("configs.ui.mini_icons").opts,
   },
@@ -31,11 +32,14 @@ return {
   -- ui components
   { "MunifTanjim/nui.nvim", lazy = true },
 
+  -- snacks
   {
-    "nvim-focus/focus.nvim",
-    version = false,
-    cmd = "FocusToggle",
-    opts = require("configs.ui.focus").opts,
-    keys = require("configs.ui.focus").keys,
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    init = require("configs.ui.snacks").init,
+    opts = require("configs.ui.snacks").opts,
+    config = require("configs.ui.snacks").config,
+    keys = require("configs.ui.snacks").keys,
   },
 }

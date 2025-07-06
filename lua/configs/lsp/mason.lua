@@ -5,6 +5,7 @@ return {
       "shfmt",
       "codespell",
       "shellcheck",
+      "prettier",
     },
   },
   ---@param opts MasonSettings | {ensure_installed: string[]}

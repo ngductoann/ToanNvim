@@ -1,8 +1,4 @@
--- This file is automatically loaded by lazyvim.config.init
-
--- DO NOT USE `utils.safe_keymap_set` IN YOUR OWN CONFIG!!
--- use `vim.keymap.set` instead
-local map = utils.safe_keymap_set
+local map = vim.keymap.set
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })

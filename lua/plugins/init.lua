@@ -1,7 +1,5 @@
 return {
-  { lazy = true, "nvim-lua/plenary.nvim" },
-
-  { "nvim-tree/nvim-web-devicons", opts = {} },
+  "nvim-lua/plenary.nvim",
 
   {
     "dstein64/vim-startuptime",
@@ -38,5 +36,5 @@ return {
     cmd = { "TransparentEnable", "TransparentDisable", "TransparentToggle" },
   },
 
-  { "RRethy/base16-nvim", priority = 1000, event = "VeryLazy" },
+  { "RRethy/base16-nvim", priority = 1000 },
 }

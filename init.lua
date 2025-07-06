@@ -31,5 +31,5 @@ require "commands"
 vim.schedule(function()
   require "mappings"
   require("configs.winbar").setup()
-  vim.cmd [[colorscheme base16-brewer]]
+  vim.cmd [[colorscheme base16-onedark-dark]]
 end)

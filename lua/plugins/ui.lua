@@ -22,6 +22,7 @@ return {
     event = "VeryLazy",
     opts = require("configs.ui.mini_statusline").opts,
   },
+
   {
     "echasnovski/mini.tabline",
     version = false,

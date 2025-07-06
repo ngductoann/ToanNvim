@@ -32,6 +32,9 @@ return {
       nls.builtins.diagnostics.fish,
       nls.builtins.formatting.stylua,
       nls.builtins.formatting.shfmt,
+      nls.builtins.code_actions.gitsigns,
+      nls.builtins.completion.luasnip,
+      nls.builtins.diagnostics.codespell
     })
   end,
 }

@@ -19,7 +19,7 @@ local components = {
 
 local menu = {
   scrollbar = false,
-  border = "none",
+  border = "single", -- can be 'none', 'single', 'double', 'rounded', 'solid', 'shadow'
   draw = {
     padding = { 1, 1 },
     columns = menu_cols,

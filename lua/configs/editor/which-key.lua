@@ -6,7 +6,8 @@ return {
       {
         mode = { "n", "v" },
         { "<leader><tab>", group = "tabs" },
-        { "<leader>o", group = "overseer" },
+        { "<leader>O", group = "overseer" },
+        { "<leader>o", group = "Obsidian" },
         { "<leader>c", group = "code" },
         { "<leader>d", group = "debug" },
         { "<leader>dp", group = "profiler" },

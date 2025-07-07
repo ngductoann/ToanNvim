@@ -1,4 +1,6 @@
 return {
+  { "nvim-telescope/telescope.nvim", enabled = false, optional = true },
+
   {
     "ibhagwan/fzf-lua",
     cmd = "FzfLua",
@@ -135,5 +137,31 @@ return {
     "chentoast/marks.nvim",
     event = "VeryLazy",
     opts = {},
+  },
+
+  {
+    "RRethy/vim-illuminate",
+    event = utils.lazy_file_events,
+    opts = require("configs.editor.vim-illuminate").opts,
+    config = require("configs.editor.vim-illuminate").config,
+    keys = require("configs.editor.vim-illuminate").keys,
+  },
+
+  {
+    "epwalsh/obsidian.nvim",
+    version = "*", -- recommended, use latest release instead of latest commit
+    lazy = true,
+    ft = "markdown",
+    cond = function()
+      local buf_path = vim.api.nvim_buf_get_name(0)
+      local home = "/home/toan"
+      local vault_path = home .. "/d/take-note/Obsidian/Personal/"
+      return buf_path:find(vault_path, 1, true)
+    end,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    opts = require("configs.editor.obsidian-nvim").opts,
+    config = require("configs.editor.obsidian-nvim").config,
   },
 }

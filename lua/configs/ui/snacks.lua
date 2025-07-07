@@ -6,7 +6,7 @@ return {
         char = "╎",
       },
     },
-    input = { enabled = false },
+    input = { enabled = true },
     notifier = { enabled = true },
     scope = { enabled = true },
     scroll = { enabled = true },
@@ -15,27 +15,27 @@ return {
     words = { enabled = true },
     explorer = { enabled = false },
     quickfile = { enabled = true },
-    dashboard = {
-      preset = {
-        pick = function(cmd, opts)
-          return utils.pick(cmd, opts)()
-        end,
-        -- stylua: ignore
-        ---@type snacks.dashboard.Item[]
-        keys = {
-          { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
-          { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-          { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
-          { icon = " ", key = "p", desc = "Projects", action = require("configs.editor.projects").pick },
-          { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
-          { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
-          { icon = " ", key = "s", desc = "Restore Session", section = "session" },
-          { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
-          { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
-          { icon = " ", key = "q", desc = "Quit", action = ":qa" },
-        },
-      },
-    },
+    -- dashboard = {
+    --   preset = {
+    --     pick = function(cmd, opts)
+    --       return utils.pick(cmd, opts)()
+    --     end,
+    --     -- stylua: ignore
+    --     ---@type snacks.dashboard.Item[]
+    --     keys = {
+    --       { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+    --       { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+    --       { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+    --       { icon = " ", key = "p", desc = "Projects", action = require("configs.editor.projects").pick },
+    --       { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+    --       { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+    --       { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+    --       { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
+    --       { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+    --       { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+    --     },
+    --   },
+    -- },
   },
   config = function(_, opts)
     local notify = vim.notify
@@ -66,8 +66,8 @@ return {
     -- git
     { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (hunks)" },
     { "<leader>gS", function() Snacks.picker.git_stash() end, desc = "Git Stash" },
-    { "<leader>gg", function() Snacks.lazygit({ cwd = utils.root.git() }) end, desc =  "Lazygit (Root Dir)" },
-    { "<leader>gG", function() Snacks.lazygit() end, desc =  "Lazygit (cwd)" },
+    -- { "<leader>gg", function() Snacks.lazygit({ cwd = utils.root.git() }) end, desc =  "Lazygit (Root Dir)" },
+    -- { "<leader>gG", function() Snacks.lazygit() end, desc =  "Lazygit (cwd)" },
     { "<leader>gb", function() Snacks.picker.git_log_line() end, desc =  "Git Blame Line" },
     { "<leader>gf", function() Snacks.picker.git_log_line() end, desc =  "Git Current File History" },
     { "<leader>gL", function() Snacks.picker.git_log() end, desc =  "Git Log" },

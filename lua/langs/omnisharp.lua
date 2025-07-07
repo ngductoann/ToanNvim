@@ -13,6 +13,7 @@ return {
   },
   {
     "nvimtools/none-ls.nvim",
+    optional = true,
     opts = function(_, opts)
       local nls = require "null-ls"
       opts.sources = opts.sources or {}
@@ -21,6 +22,7 @@ return {
   },
   {
     "stevearc/conform.nvim",
+    optional = true,
     opts = {
       formatters_by_ft = {
         cs = { "csharpier" },
@@ -67,6 +69,7 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
+    optional = true,
     opts = function()
       local dap = require "dap"
       if not dap.adapters["netcoredbg"] then
@@ -99,6 +102,7 @@ return {
   },
   {
     "nvim-neotest/neotest",
+    optional = true,
     dependencies = {
       "Issafalcon/neotest-dotnet",
     },

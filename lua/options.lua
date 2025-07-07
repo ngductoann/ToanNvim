@@ -1,3 +1,10 @@
+require "nvchad.options"
+
+-- add yours here!
+
+-- local o = vim.o
+-- o.cursorlineopt ='both' -- to enable cursorline!
+
 -- LazyVim auto format
 vim.g.autoformat = true
 
@@ -19,7 +26,7 @@ vim.g.lazyvim_cmp = "auto"
 
 -- if the completion engine supports the AI source,
 -- use that instead of inline suggestions
-vim.g.ai_cmp = true
+-- vim.g.ai_cmp = true
 
 -- LazyVim root dir detection
 -- Each entry can be:

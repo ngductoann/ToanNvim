@@ -1,7 +1,4 @@
 return {
-  -- git signs highlights text that has changed since the list
-  -- git commit, and also lets you interactively stage & unstage
-  -- hunks in a commit.
   {
     "lewis6991/gitsigns.nvim",
     event = utils.lazy_file_events,
@@ -18,5 +15,29 @@ return {
     cmd = { "DiffviewOpen", "DiffviewFileHistory" },
     opts = require("configs.git.diffview").opts,
     keys = require("configs.git.diffview").keys,
+  },
+
+  {
+    "NeogitOrg/neogit",
+    cond = utils.has_git,
+    cmd = "Neogit",
+    keys = {
+      { "<leader>gg", "<cmd>Neogit<CR>", desc = "Neogit" },
+    },
+    -- See: https://github.com/TimUntersberger/neogit#configuration
+    opts = {
+      disable_signs = false,
+      disable_context_highlighting = false,
+      disable_commit_confirmation = false,
+      signs = {
+        section = { ">", "v" },
+        item = { ">", "v" },
+        hunk = { "", "" },
+      },
+      integrations = {
+        diffview = true,
+        fzf_lua = true,
+      },
+    },
   },
 }

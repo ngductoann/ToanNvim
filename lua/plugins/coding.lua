@@ -1,6 +1,13 @@
 return {
   {
+    "hrsh7th/nvim-cmp",
+    optional = true,
+    enabled = false,
+  },
+
+  {
     "folke/lazydev.nvim",
+    enabled = true,
     ft = "lua",
     cmd = "LazyDev",
     opts = {
@@ -60,13 +67,6 @@ return {
     event = "VeryLazy",
     opts = require("configs.coding.mini_pairs").opts,
     config = require("configs.coding.mini_pairs").config,
-  },
-
-  -- comments
-  {
-    "folke/ts-comments.nvim",
-    event = "VeryLazy",
-    opts = {},
   },
 
   -- Better text-objects

@@ -1,6 +1,5 @@
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
-vim.g.ai_cmp = true -- enable AI completion by default
 
 -- bootstrap plugins & lazy.nvim
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim" -- path where its going to be installed

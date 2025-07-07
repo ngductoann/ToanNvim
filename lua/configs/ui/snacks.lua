@@ -74,6 +74,10 @@ return {
     -- search
     { "<leader>si", function() Snacks.picker.icons() end, desc = "Icons" },
     { "<leader>su", function() Snacks.picker.undo() end, desc = "Undotree" },
+    { "<leader>fT", function() Snacks.terminal() end,  desc = "Terminal (cwd)" },
+    { "<leader>ft", function() Snacks.terminal(nil, { cwd = utils.root() }) end, desc = "Terminal (Root Dir)"},
+    { "<c-/>", function() Snacks.terminal(nil, { cwd = utils.root() }) end, desc = "Terminal (Root Dir)"},
+    { "<c-_>", function() Snacks.terminal(nil, { cwd = utils.root() }) end, desc = "which_key_ignore" },
   },
   init = function()
     vim.api.nvim_create_autocmd("User", {

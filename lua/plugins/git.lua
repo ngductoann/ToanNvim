@@ -1,7 +1,7 @@
 return {
   {
     "lewis6991/gitsigns.nvim",
-    event = utils.lazy_file_events,
+    event = "User FilePost",
     opts = require("configs.git.gitsign").opts,
   },
   {

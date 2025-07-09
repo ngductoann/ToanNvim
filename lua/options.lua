@@ -1,10 +1,3 @@
-require "nvchad.options"
-
--- add yours here!
-
--- local o = vim.o
--- o.cursorlineopt ='both' -- to enable cursorline!
-
 -- LazyVim auto format
 vim.g.autoformat = true
 

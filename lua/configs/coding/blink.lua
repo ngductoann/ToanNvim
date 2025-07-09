@@ -1,3 +1,32 @@
+local menu_cols = { { "kind_icon" }, { "label" }, { "kind" } }
+
+local components = {
+  kind_icon = {
+    text = function(ctx)
+      local icons = require("icons").kinds
+      local icon = (icons[ctx.kind] or "󰈚")
+
+      return vim.trim(icon)
+    end,
+  },
+
+  kind = {
+    highlight = function(ctx)
+      return ctx.kind
+    end,
+  },
+}
+
+local menu = {
+  scrollbar = false,
+  border = "single", -- can be 'none', 'single', 'double', 'rounded', 'solid', 'shadow'
+  draw = {
+    padding = { 1, 1 },
+    columns = menu_cols,
+    components = components,
+  },
+}
+
 return {
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
@@ -24,7 +53,7 @@ return {
           enabled = true,
         },
       },
-      menu = require("nvchad.blink").menu,
+      menu = menu,
       documentation = {
         auto_show = true,
         auto_show_delay_ms = 200,
@@ -97,7 +126,6 @@ return {
     -- Unset custom prop to pass blink.cmp validation
     opts.sources.compat = nil
 
-    dofile(vim.g.base46_cache .. "blink")
     require("blink.cmp").setup(opts)
   end,
 }

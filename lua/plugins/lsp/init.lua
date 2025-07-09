@@ -1,7 +1,8 @@
 return {
   -- lspconfig
   {
-    "neovim/nvim-lspconfig",
+   "neovim/nvim-lspconfig",
+   event = "User FilePost",
     dependencies = {
       "mason.nvim",
       { "mason-org/mason-lspconfig.nvim", config = function() end },

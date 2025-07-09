@@ -45,8 +45,8 @@ return {
       -- Use bullet marks for non-checkbox lists.
       bullets = { char = "•", hl_group = "ObsidianBullet" },
       external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
-      -- Replace the above with this if you don't have a patched font:
       -- external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
+      -- Replace the above with this if you don't have a patched font:
       reference_text = { hl_group = "ObsidianRefText" },
       highlight_text = { hl_group = "ObsidianHighlightText" },
       tags = { hl_group = "ObsidianTag" },
@@ -72,18 +72,18 @@ return {
 
     obsidian.setup(opts)
 
-    vim.keymap.set("n", "<leader>oc", obsidian.util.toggle_checkbox, { desc = "Obsidian Toggle Checkbox" })
-    vim.keymap.set("n", "<leader>oo", "<cmd>ObsidianOpen<CR>", { desc = "Open in Obsidian App" })
-    vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>", { desc = "Show Obsidian Backlinks" })
-    vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianLinks<CR>", { desc = "Show Obsidian Links" })
-    vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>", { desc = "Create New Note" })
-    vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "Search Obsidian" })
-    vim.keymap.set("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick Switch" })
-    vim.keymap.set("n", "<leader>op", "<cmd>ObsidianPasteImg<CR>", { desc = "Paste Image" })
-    vim.keymap.set("n", "<leader>odd", ":!rm '%:p'<CR>:bd<CR>", { desc = "Delete File", silent = true })
+    vim.keymap.set("n", "<leader>Oc", obsidian.util.toggle_checkbox, { desc = "Obsidian Toggle Checkbox" })
+    vim.keymap.set("n", "<leader>Oo", "<cmd>ObsidianOpen<CR>", { desc = "Open in Obsidian App" })
+    vim.keymap.set("n", "<leader>Ob", "<cmd>ObsidianBacklinks<CR>", { desc = "Show Obsidian Backlinks" })
+    vim.keymap.set("n", "<leader>Ol", "<cmd>ObsidianLinks<CR>", { desc = "Show Obsidian Links" })
+    vim.keymap.set("n", "<leader>On", "<cmd>ObsidianNew<CR>", { desc = "Create New Note" })
+    vim.keymap.set("n", "<leader>Os", "<cmd>ObsidianSearch<CR>", { desc = "Search Obsidian" })
+    vim.keymap.set("n", "<leader>Oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick Switch" })
+    vim.keymap.set("n", "<leader>Op", "<cmd>ObsidianPasteImg<CR>", { desc = "Paste Image" })
+    vim.keymap.set("n", "<leader>Odd", ":!rm '%:p'<CR>:bd<CR>", { desc = "Delete File", silent = true })
 
     -- Inserts template and formats first title by removing date and file name chars
-    vim.keymap.set("n", "<leader>ot", function()
+    vim.keymap.set("n", "<leader>Ot", function()
       vim.cmd "ObsidianTemplate note"
       local LINE_NUM = 13
       local line = vim.fn.getline(LINE_NUM)

@@ -1,4 +1,3 @@
-vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
 vim.g.mapleader = ","
 
 -- bootstrap lazy and all plugins
@@ -17,20 +16,10 @@ _G.utils = require "utils"
 
 -- load plugins
 require("lazy").setup({
-  {
-    "NvChad/NvChad",
-    lazy = false,
-    branch = "v2.5",
-    import = "nvchad.plugins",
-  },
-
   { import = "plugins" },
   { import = "langs" },
 }, lazy_config)
 
--- load theme
-dofile(vim.g.base46_cache .. "defaults")
-dofile(vim.g.base46_cache .. "statusline")
 
 require "options"
 require "autocmds"
@@ -38,4 +27,5 @@ require "autocmds"
 vim.schedule(function()
   require "mappings"
   require("configs.winbar").setup()
+  vim.cmd [[colorscheme base16-irblack]]
 end)

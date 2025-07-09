@@ -1,5 +1,9 @@
 return {
-  { "nvim-telescope/telescope.nvim", enabled = false, optional = true },
+  {
+    "nvim-tree/nvim-tree.lua",
+    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    opts = require("configs.editor.nvim-tree").opts,
+  },
 
   {
     "ibhagwan/fzf-lua",
@@ -137,14 +141,6 @@ return {
     "chentoast/marks.nvim",
     event = "VeryLazy",
     opts = {},
-  },
-
-  {
-    "RRethy/vim-illuminate",
-    event = utils.lazy_file_events,
-    opts = require("configs.editor.vim-illuminate").opts,
-    config = require("configs.editor.vim-illuminate").config,
-    keys = require("configs.editor.vim-illuminate").keys,
   },
 
   {

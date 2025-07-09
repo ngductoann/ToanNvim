@@ -4,6 +4,29 @@ return {
   opts = function()
     ---@class PluginLspOpts
     local ret = {
+      -- options for vim.diagnostic.config()
+      ---@type vim.diagnostic.Opts
+      diagnostics = {
+        underline = true,
+        update_in_insert = false,
+        virtual_text = {
+          spacing = 4,
+          source = "if_many",
+          prefix = "●",
+          -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+          -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+          -- prefix = "icons",
+        },
+        severity_sort = true,
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+            [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+            [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+            [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
+          },
+        },
+      },
       -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
       -- Be aware that you also will need to properly configure your LSP server to
       -- provide the inlay hints.
@@ -96,53 +119,55 @@ return {
     utils.lsp.setup()
     utils.lsp.on_dynamic_capability(require("plugins.lsp.keymaps").on_attach)
 
-    require("nvchad.lsp").diagnostic_config()
-    dofile(vim.g.base46_cache .. "lsp")
+    if vim.fn.has "nvim-0.10" == 1 then
+      -- inlay hints
+      if opts.inlay_hints.enabled then
+        utils.lsp.on_supports_method("textDocument/inlayHint", function(client, buffer)
+          if
+            vim.api.nvim_buf_is_valid(buffer)
+            and vim.bo[buffer].buftype == ""
+            and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+          then
+            vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
+          end
+        end)
+      end
 
-    -- inlay hints
-    if opts.inlay_hints.enabled then
-      utils.lsp.on_supports_method("textDocument/inlayHint", function(client, buffer)
-        if
-          vim.api.nvim_buf_is_valid(buffer)
-          and vim.bo[buffer].buftype == ""
-          and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
-        then
-          vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
+      -- code lens
+      if opts.codelens.enabled and vim.lsp.codelens then
+        utils.lsp.on_supports_method("textDocument/codeLens", function(client, buffer)
+          vim.lsp.codelens.refresh()
+          vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+            buffer = buffer,
+            callback = vim.lsp.codelens.refresh,
+          })
+        end)
+      end
+    end
+
+    if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
+      opts.diagnostics.virtual_text.prefix = vim.fn.has "nvim-0.10.0" == 0 and "●"
+        or function(diagnostic)
+          local icons_diagnostics = icons.diagnostics
+          for d, icon in pairs(icons_diagnostics) do
+            if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+              return icon
+            end
+          end
         end
-      end)
     end
 
-    -- code lens
-    if opts.codelens.enabled and vim.lsp.codelens then
-      utils.lsp.on_supports_method("textDocument/codeLens", function(client, buffer)
-        vim.lsp.codelens.refresh()
-        vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-          buffer = buffer,
-          callback = vim.lsp.codelens.refresh,
-        })
-      end)
-    end
+    vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
     local servers = opts.servers
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-    capabilities.textDocument.completion.completionItem = {
-      documentationFormat = { "markdown", "plaintext" },
-      snippetSupport = true,
-      preselectSupport = true,
-      insertReplaceSupport = true,
-      labelDetailsSupport = true,
-      deprecatedSupport = true,
-      commitCharactersSupport = true,
-      tagSupport = { valueSet = { 1 } },
-      resolveSupport = {
-        properties = {
-          "documentation",
-          "detail",
-          "additionalTextEdits",
-        },
-      },
-    }
+      local has_blink, blink = pcall(require, "blink.cmp")
+      local capabilities = vim.tbl_deep_extend(
+        "force",
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        has_blink and blink.get_lsp_capabilities() or {},
+        opts.capabilities or {}
+      )
 
     local function setup(server)
       local server_opts = vim.tbl_deep_extend("force", {

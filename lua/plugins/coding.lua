@@ -1,11 +1,5 @@
 return {
   {
-    "hrsh7th/nvim-cmp",
-    optional = true,
-    enabled = false,
-  },
-
-  {
     "folke/lazydev.nvim",
     enabled = true,
     ft = "lua",

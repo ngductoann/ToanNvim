@@ -1,5 +1,6 @@
 return {
   defaults = { lazy = true },
+  colorscheme = "vscode",
 
   ui = {
     icons = {

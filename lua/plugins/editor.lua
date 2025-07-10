@@ -110,13 +110,6 @@ return {
   },
 
   {
-    "echasnovski/mini.hipatterns",
-    event = utils.lazy_file_events,
-    opts = require("configs.editor.mini-hipatterns").opts,
-    config = require("configs.editor.mini-hipatterns").config,
-  },
-
-  {
     "stevearc/overseer.nvim",
     cmd = {
       "OverseerOpen",
@@ -145,7 +138,7 @@ return {
 
   {
     "epwalsh/obsidian.nvim",
-    version = "*", -- recommended, use latest release instead of latest commit
+    version = "*",
     lazy = true,
     ft = "markdown",
     cond = function()
@@ -159,5 +152,14 @@ return {
     },
     opts = require("configs.editor.obsidian-nvim").opts,
     config = require("configs.editor.obsidian-nvim").config,
+  },
+
+  {
+
+    "RRethy/vim-illuminate",
+    event = utils.lazy_file_events,
+    opts = require("configs.editor.vim-illuminate").opts,
+    config = require("configs.editor.vim-illuminate").config,
+    keys = require("configs.editor.vim-illuminate").keys,
   },
 }

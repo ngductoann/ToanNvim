@@ -73,7 +73,28 @@ return {
   {
     "rcarriga/nvim-dap-ui",
     dependencies = { "nvim-neotest/nvim-nio" },
-    opts = {},
+    opts = {
+      layouts = {
+        {
+          elements = {
+            "scopes",
+            "breakpoints",
+            "stacks",
+            "watches",
+          },
+          size = 40, -- number (columns) or float (0.25 = 25%)
+          position = "left", -- or "right"
+        },
+        {
+          elements = {
+            "repl",
+            "console",
+          },
+          size = 10, -- number (rows) or float
+          position = "bottom", -- or "top"
+        },
+      },
+    },
     config = function(_, opts)
       local dap = require "dap"
       local dapui = require "dapui"

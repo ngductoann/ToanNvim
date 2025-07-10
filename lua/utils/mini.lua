@@ -1,4 +1,5 @@
 local M = {}
+local icons = require "icons"
 
 -- taken from MiniExtra.gen_ai_spec.buffer
 function M.ai_buffer(ai_type)
@@ -111,6 +112,55 @@ function M.pairs(opts)
     end
     return open(pair, neigh_pattern)
   end
+end
+
+local function stbufnr()
+  return vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0)
+end
+
+M.get_lsp_info = function()
+  local lsp = vim.lsp
+  if not lsp then
+    return ""
+  end
+
+  local bufnr = stbufnr()
+  local columns = vim.o.columns
+
+  for _, client in ipairs(lsp.get_clients()) do
+    if client.attached_buffers[bufnr] then
+      return columns > 100 and ("  LSP ~ " .. client.name .. " ") or "  LSP "
+    end
+  end
+
+  return ""
+end
+
+M.get_diagnostics_info = function()
+  local lsp = vim.lsp
+  local diagnostic = vim.diagnostic
+  if not lsp or not diagnostic then
+    return ""
+  end
+
+  local bufnr = stbufnr()
+  local icons_diag = icons.minimal.diagnostics
+  local severities = {
+    { key = "Error", severity = diagnostic.severity.ERROR },
+    { key = "Warn", severity = diagnostic.severity.WARN },
+    { key = "Hint", severity = diagnostic.severity.HINT },
+    { key = "Info", severity = diagnostic.severity.INFO },
+  }
+
+  local result = {}
+  for _, s in ipairs(severities) do
+    local count = #diagnostic.get(bufnr, { severity = s.severity })
+    if count > 0 then
+      table.insert(result, icons_diag[s.key] .. tostring(count))
+    end
+  end
+
+  return vim.trim(table.concat(result, " "))
 end
 
 return M

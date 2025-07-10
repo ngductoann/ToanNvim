@@ -106,6 +106,7 @@ end
 ---@param user_opts? table User configuration options
 function M.setup(user_opts)
   local opts = vim.tbl_deep_extend("force", DEFAULT_OPTS, user_opts or {})
+  vim.api.nvim_set_hl(0, "WinBar", { bold = false })
 
   -- Create a debounce timer
   local debounce_timer = nil
@@ -127,6 +128,7 @@ function M.setup(user_opts)
   vim.api.nvim_create_autocmd({
     "CursorMoved",
     "CursorMovedI",
+    "ModeChanged",
   }, {
     group = group,
     callback = debounced_update,
@@ -139,6 +141,16 @@ function M.setup(user_opts)
     "FileType",
     "LspAttach",
     "LspDetach",
+    "WinEnter",
+    "BufWritePost",
+    "BufEnter",
+    "SessionLoadPost",
+    "FileChangedShellPost",
+    "VimResized",
+    "Filetype",
+    "CursorMoved",
+    "CursorMovedI",
+    "ModeChanged",
   }, {
     group = group,
     callback = function()

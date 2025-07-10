@@ -7,7 +7,6 @@ return {
     opts = {
       library = {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-        { path = "snacks.nvim", words = { "Snacks" } },
         { path = "lazy.nvim", words = { "utils" } },
       },
     },
@@ -55,33 +54,11 @@ return {
     config = require("configs.coding.blink").config,
   },
 
-  -- auto pairs
-  {
-    "echasnovski/mini.pairs",
-    event = "VeryLazy",
-    opts = require("configs.coding.mini_pairs").opts,
-    config = require("configs.coding.mini_pairs").config,
-  },
-
-  -- Better text-objects
-  {
-    "echasnovski/mini.ai",
-    event = "VeryLazy",
-    opts = require("configs.coding.mini_ai").opts,
-    config = require("configs.coding.mini_ai").config,
-  },
-
   {
     "danymat/neogen",
     dependencies = utils.has "mini.snippets" and { "mini.snippets" } or {},
     cmd = "Neogen",
     opts = require("configs.coding.neogen").opts,
     keys = require("configs.coding.neogen").keys,
-  },
-
-  {
-    "echasnovski/mini.surround",
-    opts = require("configs.coding.mini_surround").opts,
-    keys = require("configs.coding.mini_surround").keys,
   },
 }

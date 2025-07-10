@@ -9,7 +9,6 @@ if not vim.uv.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
-
 local lazy_config = require "configs.lazy"
 
 _G.utils = require "utils"
@@ -20,12 +19,10 @@ require("lazy").setup({
   { import = "langs" },
 }, lazy_config)
 
-
 require "options"
 require "autocmds"
 
 vim.schedule(function()
   require "mappings"
   require("configs.winbar").setup()
-  vim.cmd [[colorscheme base16-irblack]]
 end)

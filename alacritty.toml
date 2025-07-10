@@ -7,24 +7,16 @@
 #"~/.config/alacritty/keybindings.toml",
 #]
 
-[terminal.shell]
-program               = "/usr/bin/zsh"
-args                  = [ "--login", ]
-
-#working_directory     = "None"
-#live_config_reload    = true
-#ipc_socket            = true
-
 [env]
 TERM                  = "xterm-256color"
 
 [window]
 #dimensions            = { columns = 0, lines = 0 }
 #position              = { x = 0, y = 0 }
-padding               = { x = 4, y = 0 }
+padding               = { x = 0, y = 0 }
 dynamic_padding       = true
 # decorations           = "None"
-opacity               = 0.85
+opacity               = 1.0
 blur                  = true
 # startup_mode          = "Windowed"
 title                 = "Alacritty"
@@ -40,11 +32,11 @@ history               = 65535
 #multiplier            = 3
 
 [font]
-normal                = { family = "MesloLGS Nerd Font Mono", style = "Regular" }
-bold                  = { family = "MesloLGS Nerd Font Mono", style = "Bold" }
-italic                = { family = "MesloLGS Nerd Font Mono", style = "Italic" }
-bold_italic           = { family = "MesloLGS Nerd Font Mono", style = "Bold Italic" }
-size                  = 14.0
+normal                = { family = "FiraCode Nerd Font Mono", style = "Regular" }
+bold                  = { family = "FiraCode Nerd Font Mono", style = "Bold" }
+italic                = { family = "FiraCode Nerd Font Mono", style = "Italic" }
+bold_italic           = { family = "FiraCode Nerd Font Mono", style = "Bold Italic" }
+size                  = 13.0
 offset                = { x = 0, y = 0 }
 glyph_offset          = { x = 0, y = 0 }
 builtin_box_drawing   = true
@@ -158,7 +150,7 @@ blinking              = "Off"
 #osc52                 = "OnlyCopy"
 
 [mouse]
-hide_when_typing      = true
+hide_when_typing      = false
 bindings = [
   { mouse = "Middle", action = "PasteSelection" },
 ]
@@ -179,6 +171,7 @@ bindings = [
 
 [keyboard]
 bindings = [
+  { key = "F11", action = "ToggleFullscreen" },
   { key = "V",        mods = "Control|Shift", action = "Paste" },
   { key = "C",        mods = "Control|Shift", action = "Copy" },
   { key = "Paste",                            action = "Paste" },

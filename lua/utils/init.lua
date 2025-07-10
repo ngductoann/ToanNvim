@@ -19,7 +19,7 @@ setmetatable(M, {
       return M.deprecated[k]()
     end
     ---@diagnostic disable-next-line: no-unknown
-    t[k] = require("util." .. k)
+    t[k] = require("utils." .. k)
     M.deprecated.decorate(k, t[k])
     return t[k]
   end,

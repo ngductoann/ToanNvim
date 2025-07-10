@@ -45,6 +45,11 @@ vim.g.deprecation_warnings = false
 -- You can disable this for a buffer by setting `vim.b.trouble_lualine = false`
 vim.g.trouble_lualine = true
 
+-- vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+-- vim.g.loaded_node_provider = 0
+
 local opt = vim.opt
 
 opt.autowrite = true -- Enable auto write

@@ -8,7 +8,6 @@ M.root = require "utils.root"
 M.mini = require "utils.mini"
 M.pick = require "utils.pick"
 M.extras = require "utils.extras"
-M.format = require "utils.format"
 
 setmetatable(M, {
   __index = function(t, k)

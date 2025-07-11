@@ -1,5 +1,13 @@
 local map = vim.keymap.set
 
+-- Move Lines
+map("n", "<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
+map("n", "<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Up" })
+map("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
+map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
+map("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Down" })
+map("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
+
 -- windows
 map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
 map("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
@@ -9,12 +17,7 @@ map("n", "<Esc>", "<cmd>noh<CR>", { desc = "general clear highlights" })
 
 map("n", "<C-s>", "<cmd>w<CR>", { desc = "general save file" })
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "general copy whole file" })
-
-map("n", "<leader>un", "<cmd>set nu!<CR>", { desc = "toggle line number" })
-map("n", "<leader>uN", "<cmd>set rnu!<CR>", { desc = "toggle relative number" })
-map("n", "<leader>uh", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" })
-
-map({ "n", "x" }, "<leader>fm", function()
+map({ "n", "x" }, "<leader>cf", function()
   require("conform").format { lsp_fallback = true }
 end, { desc = "general format file" })
 
@@ -93,11 +96,6 @@ end, { desc = "Quickfix List" })
 
 map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
-
--- formatting
-map({ "n", "v" }, "<leader>cf", function()
-  utils.format { force = true }
-end, { desc = "Format" })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)

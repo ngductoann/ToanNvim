@@ -34,12 +34,6 @@ return {
   },
 
   {
-    "echasnovski/mini.move",
-    lazy = false,
-    version = false,
-  },
-
-  {
     "echasnovski/mini.comment",
     lazy = false,
     version = false,
@@ -67,15 +61,18 @@ return {
     dependencies = {
       {
         "echasnovski/mini.diff",
-        -- cond = utils.has_git,
+        cond = utils.has_git,
         version = false,
         opts = mini_config.mini_diff.opts,
       },
 
       {
         "echasnovski/mini-git",
-        -- cond = utils.has_git,
+        cond = utils.has_git,
         version = false,
+        config = function()
+          require("mini.git").setup {}
+        end,
       },
     },
     event = "VeryLazy",

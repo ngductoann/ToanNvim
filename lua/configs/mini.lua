@@ -669,10 +669,8 @@ return {
           end
 
           local lsp_and_diagnostics_str = table.concat(lsp_and_diagnostics, " | ")
-          local git_output = MiniStatusline.section_git { trunc_width = 40 }
-          local icon, branch_with_status = git_output:match "^(.-)%s+(.+)$"
-          local clean_branch = branch_with_status and branch_with_status:gsub("%s*%b()", ""):gsub("%s+$", "") or ""
-          local git = vim.trim(icon .. " " .. clean_branch)
+          local git = MiniStatusline.section_git { trunc_width = 40 }
+          git = git:match "^[^%s]+%s+[^%s]+" or ""
           local diff = MiniStatusline.section_diff { trunc_width = 40 }
 
           local function format_diff_with_icons(diff_string)

@@ -1,46 +1,27 @@
-local icons = require "icons"
-
 return {
   opts = function()
     ---@class PluginLspOpts
     local ret = {
-      -- options for vim.diagnostic.config()
-      ---@type vim.diagnostic.Opts
       diagnostics = {
         underline = true,
         update_in_insert = false,
         virtual_text = {
           spacing = 4,
           source = "if_many",
-          prefix = "●",
+          prefix = "W:",
           -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
           -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
           -- prefix = "icons",
         },
         severity_sort = true,
-        signs = {
-          text = {
-            [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
-            [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
-            [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
-            [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
-          },
-        },
       },
-      -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
-      -- Be aware that you also will need to properly configure your LSP server to
-      -- provide the inlay hints.
       inlay_hints = {
         enabled = true,
         exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
       },
-      -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
-      -- Be aware that you also will need to properly configure your LSP server to
-      -- provide the code lenses.
       codelens = {
         enabled = false,
       },
-      -- add any global capabilities here
       capabilities = {
         workspace = {
           fileOperations = {
@@ -49,9 +30,6 @@ return {
           },
         },
       },
-      -- options for vim.lsp.buf.format
-      -- `bufnr` and `filter` is handled by the utils formatter,
-      -- but can be also overridden when specified
       format = {
         formatting_options = nil,
         timeout_ms = nil,
@@ -60,11 +38,6 @@ return {
       ---@type lspconfig.options
       servers = {
         lua_ls = {
-          -- mason = false, -- set to false if you don't want this server to be installed with mason
-          -- Use this to add any additional keymaps
-          -- for specific lsp servers
-          -- ---@type LazyKeysSpec[]
-          -- keys = {},
           settings = {
             Lua = {
               workspace = {
@@ -91,9 +64,6 @@ return {
           },
         },
       },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
       setup = {
         -- example to setup with typescript.nvim
         -- tsserver = function(_, opts)
@@ -108,9 +78,6 @@ return {
   end,
   ---@param opts PluginLspOpts
   config = function(_, opts)
-    -- setup autoformat
-    utils.format.register(utils.lsp.formatter())
-
     -- setup keymaps
     utils.lsp.on_attach(function(client, buffer)
       require("plugins.lsp.keymaps").on_attach(client, buffer)
@@ -160,14 +127,14 @@ return {
     vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
     local servers = opts.servers
-      local has_blink, blink = pcall(require, "blink.cmp")
-      local capabilities = vim.tbl_deep_extend(
-        "force",
-        {},
-        vim.lsp.protocol.make_client_capabilities(),
-        has_blink and blink.get_lsp_capabilities() or {},
-        opts.capabilities or {}
-      )
+    local has_blink, blink = pcall(require, "blink.cmp")
+    local capabilities = vim.tbl_deep_extend(
+      "force",
+      {},
+      vim.lsp.protocol.make_client_capabilities(),
+      has_blink and blink.get_lsp_capabilities() or {},
+      opts.capabilities or {}
+    )
 
     local function setup(server)
       local server_opts = vim.tbl_deep_extend("force", {

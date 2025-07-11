@@ -1,19 +1,5 @@
 local M = {}
 
-function M.setup(_, opts)
-  for _, key in ipairs { "format_on_save", "format_after_save" } do
-    if opts[key] then
-      local msg = "Don't set `opts.%s` for `conform.nvim`.\n**utils** will use the conform formatter automatically"
-      utils.warn(msg:format(key))
-      opts[key] = nil
-    end
-  end
-  if opts.format then
-    utils.warn "**conform.nvim** `opts.format` is deprecated. Please use `opts.default_format_opts` instead."
-  end
-  require("conform").setup(opts)
-end
-
 local supported = {
   "css",
   "graphql",
@@ -67,6 +53,7 @@ return {
     "stevearc/conform.nvim",
     dependencies = { "mason.nvim" },
     lazy = true,
+    event = "BufWritePre",
     cmd = "ConformInfo",
     keys = {
       {
@@ -78,36 +65,7 @@ return {
         desc = "Format Injected Langs",
       },
     },
-    init = function()
-      -- Install the conform formatter on VeryLazy
-      utils.on_very_lazy(function()
-        utils.format.register {
-          name = "conform.nvim",
-          priority = 100,
-          primary = true,
-          format = function(buf)
-            require("conform").format { bufnr = buf }
-          end,
-          sources = function(buf)
-            local ret = require("conform").list_formatters(buf)
-            ---@param v conform.FormatterInfo
-            return vim.tbl_map(function(v)
-              return v.name
-            end, ret)
-          end,
-        }
-      end)
-    end,
     opts = function()
-      local plugin = require("lazy.core.config").plugins["conform.nvim"]
-      if plugin.config ~= M.setup then
-        utils.error({
-          "Don't set `plugin.config` for `conform.nvim`.\n",
-          "This will break **utils** formatting.\n",
-          "Please refer to the docs at https://www.lazyvim.org/plugins/formatting",
-        }, { title = "utils" })
-      end
-      ---@type conform.setupOpts
       local opts = {
         default_format_opts = {
           timeout_ms = 3000,
@@ -119,6 +77,11 @@ return {
           lua = { "stylua" },
           fish = { "fish_indent" },
           sh = { "shfmt" },
+        },
+        format_on_save = {
+          -- These options will be passed to conform.format()
+          timeout_ms = 500,
+          lsp_fallback = true,
         },
         -- The options you set here will be merged with the builtin formatters.
         -- You can also define any custom formatters here.
@@ -153,7 +116,5 @@ return {
       }
       return opts
     end,
-
-    config = M.setup,
   },
 }

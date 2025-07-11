@@ -1,23 +1,23 @@
 return {
   -- {
   --   "Mofiqul/vscode.nvim",
-  --   lazy = true,
-  --   priority = 1000,
-  --   config = function()
-  --     require("configs.colorscheme").vscode.config()
-  --     -- vim.cmd.colorscheme "vscode"
-  --   end,
-  -- },
-  --
-  -- {
-  --   "RRethy/base16-nvim",
   --   lazy = false,
   --   priority = 1000,
   --   config = function()
-  --     require("configs.colorscheme").base16.config()
-  --     vim.cmd.colorscheme "base16-onedark-dark"
+  --     require("configs.colorscheme").vscode.config()
+  --     vim.cmd.colorscheme "vscode"
   --   end,
   -- },
+
+  {
+    "RRethy/base16-nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("configs.colorscheme").base16.config()
+      vim.cmd.colorscheme "base16-onedark-dark"
+    end,
+  },
 
   -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
   {
@@ -36,5 +36,17 @@ return {
     event = "User FilePost",
     opts = require("configs.ui.indent-blankline").opts,
     config = require("configs.ui.indent-blankline").config,
+  },
+
+  {
+    "kevinhwang91/nvim-ufo",
+    event = { "BufReadPost", "BufNewFile" },
+    dependencies = {
+      "kevinhwang91/promise-async",
+      "nvim-treesitter/nvim-treesitter",
+      "neovim/nvim-lspconfig",
+    },
+    opts = require("configs.ui.nvim-ufo").opts,
+    keys = require("configs.ui.nvim-ufo").keys,
   },
 }

@@ -398,7 +398,7 @@ return {
       -- better deal with markdown code blocks
       markdown = true,
     },
-    config = function(opts)
+    config = function(_, opts)
       utils.mini.pairs(opts)
     end,
   },
@@ -427,7 +427,7 @@ return {
         },
       }
     end,
-    config = function(opts)
+    config = function(_, opts)
       require("mini.ai").setup(opts)
       utils.on_load("which-key.nvim", function()
         vim.schedule(function()
@@ -479,7 +479,7 @@ return {
         },
       }
     end,
-    config = function(opts)
+    config = function(_, opts)
       if type(opts.tailwind) == "table" and opts.tailwind.enabled then
         -- reset hl groups when colorscheme changes
         vim.api.nvim_create_autocmd("ColorScheme", {
@@ -669,8 +669,10 @@ return {
           end
 
           local lsp_and_diagnostics_str = table.concat(lsp_and_diagnostics, " | ")
-          local git = MiniStatusline.section_git { trunc_width = 40 }
-          git = git:match "^[^%s]+%s+[^%s]+" or ""
+          local git_output = MiniStatusline.section_git { trunc_width = 40 }
+          local icon, branch_with_status = git_output:match "^(.-)%s+(.+)$"
+          local clean_branch = branch_with_status and branch_with_status:gsub("%s*%b()", ""):gsub("%s+$", "") or ""
+          local git = vim.trim(icon .. " " .. clean_branch)
           local diff = MiniStatusline.section_diff { trunc_width = 40 }
 
           local function format_diff_with_icons(diff_string)
@@ -701,9 +703,10 @@ return {
             end
           end
 
+          diff = format_diff_with_icons(diff)
           return MiniStatusline.combine_groups {
             { hl = mode_hl, strings = { mode:upper() } },
-            { hl = "MiniStatuslineFilename", strings = { git, format_diff_with_icons(diff) } },
+            { hl = "MiniStatuslineFilename", strings = { git, diff } },
             "%<", -- Mark general truncate point
             { hl = "MiniStatuslineNavic", strings = { filename } },
             "%=", -- End left alignment
@@ -759,5 +762,76 @@ return {
         return result .. diag_str .. suffix
       end,
     },
+  },
+  mini_animate = {
+    opts = function()
+      local opts = {}
+      -- don't use animate when scrolling with the mouse
+      local mouse_scrolled = false
+      for _, scroll in ipairs { "Up", "Down" } do
+        local key = "<ScrollWheel" .. scroll .. ">"
+        vim.keymap.set({ "", "i" }, key, function()
+          mouse_scrolled = true
+          return key
+        end, { expr = true })
+      end
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "grug-far",
+        callback = function()
+          vim.b.minianimate_disable = true
+        end,
+      })
+
+      local animate = require "mini.animate"
+      return vim.tbl_deep_extend("force", opts, {
+        resize = {
+          timing = animate.gen_timing.linear { duration = 50, unit = "total" },
+        },
+        scroll = {
+          timing = animate.gen_timing.linear { duration = 150, unit = "total" },
+          subscroll = animate.gen_subscroll.equal {
+            predicate = function(total_scroll)
+              if mouse_scrolled then
+                mouse_scrolled = false
+                return false
+              end
+              return total_scroll > 1
+            end,
+          },
+        },
+      })
+    end,
+  },
+
+  mini_snippets = {
+    opts = function()
+      ---@diagnostic disable-next-line: duplicate-set-field
+      utils.cmp.actions.snippet_stop = function() end -- by design, <esc> should not stop the session!
+      ---@diagnostic disable-next-line: duplicate-set-field
+      utils.cmp.actions.snippet_forward = function()
+        return jump "next"
+      end
+
+      local mini_snippets = require "mini.snippets"
+      return {
+        snippets = { mini_snippets.gen_loader.from_lang() },
+
+        -- Following the behavior of vim.snippets,
+        -- the intended usage of <esc> is to be able to temporarily exit into normal mode for quick edits.
+        --
+        -- If you'd rather stop the snippet on <esc>, activate the line below in your own config:
+        -- mappings = { stop = "<esc>" }, -- <c-c> by default, see :h MiniSnippets-session
+
+        expand = {
+          select = function(snippets, insert)
+            -- Close completion window on snippet select - vim.ui.select
+            -- Needed to remove virtual text for fzf-lua and telescope, but not for mini.pick...
+            local select = expand_select_override or MiniSnippets.default_select
+            select(snippets, insert)
+          end,
+        },
+      }
+    end,
   },
 }

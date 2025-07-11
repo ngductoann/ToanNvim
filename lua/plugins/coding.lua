@@ -13,23 +13,32 @@ return {
   },
 
   -- add luasnip
-  {
-    "L3MON4D3/LuaSnip",
-    lazy = true,
-    build = (not utils.is_win())
-        and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
-      or nil,
-    dependencies = {
-      {
-        "rafamadriz/friendly-snippets",
-        config = function()
-          require("luasnip.loaders.from_vscode").lazy_load()
-          require("luasnip.loaders.from_vscode").lazy_load { paths = { vim.fn.stdpath "config" .. "/snippets" } }
-        end,
-      },
-    },
-    opts = require("configs.coding.luasnip").opts,
-  },
+  -- {
+  --   "L3MON4D3/LuaSnip",
+  --   lazy = true,
+  --   build = (not utils.is_win())
+  --       and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
+  --     or nil,
+  --   dependencies = {
+  --     {
+  --       "rafamadriz/friendly-snippets",
+  --       config = function()
+  --         require("luasnip.loaders.from_vscode").lazy_load()
+  --         require("luasnip.loaders.from_vscode").lazy_load { paths = { vim.fn.stdpath "config" .. "/snippets" } }
+  --       end,
+  --     },
+  --   },
+  --   opts = require("configs.coding.luasnip").opts,
+  -- },
+
+  -- {
+  --   "saghen/blink.cmp",
+  --   opts = {
+  --     snippets = {
+  --       preset = "luasnip",
+  --     },
+  --   },
+  -- },
 
   {
     "saghen/blink.cmp",
@@ -41,7 +50,7 @@ return {
       "sources.default",
     },
     dependencies = {
-      "rafamadriz/friendly-snippets",
+      -- "rafamadriz/friendly-snippets",
       -- add blink.compat to dependencies
       {
         "saghen/blink.compat",

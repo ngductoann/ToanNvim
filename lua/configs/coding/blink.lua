@@ -1,16 +1,43 @@
-local menu_cols = { { "kind_icon" }, { "label" }, { "kind" } }
+-- local menu_cols = { { "kind_icon" }, { "label" }, { "kind" } }
+--
+-- local components = {
+--   kind_icon = {
+--     text = function(ctx)
+--       local icons = require("icons").kinds
+--       local icon = (icons[ctx.kind] or "󰈚")
+--
+--       return vim.trim(icon)
+--     end,
+--   },
+--
+--   kind = {
+--     highlight = function(ctx)
+--       return ctx.kind
+--     end,
+--   },
+-- }
+--
+-- local menu = {
+--   scrollbar = false,
+--   border = "single", -- can be 'none', 'single', 'double', 'rounded', 'solid', 'shadow'
+--   draw = {
+--     padding = { 1, 1 },
+--     columns = menu_cols,
+--     components = components,
+--   },
+-- }
+
+-- Chỉ hiển thị text (label) và kind dưới dạng chữ
+local menu_cols = {
+  { "label" }, -- tên gợi ý (abbr)
+  { "kind" }, -- loại: Function, Variable...
+}
 
 local components = {
-  kind_icon = {
-    text = function(ctx)
-      local icons = require("icons").kinds
-      local icon = (icons[ctx.kind] or "󰈚")
-
-      return vim.trim(icon)
-    end,
-  },
-
   kind = {
+    text = function(ctx)
+      return ctx.kind or "" -- hiển thị text như "Function", "Variable"
+    end,
     highlight = function(ctx)
       return ctx.kind
     end,
@@ -19,7 +46,7 @@ local components = {
 
 local menu = {
   scrollbar = false,
-  border = "single", -- can be 'none', 'single', 'double', 'rounded', 'solid', 'shadow'
+  border = "single",
   draw = {
     padding = { 1, 1 },
     columns = menu_cols,
@@ -32,7 +59,6 @@ return {
   ---@type blink.cmp.Config
   opts = {
     snippets = {
-      preset = "luasnip",
       expand = function(snippet, _)
         return utils.cmp.expand(snippet)
       end,
@@ -41,7 +67,7 @@ return {
       -- sets the fallback highlight groups to nvim-cmp's highlight groups
       -- useful for when your theme doesn't support blink.cmp
       -- will be removed in a future release, assuming themes add support
-      use_nvim_cmp_as_default = false,
+      use_nvim_cmp_as_default = true,
       -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
       -- adjusts spacing to ensure icons are aligned
       nerd_font_variant = "normal",

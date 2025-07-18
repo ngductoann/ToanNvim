@@ -1,3 +1,21 @@
+local picker = {
+  name = "fzf",
+  commands = {
+    files = "files",
+  },
+
+  open = function(command, opts)
+    opts = opts or {}
+    if opts.cmd == nil and command == "git_files" and opts.show_untracked then
+      opts.cmd = "git ls-files --exclude-standard --cached --others"
+    end
+    return require("fzf-lua")[command](opts)
+  end,
+}
+if not utils.pick.register(picker) then
+  return {}
+end
+
 return {
 
   -- search/replace in multiple files
@@ -14,7 +32,6 @@ return {
   {
     "folke/flash.nvim",
     event = "VeryLazy",
-    specs = require("configs.editor.flash").specs,
     ---@type Flash.Config
     opts = require("configs.editor.flash").opts,
     keys = require("configs.editor.flash").keys,
@@ -62,12 +79,14 @@ return {
     enabled = false,
   },
 
-  -- {
-  --   "SmiteshP/nvim-navic",
-  --   lazy = true,
-  --   init = require("configs.editor.navic").init,
-  --   opts = require("configs.editor.navic").opts,
-  -- },
+  {
+    "ibhagwan/fzf-lua",
+    cmd = "FzfLua",
+    init = require("configs.editor.fzf-lua").init,
+    opts = require("configs.editor.fzf-lua").opts,
+    config = require("configs.editor.fzf-lua").config,
+    keys = require("configs.editor.fzf-lua").keys,
+  },
 
   {
     "stevearc/overseer.nvim",

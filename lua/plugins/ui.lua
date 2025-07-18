@@ -1,23 +1,3 @@
----@type LazyPicker
-local picker = {
-  name = "snacks",
-  commands = {
-    files = "files",
-    live_grep = "grep",
-    oldfiles = "recent",
-  },
-
-  ---@param source string
-  ---@param opts? snacks.picker.Config
-  open = function(source, opts)
-    return Snacks.picker.pick(source, opts)
-  end,
-}
-
-if not utils.pick.register(picker) then
-  return {}
-end
-
 return {
   { "lukas-reineke/indent-blankline.nvim", enabled = false }, -- Disabled because it conflicts with the new UI
   -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.

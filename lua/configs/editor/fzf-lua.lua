@@ -1,21 +1,3 @@
-local picker = {
-  name = "fzf",
-  commands = {
-    files = "files",
-  },
-
-  open = function(command, opts)
-    opts = opts or {}
-    if opts.cmd == nil and command == "git_files" and opts.show_untracked then
-      opts.cmd = "git ls-files --exclude-standard --cached --others"
-    end
-    return require("fzf-lua")[command](opts)
-  end,
-}
-if not utils.pick.register(picker) then
-  return {}
-end
-
 local function symbols_filter(entry, ctx)
   if ctx.symbols_filter == nil then
     ctx.symbols_filter = utils.config.get_kind_filter(ctx.bufnr) or false
@@ -73,6 +55,7 @@ M.opts = function(_, opts)
   return {
     "default-title",
     fzf_colors = true,
+    fzf_bin = "fzf",
     fzf_opts = {
       ["--no-scrollbar"] = true,
     },
@@ -161,6 +144,7 @@ M.opts = function(_, opts)
     },
   }
 end
+
 M.config = function(_, opts)
   if opts[1] == "default-title" then
     -- use the same prompt for all pickers for profile `default-title` and
@@ -174,9 +158,20 @@ M.config = function(_, opts)
       end
       return t
     end
-    opts = vim.tbl_deep_extend("force", fix(require "fzf-lua.profiles.fzf-native"), opts)
+
+    -- Lấy profile fzf-native và sửa prompt
+    local profile = fix(require "fzf-lua.profiles.fzf-native")
+
+    -- Ép lại dùng fzf binary
+    profile.fzf_bin = "fzf"
+
+    -- Gộp lại với opts từ bên ngoài
+    opts = vim.tbl_deep_extend("force", profile, opts)
+
+    -- Xoá phần tử đầu tiên là "default-title"
     opts[1] = nil
   end
+
   require("fzf-lua").setup(opts)
 end
 

@@ -62,12 +62,12 @@ return {
     enabled = false,
   },
 
-  {
-    "SmiteshP/nvim-navic",
-    lazy = true,
-    init = require("configs.editor.navic").init,
-    opts = require("configs.editor.navic").opts,
-  },
+  -- {
+  --   "SmiteshP/nvim-navic",
+  --   lazy = true,
+  --   init = require("configs.editor.navic").init,
+  --   opts = require("configs.editor.navic").opts,
+  -- },
 
   {
     "stevearc/overseer.nvim",

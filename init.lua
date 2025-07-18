@@ -38,5 +38,5 @@ require "autocmds"
 
 vim.schedule(function()
   require "mappings"
-  require("configs.winbar").setup()
+  -- require("configs.winbar").setup()
 end)

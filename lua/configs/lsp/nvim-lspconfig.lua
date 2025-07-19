@@ -7,7 +7,7 @@ M.opts = function()
       exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
     },
     codelens = {
-      enabled = true,
+      enabled = false,
     },
     capabilities = {
       workspace = {

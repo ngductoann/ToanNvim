@@ -97,7 +97,7 @@ local function update_winbar(opts)
   local icon = get_icon(opts)
 
   vim.opt_local.winbar = table.concat({
-    icon .. path,
+    " " .. icon .. path,
     navic_location,
   }, navic_sep)
 end

@@ -17,24 +17,18 @@ if not utils.pick.register(picker) then
 end
 
 return {
-
-  -- search/replace in multiple files
   {
-    "MagicDuck/grug-far.nvim",
-    opts = { headerMaxWidth = 80 },
-    cmd = "GrugFar",
-    keys = require("configs.editor.grug-far").keys,
+    "nvim-telescope/telescope.nvim",
+    enabled = false,
   },
 
-  -- Flash enhances the built-in search functionality by showing labels
-  -- at the end of each match, letting you quickly jump to a specific
-  -- location.
   {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    ---@type Flash.Config
-    opts = require("configs.editor.flash").opts,
-    keys = require("configs.editor.flash").keys,
+    "ibhagwan/fzf-lua",
+    cmd = "FzfLua",
+    init = require("configs.editor.fzf-lua").init,
+    opts = require("configs.editor.fzf-lua").opts,
+    config = require("configs.editor.fzf-lua").config,
+    keys = require("configs.editor.fzf-lua").keys,
   },
 
   -- which-key helps you remember key bindings by showing a popup
@@ -75,20 +69,6 @@ return {
   },
 
   {
-    "nvim-telescope/telescope.nvim",
-    enabled = false,
-  },
-
-  {
-    "ibhagwan/fzf-lua",
-    cmd = "FzfLua",
-    init = require("configs.editor.fzf-lua").init,
-    opts = require("configs.editor.fzf-lua").opts,
-    config = require("configs.editor.fzf-lua").config,
-    keys = require("configs.editor.fzf-lua").keys,
-  },
-
-  {
     "stevearc/overseer.nvim",
     cmd = {
       "OverseerOpen",
@@ -110,63 +90,63 @@ return {
   },
 
   {
-    "epwalsh/obsidian.nvim",
-    version = "*",
-    lazy = true,
-    ft = "markdown",
-    cond = function()
-      local buf_path = vim.api.nvim_buf_get_name(0)
-      local home = "/home/toan"
-      local vault_path = home .. "/d/take-note/Obsidian/Personal/"
-      return buf_path:find(vault_path, 1, true)
-    end,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
+    "NeogitOrg/neogit",
+    cmd = "Neogit",
+    keys = {
+      { "<leader>gg", "<cmd>Neogit<CR>", desc = "Neogit" },
     },
-    opts = require("configs.editor.obsidian-nvim").opts,
-    config = require("configs.editor.obsidian-nvim").config,
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- required
+      "sindrets/diffview.nvim", -- optional - Diff integration
+      "ibhagwan/fzf-lua", -- optional
+    },
   },
 
   {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-    opts = {
-      menu = {
-        width = vim.api.nvim_win_get_width(0) - 4,
-      },
-      settings = {
-        save_on_toggle = true,
-      },
+    "sindrets/diffview.nvim",
+    cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+    keys = {
+      { "<leader>gD", "<cmd>DiffviewFileHistory %<CR>", desc = "Diff File" },
+      { "<leader>gv", "<cmd>DiffviewOpen<CR>", desc = "Diff View" },
     },
-    keys = function()
-      local keys = {
-        {
-          "<leader>H",
-          function()
-            require("harpoon"):list():add()
-          end,
-          desc = "Harpoon File",
-        },
-        {
-          "<leader>h",
-          function()
-            local harpoon = require "harpoon"
-            harpoon.ui:toggle_quick_menu(harpoon:list())
-          end,
-          desc = "Harpoon Quick Menu",
+    opts = function()
+      local actions = require "diffview.actions"
+      vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+        group = vim.api.nvim_create_augroup("rafi.diffview", {}),
+        pattern = "diffview:///panels/*",
+        callback = function()
+          vim.opt_local.cursorline = true
+          vim.opt_local.winhighlight = "CursorLine:WildMenu"
+        end,
+      })
+
+      return {
+        enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
+        keymaps = {
+          view = {
+            { "n", "q", actions.close },
+            { "n", "<Tab>", actions.select_next_entry },
+            { "n", "<S-Tab>", actions.select_prev_entry },
+            { "n", "<localleader>a", actions.focus_files },
+            { "n", "<localleader>e", actions.toggle_files },
+          },
+          file_panel = {
+            { "n", "q", actions.close },
+            { "n", "h", actions.prev_entry },
+            { "n", "o", actions.focus_entry },
+            { "n", "gf", actions.goto_file },
+            { "n", "sg", actions.goto_file_split },
+            { "n", "st", actions.goto_file_tab },
+            { "n", "<C-r>", actions.refresh_files },
+            { "n", "<localleader>e", actions.toggle_files },
+          },
+          file_history_panel = {
+            { "n", "q", "<cmd>DiffviewClose<CR>" },
+            { "n", "o", actions.focus_entry },
+            { "n", "O", actions.options },
+          },
         },
       }
-
-      for i = 1, 5 do
-        table.insert(keys, {
-          "<leader>" .. i,
-          function()
-            require("harpoon"):list():select(i)
-          end,
-          desc = "Harpoon to File " .. i,
-        })
-      end
-      return keys
     end,
   },
 }

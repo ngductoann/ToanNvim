@@ -108,12 +108,9 @@ return {
     ft = java_filetypes,
     opts = function()
       local cmd = { vim.fn.exepath "jdtls" }
-      if utils.has "mason.nvim" then
-        -- local mason_registry = require "mason-registry"
-        -- local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
-        local lombok_jar = vim.fn.expand "$MASON/packages/jdtls" .. "/lombok.jar"
-        table.insert(cmd, string.format("--jvm-arg=-javaagent:%s", lombok_jar))
-      end
+      local lombok_jar = vim.fn.expand "$MASON/packages/jdtls/lombok.jar"
+      table.insert(cmd, string.format("--jvm-arg=-javaagent:%s", lombok_jar))
+
       return {
         -- How to find the root dir for a given filename. The default comes from
         -- lspconfig which provides a function specifically for java projects.
@@ -142,6 +139,18 @@ return {
           local cmd = vim.deepcopy(opts.cmd)
           if project_name then
             vim.list_extend(cmd, {
+              "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+              "-Dosgi.bundles.defaultStartLevel=4",
+              "-Declipse.product=org.eclipse.jdt.ls.core.product",
+              "-Dlog.protocol=true",
+              "-Dlog.level=ALL",
+              "-Xms1g",
+              "-Xmx2G",
+              "--add-modules=ALL-SYSTEM",
+              "--add-opens",
+              "java.base/java.util=ALL-UNNAMED",
+              "--add-opens",
+              "java.base/java.lang=ALL-UNNAMED",
               "-configuration",
               opts.jdtls_config_dir(project_name),
               "-data",
@@ -158,6 +167,53 @@ return {
         test = true,
         settings = {
           java = {
+            signatureHelp = { enabled = true },
+            contentProvider = { preferred = "fernflower" },
+            completion = {
+              favoriteStaticMembers = {
+                "org.hamcrest.MatcherAssert.assertThat",
+                "org.hamcrest.Matchers.*",
+                "org.hamcrest.CoreMatchers.*",
+                "org.junit.jupiter.api.Assertions.*",
+                "java.util.Objects.requireNonNull",
+                "java.util.Objects.requireNonNullElse",
+                "org.mockito.Mockito.*",
+              },
+              filteredTypes = {
+                "com.sun.*",
+                "io.micrometer.shaded.*",
+                "java.awt.*",
+                "jdk.*",
+                "sun.*",
+              },
+              importOrder = {
+                "java",
+                "javax",
+                "com",
+                "org",
+              },
+            },
+            sources = {
+              organizeImports = {
+                starThreshold = 9999,
+                staticStarThreshold = 9999,
+              },
+            },
+            codeGeneration = {
+              toString = {
+                template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+              },
+              useBlocks = true,
+            },
+            references = {
+              includeDecompiledSources = true,
+            },
+            eclipse = {
+              downloadSources = true,
+            },
+            maven = {
+              downloadSources = true,
+            },
             inlayHints = {
               parameterNames = {
                 enabled = "all",
@@ -171,44 +227,61 @@ return {
       -- Find the extra bundles that should be passed on the jdtls command-line
       -- if nvim-dap is enabled with java debug/test.
       local bundles = {} ---@type string[]
-      if utils.has "mason.nvim" then
-        local mason_registry = require "mason-registry"
-        if opts.dap and utils.has "nvim-dap" and mason_registry.is_installed "java-debug-adapter" then
-          -- local java_dbg_pkg = mason_registry.get_package "java-debug-adapter"
-          -- local java_dbg_path = java_dbg_pkg:get_install_path()
-          local java_dbg_path = vim.fn.expand "$MASON/packages/java-debug-adapter"
-          local jar_patterns = {
-            java_dbg_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
-          }
-          -- java-test also depends on java-debug-adapter.
-          if opts.test and mason_registry.is_installed "java-test" then
-            -- local java_test_pkg = mason_registry.get_package "java-test"
-            -- local java_test_path = java_test_pkg:get_install_path()
-            local java_test_path = vim.fn.expand "$MASON/packages/java-test"
-            vim.list_extend(jar_patterns, {
-              java_test_path .. "/extension/server/*.jar",
-            })
-          end
-          for _, jar_pattern in ipairs(jar_patterns) do
-            for _, bundle in ipairs(vim.split(vim.fn.glob(jar_pattern), "\n")) do
-              table.insert(bundles, bundle)
-            end
-          end
+      local java_dbg_path = vim.fn.expand "$MASON/packages/java-debug-adapter"
+      local jar_patterns = {
+        java_dbg_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
+      }
+      -- java-test also depends on java-debug-adapter.
+      local java_test_path = vim.fn.expand "$MASON/packages/java-test"
+      vim.list_extend(jar_patterns, {
+        java_test_path .. "/extension/server/*.jar",
+      })
+
+      for _, jar_pattern in ipairs(jar_patterns) do
+        for _, bundle in ipairs(vim.split(vim.fn.glob(jar_pattern), "\n")) do
+          table.insert(bundles, bundle)
         end
       end
+
+      local extendedClientCapabilities = require("jdtls").extendedClientCapabilities
+      extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
+
+      local capabilities = {
+        workspace = {
+          configuration = true,
+        },
+        textDocument = {
+          completion = {
+            completionItem = {
+              snippetSupport = true,
+            },
+          },
+        },
+      }
+
       local function attach_jdtls()
         local fname = vim.api.nvim_buf_get_name(0)
 
         -- Configuration can be augmented and overridden by opts.jdtls
         local config = extend_or_override({
+          flags = {
+            allow_incremental_sync = true,
+          },
           cmd = opts.full_cmd(opts),
           root_dir = opts.root_dir(fname),
           init_options = {
             bundles = bundles,
+            extendedClientCapabilities = extendedClientCapabilities,
           },
           settings = opts.settings,
+          handlers = {
+            -- By assigning an empty function, you can remove the notifications
+            -- printed to the cmd
+            ["$/progress"] = function(_, result, ctx) end,
+          },
           -- enable CMP capabilities
-          capabilities = utils.has "cmp-nvim-lsp" and require("cmp_nvim_lsp").default_capabilities() or nil,
+          -- capabilities = utils.has "cmp-nvim-lsp" and require("cmp_nvim_lsp").default_capabilities() or nil,
+          capabilities = capabilities,
         }, opts.jdtls)
 
         -- Existing server will be reused if the root_dir matches.

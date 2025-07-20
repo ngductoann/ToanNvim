@@ -49,6 +49,8 @@ M.opts = function()
           },
         },
       },
+      cssls = {},
+      html = {},
     },
     setup = {
       -- example to setup with typescript.nvim

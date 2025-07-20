@@ -63,6 +63,3 @@ opt.smoothscroll = true
 opt.foldexpr = "v:lua.require'utils'.foldexpr()"
 opt.foldmethod = "expr"
 opt.foldtext = ""
-
--- Fix markdown indentation settings
-vim.g.markdown_recommended_style = 0

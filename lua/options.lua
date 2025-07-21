@@ -1,5 +1,3 @@
-require "nvchad.options"
-
 local opt = vim.opt
 
 opt.autowrite = true -- Enable auto write
@@ -49,7 +47,6 @@ opt.spelllang = { "en" }
 opt.splitbelow = true -- Put new windows below current
 opt.splitkeep = "screen"
 opt.splitright = true -- Put new windows right of current
-opt.statuscolumn = [[%!v:lua.require'snacks.statuscolumn'.get()]]
 opt.tabstop = 2 -- Number of spaces tabs count for
 opt.termguicolors = true -- True color support
 opt.undofile = true

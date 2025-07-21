@@ -2,6 +2,27 @@ local M = {}
 M.opts = function()
   ---@class PluginLspOpts
   local ret = {
+    underline = true,
+    diagnostics = {
+      update_in_insert = false,
+      virtual_text = {
+        spacing = 4,
+        source = "if_many",
+        -- prefix = "●",
+        -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+        -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+        prefix = "icons",
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = "E",
+            [vim.diagnostic.severity.WARN] = "W",
+            [vim.diagnostic.severity.HINT] = "H",
+            [vim.diagnostic.severity.INFO] = "I",
+          },
+        },
+      },
+      severity_sort = true,
+    },
     inlay_hints = {
       enabled = true,
       exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
@@ -51,6 +72,7 @@ M.opts = function()
       },
       cssls = {},
       html = {},
+      emmet_ls = {},
     },
     setup = {
       -- example to setup with typescript.nvim
@@ -98,8 +120,26 @@ M.config = function(_, opts)
     end)
   end
 
-  dofile(vim.g.base46_cache .. "lsp")
-  require("nvchad.lsp").diagnostic_config()
+  local icon_diagnostics = {
+    Error = "E ",
+    Warn = "W ",
+    Hint = "H ",
+    Info = "I ",
+  }
+
+  if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
+    opts.diagnostics.virtual_text.prefix = vim.fn.has "nvim-0.10.0" == 0 and "●"
+      or function(diagnostic)
+        local icons = icon_diagnostics
+        for d, icon in pairs(icons) do
+          if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+            return icon
+          end
+        end
+      end
+  end
+
+  vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
   local servers = opts.servers
   local capabilities = vim.lsp.protocol.make_client_capabilities()

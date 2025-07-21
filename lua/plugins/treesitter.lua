@@ -88,7 +88,6 @@ return {
         opts.ensure_installed = utils.dedup(opts.ensure_installed)
       end
       require("nvim-treesitter.configs").setup(opts)
-      dofile(vim.g.base46_cache .. "treesitter")
     end,
   },
 

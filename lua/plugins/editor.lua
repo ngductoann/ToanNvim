@@ -12,14 +12,28 @@ local picker = {
     return require("fzf-lua")[command](opts)
   end,
 }
+
 if not utils.pick.register(picker) then
   return {}
 end
 
 return {
+  { "echasnovski/mini.bufremove", version = false },
+
   {
-    "nvim-telescope/telescope.nvim",
-    enabled = false,
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    vscode = true,
+    ---@type Flash.Config
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
   },
 
   {
@@ -42,14 +56,6 @@ return {
     keys = require("configs.editor.which-key").keys,
   },
 
-  -- git signs highlights text that has changed since the list
-  -- git commit, and also lets you interactively stage & unstage
-  -- hunks in a commit.
-  {
-    "lewis6991/gitsigns.nvim",
-    opts = require("configs.editor.gitsign").opts,
-  },
-
   -- better diagnostics list and others
   {
     "folke/trouble.nvim",
@@ -70,83 +76,22 @@ return {
 
   {
     "stevearc/overseer.nvim",
-    cmd = {
-      "OverseerOpen",
-      "OverseerClose",
-      "OverseerToggle",
-      "OverseerSaveBundle",
-      "OverseerLoadBundle",
-      "OverseerDeleteBundle",
-      "OverseerRunCmd",
-      "OverseerRun",
-      "OverseerInfo",
-      "OverseerBuild",
-      "OverseerQuickAction",
-      "OverseerTaskAction",
-      "OverseerClearCache",
-    },
+    cmd = require("configs.editor.overseer").cmd,
     opts = require("configs.editor.overseer").opts,
     keys = require("configs.editor.overseer").keys,
   },
 
   {
-    "NeogitOrg/neogit",
-    cmd = "Neogit",
-    keys = {
-      { "<leader>gg", "<cmd>Neogit<CR>", desc = "Neogit" },
-    },
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- required
-      "sindrets/diffview.nvim", -- optional - Diff integration
-      "ibhagwan/fzf-lua", -- optional
-    },
+    "nvim-tree/nvim-tree.lua",
+    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    opts = require("configs.editor.nvim-tree").opts,
   },
 
   {
-    "sindrets/diffview.nvim",
-    cmd = { "DiffviewOpen", "DiffviewFileHistory" },
-    keys = {
-      { "<leader>gD", "<cmd>DiffviewFileHistory %<CR>", desc = "Diff File" },
-      { "<leader>gv", "<cmd>DiffviewOpen<CR>", desc = "Diff View" },
-    },
-    opts = function()
-      local actions = require "diffview.actions"
-      vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
-        group = vim.api.nvim_create_augroup("rafi.diffview", {}),
-        pattern = "diffview:///panels/*",
-        callback = function()
-          vim.opt_local.cursorline = true
-          vim.opt_local.winhighlight = "CursorLine:WildMenu"
-        end,
-      })
-
-      return {
-        enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
-        keymaps = {
-          view = {
-            { "n", "q", actions.close },
-            { "n", "<Tab>", actions.select_next_entry },
-            { "n", "<S-Tab>", actions.select_prev_entry },
-            { "n", "<localleader>a", actions.focus_files },
-            { "n", "<localleader>e", actions.toggle_files },
-          },
-          file_panel = {
-            { "n", "q", actions.close },
-            { "n", "h", actions.prev_entry },
-            { "n", "o", actions.focus_entry },
-            { "n", "gf", actions.goto_file },
-            { "n", "sg", actions.goto_file_split },
-            { "n", "st", actions.goto_file_tab },
-            { "n", "<C-r>", actions.refresh_files },
-            { "n", "<localleader>e", actions.toggle_files },
-          },
-          file_history_panel = {
-            { "n", "q", "<cmd>DiffviewClose<CR>" },
-            { "n", "o", actions.focus_entry },
-            { "n", "O", actions.options },
-          },
-        },
-      }
-    end,
+    "RRethy/vim-illuminate",
+    event = "User FilePost",
+    opts = require("configs.editor.vim-illuminate").opts,
+    config = require("configs.editor.vim-illuminate").config,
+    keys = require("configs.editor.vim-illuminate").keys,
   },
 }

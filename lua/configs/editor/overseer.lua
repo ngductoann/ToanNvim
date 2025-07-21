@@ -1,4 +1,20 @@
 local M = {}
+M.cmd = {
+  "OverseerOpen",
+  "OverseerClose",
+  "OverseerToggle",
+  "OverseerSaveBundle",
+  "OverseerLoadBundle",
+  "OverseerDeleteBundle",
+  "OverseerRunCmd",
+  "OverseerRun",
+  "OverseerInfo",
+  "OverseerBuild",
+  "OverseerQuickAction",
+  "OverseerTaskAction",
+  "OverseerClearCache",
+}
+
 M.opts = {
   dap = false,
   task_list = {

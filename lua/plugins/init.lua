@@ -1,17 +1,20 @@
 return {
   {
-    "folke/snacks.nvim",
+    "RRethy/base16-nvim",
     priority = 1000,
     lazy = false,
-    opts = {},
-    config = function(_, opts)
-      local notify = vim.notify
-      require("snacks").setup(opts)
-      -- HACK: restore vim.notify after snacks setup and let noice.nvim take over
-      -- this is needed to have early notifications show up in noice history
-      if utils.has "noice.nvim" then
-        vim.notify = notify
-      end
+    config = function()
+      require("base16-colorscheme").with_config {
+        telescope = false,
+        indentblankline = true,
+        notify = true,
+        ts_rainbow = false,
+        cmp = false,
+        illuminate = true,
+        dapui = true,
+      }
+
+      vim.cmd.colorscheme "base16-onedark-dark"
     end,
   },
 

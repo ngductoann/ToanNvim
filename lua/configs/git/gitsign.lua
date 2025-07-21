@@ -1,17 +1,12 @@
 local M = {}
 
 M.opts = function()
-  Snacks.toggle({
-    name = "Git Signs",
-    get = function()
-      return require("gitsigns.config").config.signcolumn
-    end,
-    set = function(state)
-      require("gitsigns").toggle_signs(state)
-    end,
-  }):map "<leader>uG"
-
   return {
+    signs = {
+      add = { text = "+" },
+      change = { text = "~" },
+      delete = { text = "-" },
+    },
     on_attach = function(buffer)
       local gs = package.loaded.gitsigns
 

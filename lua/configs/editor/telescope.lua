@@ -80,24 +80,6 @@ return {
     { "<leader>sw", utils.pick "grep_string", mode = "v", desc = "Selection (Root Dir)" },
     { "<leader>sW", utils.pick("grep_string", { root = false }), mode = "v", desc = "Selection (cwd)" },
     { "<leader>uC", utils.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with Preview" },
-    {
-      "<leader>ss",
-      function()
-        require("telescope.builtin").lsp_document_symbols {
-          symbols = utils.config.get_kind_filter(),
-        }
-      end,
-      desc = "Goto Symbol",
-    },
-    {
-      "<leader>sS",
-      function()
-        require("telescope.builtin").lsp_dynamic_workspace_symbols {
-          symbols = utils.config.get_kind_filter(),
-        }
-      end,
-      desc = "Goto Symbol (Workspace)",
-    },
   },
   opts = function()
     local actions = require "telescope.actions"
@@ -132,7 +114,29 @@ return {
 
     dofile(vim.g.base46_cache .. "telescope")
 
-    return {
+    if not utils.has "flash.nvim" then
+      return
+    end
+    local function flash(prompt_bufnr)
+      require("flash").jump {
+        pattern = "^",
+        label = { after = { 0, 0 } },
+        search = {
+          mode = "search",
+          exclude = {
+            function(win)
+              return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "TelescopeResults"
+            end,
+          },
+        },
+        action = function(match)
+          local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+          picker:set_selection(match.pos[1] - 1)
+        end,
+      }
+    end
+
+    local opts = {
       defaults = {
         prompt_prefix = "   ",
         selection_caret = " ",
@@ -169,5 +173,11 @@ return {
         },
       },
     }
+
+    opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
+      mappings = { n = { s = flash }, i = { ["<c-s>"] = flash } },
+    })
+
+    return opts
   end,
 }

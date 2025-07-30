@@ -1,0 +1,74 @@
+# EditorConfig is awesome: https://editorconfig.org
+# top-most EditorConfig file
+root = true
+
+# Default settings
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Specific settings for Python
+[*.lua]
+indent_style = space
+indent_size = 2
+
+# Specific settings for Python
+[*.py]
+indent_style = space
+indent_size = 4
+
+# Specific settings for Java
+[*.java]
+indent_style = space
+indent_size = 4
+
+# Specific settings for JavaScript and TypeScript
+[*.{js,jsx,ts,tsx}]
+indent_style = space
+indent_size = 2
+
+# Specific settings for HTML, CSS, and related files
+[*.{html,css,scss}]
+indent_style = space
+indent_size = 2
+
+# Specific settings for JSON
+[*.json]
+indent_style = space
+indent_size = 4
+
+# Specific settings for C, C++, and similar languages
+[*.{c,cpp,h,hpp}]
+indent_style = tab
+tab_width = 4
+
+# Specific settings for Go
+[*.go]
+indent_style = tab
+tab_width = 4
+
+# Specific settings for Markdown
+[*.md]
+indent_style = space
+indent_size = 2
+
+# Specific settings for Shell scripts
+[*.sh]
+indent_style = space
+indent_size = 2
+
+# Specific settings for YAML and TOML
+[*.{yaml,yml,toml}]
+indent_style = space
+indent_size = 2
+
+# Specific settings for Makefiles
+[Makefile]
+indent_style = tab
+tab_width = 4
+
+[*.xml]
+indent_style = tab
+tab_width = 4

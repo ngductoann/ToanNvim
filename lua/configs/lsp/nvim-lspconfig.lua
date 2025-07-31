@@ -24,27 +24,16 @@ return {
           },
         },
       },
-      -- options for vim.lsp.buf.format
-      -- `bufnr` and `filter` is handled by the utils formatter,
-      -- but can be also overridden when specified
+
       format = {
         formatting_options = nil,
         timeout_ms = nil,
       },
-      -- LSP Server Settings
-      ---@type lspconfig.options
+
       servers = {
         lua_ls = {
-          -- mason = false, -- set to false if you don't want this server to be installed with mason
-          -- Use this to add any additional keymaps
-          -- for specific lsp servers
-          -- ---@type LazyKeysSpec[]
-          -- keys = {},
           settings = {
             Lua = {
-              workspace = {
-                checkThirdParty = false,
-              },
               codeLens = {
                 enable = true,
               },
@@ -62,16 +51,21 @@ return {
                 semicolon = "Disable",
                 arrayIndex = "Disable",
               },
+              runtime = { version = "LuaJIT" },
+              workspace = {
+                checkThirdParty = false,
+                library = {
+                  vim.fn.expand "$VIMRUNTIME/lua",
+                  vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
+                  vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
+                  "${3rd}/luv/library",
+                },
+              },
             },
           },
         },
-        html = {},
-        cssls = {},
-        emmet_ls = {},
       },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
+
       setup = {
         -- example to setup with typescript.nvim
         -- tsserver = function(_, opts)
@@ -94,57 +88,53 @@ return {
     utils.lsp.setup()
     utils.lsp.on_dynamic_capability(require("plugins.lsp.keymaps").on_attach)
 
-    -- diagnostics signs
-    if vim.fn.has "nvim-0.10.0" == 0 then
-      if type(opts.diagnostics.signs) ~= "boolean" then
-        for severity, icon in pairs(opts.diagnostics.signs.text) do
-          local name = vim.diagnostic.severity[severity]:lower():gsub("^%l", string.upper)
-          name = "DiagnosticSign" .. name
-          vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+    -- inlay hints
+    if opts.inlay_hints.enabled then
+      utils.lsp.on_supports_method("textDocument/inlayHint", function(client, buffer)
+        if
+          vim.api.nvim_buf_is_valid(buffer)
+          and vim.bo[buffer].buftype == ""
+          and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+        then
+          vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
         end
-      end
+      end)
     end
 
-    if vim.fn.has "nvim-0.10" == 1 then
-      -- inlay hints
-      if opts.inlay_hints.enabled then
-        utils.lsp.on_supports_method("textDocument/inlayHint", function(client, buffer)
-          if
-            vim.api.nvim_buf_is_valid(buffer)
-            and vim.bo[buffer].buftype == ""
-            and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
-          then
-            vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
-          end
-        end)
-      end
-
-      -- code lens
-      if opts.codelens.enabled and vim.lsp.codelens then
-        utils.lsp.on_supports_method("textDocument/codeLens", function(client, buffer)
-          vim.lsp.codelens.refresh()
-          vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-            buffer = buffer,
-            callback = vim.lsp.codelens.refresh,
-          })
-        end)
-      end
+    -- code lens
+    if opts.codelens.enabled and vim.lsp.codelens then
+      utils.lsp.on_supports_method("textDocument/codeLens", function(client, buffer)
+        vim.lsp.codelens.refresh()
+        vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+          buffer = buffer,
+          callback = vim.lsp.codelens.refresh,
+        })
+      end)
     end
 
     dofile(vim.g.base46_cache .. "lsp")
     require("nvchad.lsp").diagnostic_config()
 
     local servers = opts.servers
-    local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-    local has_blink, blink = pcall(require, "blink.cmp")
-    local capabilities = vim.tbl_deep_extend(
-      "force",
-      {},
-      vim.lsp.protocol.make_client_capabilities(),
-      has_cmp and cmp_nvim_lsp.default_capabilities() or {},
-      has_blink and blink.get_lsp_capabilities() or {},
-      opts.capabilities or {}
-    )
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+    capabilities.textDocument.completion.completionItem = {
+      documentationFormat = { "markdown", "plaintext" },
+      snippetSupport = true,
+      preselectSupport = true,
+      insertReplaceSupport = true,
+      labelDetailsSupport = true,
+      deprecatedSupport = true,
+      commitCharactersSupport = true,
+      tagSupport = { valueSet = { 1 } },
+      resolveSupport = {
+        properties = {
+          "documentation",
+          "detail",
+          "additionalTextEdits",
+        },
+      },
+    }
 
     local on_init = function(client, _)
       if client.supports_method "textDocument/semanticTokens" then

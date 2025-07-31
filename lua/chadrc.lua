@@ -143,7 +143,52 @@ M.cheatsheet = {
   excluded_groups = { "terminal (t)", "autopairs", "Nvim", "Opens" }, -- can add group name or with mode
 }
 
-M.mason = { pkgs = {}, skip = {} }
+M.mason = {
+  cmd = true,
+  pkgs = {
+    -- Lua
+    "lua-language-server",
+    "vim-language-server",
+    "stylua",
+
+    -- Web Development
+    "css-lsp",
+    "html-lsp",
+    "typescript-language-server",
+    "deno",
+    "vue-language-server",
+    "tailwindcss-language-server",
+    "emmet_language_server",
+    "eslint-lsp",
+
+    -- PHP
+    "intelephense",
+
+    -- C/C++
+    "clangd",
+    "clang-format",
+
+    -- CMake
+    "neocmakelsp",
+
+    -- Java
+    "jdtls",
+
+    -- Yaml
+    "yaml-language-server",
+
+    -- Python
+    "pyright",
+
+    -- Go
+    "gopls",
+
+    -- C#
+    "omnisharp",
+    -- "omnisharp-mono",
+  },
+  skip = {},
+}
 
 M.colorify = {
   enabled = true,

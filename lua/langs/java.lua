@@ -29,11 +29,29 @@ return {
       },
     }
   end,
-
+  {
+    "mason-org/mason.nvim",
+    opts = { ensure_installed = { "google-java-format" } },
+  },
   -- Add java to treesitter.
   {
     "nvim-treesitter/nvim-treesitter",
     opts = { ensure_installed = { "java" } },
+  },
+
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        java = { "google-java-format" },
+      },
+      formatters = {
+        ["google-java-format"] = {
+          prepend_args = { "--aosp" }, -- Ensure 4-space indentation
+        },
+      },
+    },
   },
 
   -- Ensure java debugger and test packages are installed.

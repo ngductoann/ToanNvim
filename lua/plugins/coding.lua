@@ -61,8 +61,8 @@ return {
     opts = require("configs.coding.mini-ai").opts,
     config = require("configs.coding.mini-ai").config,
   },
-
   {
+
     "folke/lazydev.nvim",
     ft = "lua",
     cmd = "LazyDev",

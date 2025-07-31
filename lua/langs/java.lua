@@ -136,6 +136,17 @@ return {
           local cmd = vim.deepcopy(opts.cmd)
           if project_name then
             vim.list_extend(cmd, {
+              "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+              "-Dosgi.bundles.defaultStartLevel=4",
+              "-Declipse.product=org.eclipse.jdt.ls.core.product",
+              "-Dlog.protocol=true",
+              "-Dlog.level=ALL",
+              "-Xmx1g",
+              "--add-modules=ALL-SYSTEM",
+              "--add-opens",
+              "java.base/java.util=ALL-UNNAMED",
+              "--add-opens",
+              "java.base/java.lang=ALL-UNNAMED",
               "-configuration",
               opts.jdtls_config_dir(project_name),
               "-data",
@@ -157,6 +168,49 @@ return {
                 enabled = "all",
               },
             },
+            signatureHelp = { enabled = true },
+            eclipse = {
+              downloadSources = true,
+            },
+            maven = {
+              downloadSources = true,
+            },
+            contentProvider = { preferred = "fernflower" },
+            -- Specify any completion options
+            completion = {
+              favoriteStaticMembers = {
+                "org.hamcrest.MatcherAssert.assertThat",
+                "org.hamcrest.Matchers.*",
+                "org.hamcrest.CoreMatchers.*",
+                "org.junit.jupiter.api.Assertions.*",
+                "java.util.Objects.requireNonNull",
+                "java.util.Objects.requireNonNullElse",
+                "org.mockito.Mockito.*",
+              },
+              filteredTypes = {
+                "com.sun.*",
+                "io.micrometer.shaded.*",
+                "java.awt.*",
+                "jdk.*",
+                "sun.*",
+              },
+            },
+            sources = {
+              organizeImports = {
+                starThreshold = 9999,
+                staticStarThreshold = 9999,
+              },
+            },
+            -- How code generation should act
+            codeGeneration = {
+              toString = {
+                template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+              },
+              hashCodeEquals = {
+                useJava7Objects = true,
+              },
+              useBlocks = true,
+            },
           },
         },
       }
@@ -164,6 +218,14 @@ return {
     config = function(_, opts)
       -- Find the extra bundles that should be passed on the jdtls command-line
       -- if nvim-dap is enabled with java debug/test.
+      -- current project found using the root_marker as the dir for project specific data.
+
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+      local extendedClientCapabilities = require("jdtls").extendedClientCapabilities
+      extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
+
       local bundles = {} ---@type string[]
       if utils.has "mason.nvim" then
         local mason_registry = require "mason-registry"
@@ -195,10 +257,11 @@ return {
           root_dir = opts.root_dir(fname),
           init_options = {
             bundles = bundles,
+            extendedClientCapabilities = extendedClientCapabilities,
           },
           settings = opts.settings,
           -- enable CMP capabilities
-          capabilities = utils.has "cmp-nvim-lsp" and require("cmp_nvim_lsp").default_capabilities() or nil,
+          capabilities = capabilities,
         }, opts.jdtls)
 
         -- Existing server will be reused if the root_dir matches.

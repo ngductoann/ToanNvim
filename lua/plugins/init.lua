@@ -43,7 +43,7 @@ return {
     },
     opts = {
       arg = leet_arg,
-      lang = "python",
+      lang = "java",
       storage = {
         home = "/home/toan/d/workspaces/leetcode",
         cache = "/home/toan/d/workspaces/leetcode",

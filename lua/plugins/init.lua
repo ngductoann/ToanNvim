@@ -33,7 +33,6 @@ return {
 
   {
     "kawre/leetcode.nvim",
-    build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
     cmd = "Leet",
     lazy = leet_arg ~= vim.fn.argv(0, -1),
     dependencies = {
@@ -59,8 +58,8 @@ return {
       { "<leader>lr", "<cmd>Leet run<cr>", "Letcode Run" },
       { "<leader>lC", "<cmd>Leet compile<cr>", "Letcode Compile" },
       { "<leader>ls", "<cmd>Leet submit<cr>", "Letcode Submit" },
-      { "<leader>lT", "<cmd>Leet test<cr>", "Letcode Test" },
-      { "<leader>lH", "<cmd>Leet hint<cr>", "Letcode Help" },
+      { "<leader>lt", "<cmd>Leet test<cr>", "Letcode Test" },
+      { "<leader>lh", "<cmd>Leet hint<cr>", "Letcode Help" },
     },
   },
 

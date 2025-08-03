@@ -13,6 +13,7 @@ function M.get()
   end
     -- stylua: ignore
     M._keys =  {
+      { "<leader>cl", function() Snacks.picker.lsp_config() end, desc = "Lsp Info" },
       { "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, desc = "Goto Definition", has = "definition" },
       { "gr", "<cmd>Telescope lsp_references<cr>", desc = "References", nowait = true },
       { "gI", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end, desc = "Goto Implementation" },
@@ -26,6 +27,14 @@ function M.get()
       { "<leader>cC", vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" }, has = "codeLens" },
       { "<leader>cr", require "nvchad.lsp.renamer", desc = "Rename", has = "rename" },
       { "<leader>cA", utils.lsp.action.source, desc = "Source Action", has = "codeAction" },
+      { "]]", function() Snacks.words.jump(vim.v.count1) end, has = "documentHighlight",
+        desc = "Next Reference", cond = function() return Snacks.words.is_enabled() end },
+      { "[[", function() Snacks.words.jump(-vim.v.count1) end, has = "documentHighlight",
+        desc = "Prev Reference", cond = function() return Snacks.words.is_enabled() end },
+      { "<a-n>", function() Snacks.words.jump(vim.v.count1, true) end, has = "documentHighlight",
+        desc = "Next Reference", cond = function() return Snacks.words.is_enabled() end },
+      { "<a-p>", function() Snacks.words.jump(-vim.v.count1, true) end, has = "documentHighlight",
+        desc = "Prev Reference", cond = function() return Snacks.words.is_enabled() end },
     }
 
   return M._keys

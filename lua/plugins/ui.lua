@@ -19,26 +19,34 @@ return {
   -- ui components
   { "MunifTanjim/nui.nvim", lazy = true },
 
-  {
-    "echasnovski/mini.indentscope",
-    version = false, -- wait till new 0.7.0 release to put it back on semver
-    event = "User FilePost",
-    init = require("configs.ui.mini-indentscope").init,
-    opts = require("configs.ui.mini-indentscope").opts,
-  },
+  -- {
+  --   "echasnovski/mini.indentscope",
+  --   version = false, -- wait till new 0.7.0 release to put it back on semver
+  --   event = "User FilePost",
+  --   init = require("configs.ui.mini-indentscope").init,
+  --   opts = require("configs.ui.mini-indentscope").opts,
+  -- },
 
   -- disable inent-blankline scope when mini-indentscope is enabled
   {
     "lukas-reineke/indent-blankline.nvim",
+    enabled = false,
     opts = {
       scope = { enabled = false },
     },
   },
 
+  -- {
+  --   "echasnovski/mini.animate",
+  --   event = "VeryLazy",
+  --   cond = vim.g.neovide == nil,
+  --   opts = require("configs.ui.mini-animate").opts,
+  -- },
+
   {
-    "echasnovski/mini.animate",
-    event = "VeryLazy",
-    cond = vim.g.neovide == nil,
-    opts = require("configs.ui.mini-animate").opts,
+    "snacks.nvim",
+    init = require("configs.ui.snacks").init,
+    opts = require("configs.ui.snacks").opts,
+    keys = require("configs.ui.snacks").keys,
   },
 }

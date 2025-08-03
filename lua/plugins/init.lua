@@ -64,26 +64,16 @@ return {
   },
 
   {
-    "rcarriga/nvim-notify",
-    event = "VeryLazy",
-    opts = {
-      level = 2,
-      minimum_width = 50,
-      render = "default",
-      stages = "fade_in_slide_out",
-      timeout = 3000,
-      top_down = true,
-    },
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {},
     config = function(_, opts)
-      local base46 = require("nvconfig").base46
-
-      if base46.transparency then
-        opts.background_colour = "#000000"
-      end
-
-      require("notify").setup(opts)
-
-      vim.notify = require "notify"
+      local notify = vim.notify
+      require("snacks").setup(opts)
+      -- HACK: restore vim.notify after snacks setup and let noice.nvim take over
+      -- this is needed to have early notifications show up in noice history
+      vim.notify = notify
     end,
   },
 }

@@ -57,54 +57,30 @@ return {
     keys = require("configs.editor.telescope").keys,
   },
 
-  {
-    "stevearc/dressing.nvim",
-    lazy = true,
-    init = function()
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.ui.select = function(...)
-        require("lazy").load { plugins = { "dressing.nvim" } }
-        return vim.ui.select(...)
-      end
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.ui.input = function(...)
-        require("lazy").load { plugins = { "dressing.nvim" } }
-        return vim.ui.input(...)
-      end
-    end,
-  },
+  -- {
+  --   "stevearc/dressing.nvim",
+  --   lazy = true,
+  --   init = function()
+  --     ---@diagnostic disable-next-line: duplicate-set-field
+  --     vim.ui.select = function(...)
+  --       require("lazy").load { plugins = { "dressing.nvim" } }
+  --       return vim.ui.select(...)
+  --     end
+  --     ---@diagnostic disable-next-line: duplicate-set-field
+  --     vim.ui.input = function(...)
+  --       require("lazy").load { plugins = { "dressing.nvim" } }
+  --       return vim.ui.input(...)
+  --     end
+  --   end,
+  -- },
 
-  {
-    "RRethy/vim-illuminate",
-    event = utils.lazy_file_events,
-    opts = require("configs.editor.vim-illuminate").opts,
-    config = require("configs.editor.vim-illuminate").config,
-    keys = require("configs.editor.vim-illuminate").keys,
-  },
-
-  -- search/replace in multiple files
-  {
-    "MagicDuck/grug-far.nvim",
-    opts = { headerMaxWidth = 80 },
-    cmd = "GrugFar",
-    keys = {
-      {
-        "<leader>sr",
-        function()
-          local grug = require "grug-far"
-          local ext = vim.bo.buftype == "" and vim.fn.expand "%:e"
-          grug.open {
-            transient = true,
-            prefills = {
-              filesFilter = ext and ext ~= "" and "*." .. ext or nil,
-            },
-          }
-        end,
-        mode = { "n", "v" },
-        desc = "Search and Replace",
-      },
-    },
-  },
+  -- {
+  --   "RRethy/vim-illuminate",
+  --   event = utils.lazy_file_events,
+  --   opts = require("configs.editor.vim-illuminate").opts,
+  --   config = require("configs.editor.vim-illuminate").config,
+  --   keys = require("configs.editor.vim-illuminate").keys,
+  -- },
 
   -- Flash enhances the built-in search functionality by showing labels
   -- at the end of each match, letting you quickly jump to a specific

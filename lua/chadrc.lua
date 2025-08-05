@@ -6,7 +6,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "carbonfox", -- default theme
+  theme = "ayu_dark", -- default theme
 
   hl_add = {
     WinBar = { link = "Normal" },
@@ -44,7 +44,7 @@ M.base46 = {
   },
   changed_themes = {},
   transparency = false,
-  theme_toggle = { "carbonfox", "one_light" },
+  theme_toggle = { "ayu_dark", "one_light" },
 }
 
 M.ui = {
@@ -100,9 +100,9 @@ M.nvdash = {
   },
 
   buttons = {
-    { txt = "  Find File", keys = "ff", cmd = "Telescope find_files" },
-    { txt = "  Recent Files", keys = "fo", cmd = "Telescope oldfiles" },
-    { txt = "󰈭  Find Word", keys = "fw", cmd = "Telescope live_grep" },
+    { txt = "  Find File", keys = "ff", cmd = "FzfLua files" },
+    { txt = "  Recent Files", keys = "fo", cmd = "FzfLua oldfiles" },
+    { txt = "󰈭  Find Word", keys = "fw", cmd = "FzfLua live_grep" },
     { txt = "󱥚  Themes", keys = "th", cmd = ":lua require('nvchad.themes').open()" },
     { txt = "  Mappings", keys = "ch", cmd = "NvCheatsheet" },
 

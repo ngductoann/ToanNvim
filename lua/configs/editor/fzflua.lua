@@ -1,36 +1,60 @@
-if lazyvim_docs then
-  -- In case you don't want to use `:LazyExtras`,
-  -- then you need to set the option below.
-  vim.g.lazyvim_picker = "fzf"
-end
-
----@class FzfLuaOpts: lazyvim.util.pick.Opts
----@field cmd string?
-
----@type LazyPicker
-local picker = {
-  name = "fzf",
-  commands = {
-    files = "files",
+local kind_filter = {
+  default = {
+    "Class",
+    "Constructor",
+    "Enum",
+    "Field",
+    "Function",
+    "Interface",
+    "Method",
+    "Module",
+    "Namespace",
+    "Package",
+    "Property",
+    "Struct",
+    "Trait",
   },
-
-  ---@param command string
-  ---@param opts? FzfLuaOpts
-  open = function(command, opts)
-    opts = opts or {}
-    if opts.cmd == nil and command == "git_files" and opts.show_untracked then
-      opts.cmd = "git ls-files --exclude-standard --cached --others"
-    end
-    return require("fzf-lua")[command](opts)
-  end,
+  markdown = false,
+  help = false,
+  -- you can specify a different filter for each filetype
+  lua = {
+    "Class",
+    "Constructor",
+    "Enum",
+    "Field",
+    "Function",
+    "Interface",
+    "Method",
+    "Module",
+    "Namespace",
+    -- "Package", -- remove package since luals uses it for control flow structures
+    "Property",
+    "Struct",
+    "Trait",
+  },
 }
-if not utils.pick.register(picker) then
-  return {}
+
+---@param buf? number
+---@return string[]?
+local function get_kind_filter(buf)
+  buf = (buf == nil or buf == 0) and vim.api.nvim_get_current_buf() or buf
+  local ft = vim.bo[buf].filetype
+  if kind_filter == false then
+    return
+  end
+  if kind_filter[ft] == false then
+    return
+  end
+  if type(kind_filter[ft]) == "table" then
+    return kind_filter[ft]
+  end
+  ---@diagnostic disable-next-line: return-type-mismatch
+  return type(kind_filter) == "table" and type(kind_filter.default) == "table" and kind_filter.default or nil
 end
 
 local function symbols_filter(entry, ctx)
   if ctx.symbols_filter == nil then
-    ctx.symbols_filter = utils.config.get_kind_filter(ctx.bufnr) or false
+    ctx.symbols_filter = get_kind_filter(ctx.bufnr) or false
   end
   if ctx.symbols_filter == false then
     return true
@@ -39,7 +63,7 @@ local function symbols_filter(entry, ctx)
 end
 
 return {
-  opts = function(_, opts)
+  opts = function()
     local fzf = require "fzf-lua"
     local config = fzf.config
     local actions = fzf.actions
@@ -186,7 +210,7 @@ return {
         end
         return t
       end
-      opts = vim.tbl_deep_extend("force", fix(require "fzf-lua.profiles.fzf-native"), opts)
+      opts = vim.tbl_deep_extend("force", fix(require "fzf-lua.profiles.default-title"), opts)
       opts[1] = nil
     end
     require("fzf-lua").setup(opts)

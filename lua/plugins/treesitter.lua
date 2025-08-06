@@ -24,7 +24,7 @@ return {
       -- Luckily, the only things that those plugins need are the custom queries, which we make available
       -- during startup.
       require("lazy.core.loader").add_to_rtp(plugin)
-      require("nvim-treesitter.query_predicates")
+      require "nvim-treesitter.query_predicates"
     end,
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     keys = {
@@ -98,22 +98,22 @@ return {
     enabled = true,
     config = function()
       -- If treesitter is already loaded, we need to run config again for textobjects
-      if utils.is_loaded("nvim-treesitter") then
-        local opts = utils.opts("nvim-treesitter")
-        require("nvim-treesitter.configs").setup({ textobjects = opts.textobjects })
+      if utils.is_loaded "nvim-treesitter" then
+        local opts = utils.opts "nvim-treesitter"
+        require("nvim-treesitter.configs").setup { textobjects = opts.textobjects }
       end
 
       -- When in diff mode, we want to use the default
       -- vim text objects c & C instead of the treesitter ones.
-      local move = require("nvim-treesitter.textobjects.move") ---@type table<string,fun(...)>
-      local configs = require("nvim-treesitter.configs")
+      local move = require "nvim-treesitter.textobjects.move" ---@type table<string,fun(...)>
+      local configs = require "nvim-treesitter.configs"
       for name, fn in pairs(move) do
-        if name:find("goto") == 1 then
+        if name:find "goto" == 1 then
           move[name] = function(q, ...)
             if vim.wo.diff then
               local config = configs.get_module("textobjects.move")[name] ---@type table<string,string>
               for key, query in pairs(config or {}) do
-                if q == query and key:find("[%]%[][cC]") then
+                if q == query and key:find "[%]%[][cC]" then
                   vim.cmd("normal! " .. key)
                   return
                 end
@@ -131,5 +131,25 @@ return {
     "windwp/nvim-ts-autotag",
     event = utils.lazy_file_events,
     opts = {},
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+  event = "User FilePost",
+    opts = function()
+      local tsc = require "treesitter-context"
+      Snacks.toggle({
+        name = "Treesitter Context",
+        get = tsc.enabled,
+        set = function(state)
+          if state then
+            tsc.enable()
+          else
+            tsc.disable()
+          end
+        end,
+      }):map "<leader>ut"
+      return { mode = "cursor", max_lines = 1 }
+    end,
   },
 }

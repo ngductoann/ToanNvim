@@ -55,6 +55,9 @@ return {
         -- wo = { wrap = true } -- Wrap notifications
       },
     },
+    image = {
+      enabled = false,
+    },
   },
     -- stylua: ignore
     keys = {

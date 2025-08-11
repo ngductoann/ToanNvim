@@ -23,8 +23,36 @@ opt.foldlevel = 99
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
-
 opt.smoothscroll = true
-opt.foldexpr = "v:lua.require'utils'.foldexpr()"
-opt.foldmethod = "expr"
 opt.foldtext = ""
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_node_provider = 0
+vim.o.splitbelow = true
+vim.o.splitright = true
+
+local augroup = vim.api.nvim_create_augroup("utils.fold", { clear = true })
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = augroup,
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client:supports_method "textDocument/foldingRange" then
+      vim.wo.foldmethod = "expr"
+      vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
+      vim.w.lsp_folding_enabled = true
+    end
+  end,
+})
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  callback = function(args)
+    if vim.bo[args.buf].filetype ~= "bigfile" and not vim.w.lsp_folding_enabled then
+      local has_parser, _ = pcall(vim.treesitter.get_parser, args.buf)
+      if has_parser then
+        vim.wo.foldmethod = "expr"
+        vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+      end
+    end
+  end,
+})

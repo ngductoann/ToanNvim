@@ -30,17 +30,17 @@ end
 
 return {
   {
+    "nvim-telescope/telescope.nvim",
+    enabled = false,
+  },
+
+  {
     "ibhagwan/fzf-lua",
     cmd = "FzfLua",
     init = require("configs.editor.fzflua").init,
     opts = require("configs.editor.fzflua").opts,
     config = require("configs.editor.fzflua").config,
     keys = require("configs.editor.fzflua").keys,
-  },
-
-  {
-    "nvim-telescope/telescope.nvim",
-    enabled = false,
   },
 
   -- Flash enhances the built-in search functionality by showing labels

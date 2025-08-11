@@ -6,7 +6,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "carbonfox", -- default theme
+  theme = "solarized_dark", -- default theme
 
   hl_add = {
     WinBar = { link = "Normal" },
@@ -44,7 +44,7 @@ M.base46 = {
   },
   changed_themes = {},
   transparency = false,
-  theme_toggle = { "carbonfox", "one_light" },
+  theme_toggle = { "solarized_dark", "one_light" },
 }
 
 M.ui = {

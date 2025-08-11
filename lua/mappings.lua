@@ -108,13 +108,25 @@ map("n", "<S-h>", function()
   require("nvchad.tabufline").prev()
 end, { desc = "buffer goto prev" })
 
+map("n", "[b", function()
+  require("nvchad.tabufline").move_buf(-1)
+end, { desc = "buffer move prev" })
+
+map("n", "]b", function()
+  require("nvchad.tabufline").move_buf(1)
+end, { desc = "buffer move prev" })
+
 map("n", "<leader>bd", function()
   require("nvchad.tabufline").close_buffer()
 end, { desc = "buffer close" })
 
 map("n", "<leader>bo", function()
   require("nvchad.tabufline").closeAllBufs(false)
-end, { desc = "buffer close" })
+end, { desc = "buffer other close" })
+
+map("n", "<leader>bo", function()
+  require("nvchad.tabufline").closeAllBufs(true)
+end, { desc = "buffer all close" })
 
 -- Comment
 map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })

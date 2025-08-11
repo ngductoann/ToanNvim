@@ -6,7 +6,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "ayu_dark", -- default theme
+  theme = "carbonfox", -- default theme
 
   hl_add = {
     WinBar = { link = "Normal" },
@@ -44,13 +44,13 @@ M.base46 = {
   },
   changed_themes = {},
   transparency = false,
-  theme_toggle = { "ayu_dark", "one_light" },
+  theme_toggle = { "carbonfox", "one_light" },
 }
 
 M.ui = {
   cmp = {
     icons_left = true, -- only for non-atom styles!
-    style = "default", -- default/flat_light/flat_dark/atom/atom_colored
+    style = "flat_dark", -- default/flat_light/flat_dark/atom/atom_colored
     abbr_maxwidth = 60,
     -- for tailwind, css lsp etc
     format_colors = {

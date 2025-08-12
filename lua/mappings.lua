@@ -124,7 +124,7 @@ map("n", "<leader>bo", function()
   require("nvchad.tabufline").closeAllBufs(false)
 end, { desc = "buffer other close" })
 
-map("n", "<leader>bo", function()
+map("n", "<leader>bO", function()
   require("nvchad.tabufline").closeAllBufs(true)
 end, { desc = "buffer all close" })
 

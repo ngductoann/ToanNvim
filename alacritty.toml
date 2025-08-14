@@ -23,77 +23,77 @@ size        = 13.0
 builtin_box_drawing = true
 
 [colors.primary]
-background        = "#002b36" # base03
-foreground        = "#93a1a1" # base1
-dim_foreground    = "#586e75" # base01
-bright_foreground = "#fdf6e3" # base3
+background = "#161616"  # base00
+foreground = "#f2f4f8"  # base05
+dim_foreground = "#525253"  # base04
+bright_foreground = "#ffffff"  # base07
 
 [colors.cursor]
-text   = "#002b36"
-cursor = "#93a1a1"
+text = "#161616"  # base00
+cursor = "#f2f4f8"  # base05
 
 [colors.vi_mode_cursor]
-text   = "#002b36"
-cursor = "#268bd2"
+text = "#161616"  # base00
+cursor = "#78A9FF"  # base08
 
 [colors.search.matches]
-foreground = "#002b36"
-background = "#b58900"
+foreground = "#161616"  # base00
+background = "#ffe731"  # yellow/sun
 
 [colors.search.focused_match]
-foreground = "#002b36"
-background = "#859900"
+foreground = "#161616"  # base00
+background = "#25be6a"  # green
 
 [colors.hints.start]
-foreground = "#002b36"
-background = "#cb4b16"
+foreground = "#161616"  # base00
+background = "#ffa332"  # orange
 
 [colors.hints.end]
-foreground = "#002b36"
-background = "#586e75"
+foreground = "#161616"  # base00
+background = "#525253"  # base04
 
 [colors.footer_bar]
-foreground = "#002b36"
-background = "#586e75"
+foreground = "#161616"  # base00
+background = "#525253"  # base04
 
 [colors.selection]
-text       = "#002b36"
-background = "#073642"
+text = "#161616"  # base00
+background = "#282828"  # base01
 
 [colors.normal]
-black   = "#073642"
-red     = "#dc322f"
-green   = "#859900"
-yellow  = "#b58900"
-blue    = "#268bd2"
-magenta = "#d33682"
-cyan    = "#2aa198"
-white   = "#eee8d5"
+black = "#282828"  # base01
+red = "#EE5396"  # red
+green = "#25be6a"  # green
+yellow = "#ffe731"  # yellow/sun
+blue = "#78A9FF"  # blue/nord_blue
+magenta = "#BE95FF"  # purple
+cyan = "#3DDBD9"  # cyan
+white = "#e0e0e0"  # base06
 
 [colors.bright]
-black   = "#586e75"
-red     = "#dc322f"
-green   = "#859900"
-yellow  = "#b58900"
-blue    = "#268bd2"
-magenta = "#d33682"
-cyan    = "#2aa198"
-white   = "#fdf6e3"
+black = "#3b3b3b"  # base03
+red = "#FF7EB6"  # baby_pink/pink
+green = "#42BE65"  # vibrant_green
+yellow = "#ffe731"  # yellow/sun
+blue = "#78A9FF"  # blue/nord_blue
+magenta = "#BE95FF"  # purple
+cyan = "#33B1FF"  # teal/base0C
+white = "#ffffff"  # base07
 
 [colors.dim]
-black   = "#002b36"
-red     = "#dc322f"
-green   = "#859900"
-yellow  = "#b58900"
-blue    = "#268bd2"
-magenta = "#d33682"
-cyan    = "#2aa198"
-white   = "#657b83"
+black = "#161616"  # base00
+red = "#EE5396"  # red
+green = "#25be6a"  # green
+yellow = "#ffe731"  # yellow/sun
+blue = "#78A9FF"  # blue/nord_blue
+magenta = "#BE95FF"  # purple
+cyan = "#3DDBD9"  # cyan
+white = "#525253"  # base04
 
 [colors]
 indexed_colors = [
-  { index = 16, color = "#cb4b16" }, # orange
-  { index = 17, color = "#6c71c4" }, # violet
+  { index = 16, color = "#ffa332" }, # orange
+  { index = 17, color = "#9B69D9" }, # dark_purple
 ]
 
 draw_bold_text_with_bright_colors = true
